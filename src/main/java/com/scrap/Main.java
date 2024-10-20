@@ -1,9 +1,13 @@
 package com.scrap;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,19 +21,25 @@ public class Main {
         Set<String> pagesDiscovered,
         List<String> pagesToScrape
     ){
-        
-        //The current page is about to be scrapped
-        //and should no longer be part of the scrapping queue
-        String url = pagesToScrape.remove(0);
-        pagesDiscovered.add(url);
-        Document doc;
-        //Scrap the webpage
-         try {
-            doc = Jsoup
-                .connect("https://www.scrapingcourse.com/ecommerce/")
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
-                .header("Accept-Language", "*")
-                .get();
+        if(!pagesToScrape.isEmpty()){
+            //The current page is about to be scrapped
+            //and should no longer be part of the scrapping queue
+            String url = pagesToScrape.remove(0);
+            pagesDiscovered.add(url);
+            Document doc;
+            //Scrap the webpage
+            try {
+                doc = Jsoup
+                    .connect(url)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
+                    .header("Accept-Language", "*")
+                    .get();
+                    
+            } 
+            catch (IOException e) {
+                throw new RuntimeException("Oops! Something went wrong while fetching data."+e);
+            }
+
             Elements productElements = doc.select("li.product");
             
             for(Element productElement : productElements){
@@ -43,45 +53,55 @@ public class Main {
                 products.add(product);   
             }
 
-        } 
-        catch (IOException e) {
-            throw new RuntimeException(e);
+            Elements paginationElements = doc.select("a.page-numbers");
+
+            for(Element page : paginationElements){
+                String pageUrl = page.attr("href");
+                if (!pagesDiscovered.contains(pageUrl) && !pagesToScrape.contains(pageUrl)) { 
+                    pagesToScrape.add(pageUrl);
+                } 
+                pagesDiscovered.add(pageUrl); 
+                
+            }
+
+            System.out.println("page scraped -> "+url);
+
+
         }
-
-        Elements paginationElements = doc.select("a.page-numbers");
-
-        for(Element pageElement : paginationElements){
-            String pageUrl = pageElement.attr("href");
-            if (!pagesDiscovered.contains(pageUrl) && !pagesToScrape.contains(pageUrl)) { 
-				pagesToScrape.add(pageUrl);
-			} 
-            
-            pagesDiscovered.add(pageUrl); 
-
-        }
-
-
-        
 
 
     }
 
 
-    public static void main(String[] args) {
-        List<Product> products = new ArrayList<Product>();
+    public static void main(String[] args) throws InterruptedException {
+        List<Product> products = Collections.synchronizedList(new ArrayList<Product>());
 
-        Set<String> pageDiscovered = new HashSet<String>();
-        
-        List<String> pagesToScrape = new ArrayList<>();
-        pagesToScrape.add("https://www.scrapingcourse.com/ecommerce/page/1/"); 
+        Set<String> pageDiscovered = Collections.synchronizedSet(new HashSet<String>());
 
-        int i=0;
+        List<String> pagesToScrape = Collections.synchronizedList(new ArrayList<String>());
+
+
+        pagesToScrape.add("https://www.scrapingcourse.com/ecommerce/page/1/");
+
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+
+        scrapProductPage(products, pageDiscovered, pagesToScrape);
+       
+        int i=1;
         int limit = 12;
 
         while(!pagesToScrape.isEmpty() && i<limit){
+            //registering the web scraping task
+            executorService.execute(() -> scrapProductPage(products, pageDiscovered, pagesToScrape));
+            //add 200ms delay to avoid overloading the server 
+            TimeUnit.MILLISECONDS.sleep(200);
             scrapProductPage(products, pageDiscovered, pagesToScrape);
             i++;
         }
+        executorService.shutdown();
+        executorService.awaitTermination(300, TimeUnit.SECONDS);
+
+        System.out.println("Products size -> "+ products.size());
 
 
     }
