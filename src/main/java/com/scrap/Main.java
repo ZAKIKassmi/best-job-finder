@@ -1,18 +1,20 @@
 package com.scrap;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 
 public class Main {
 
@@ -79,29 +81,52 @@ public class Main {
         Set<String> pageDiscovered = Collections.synchronizedSet(new HashSet<String>());
 
         List<String> pagesToScrape = Collections.synchronizedList(new ArrayList<String>());
+        
+
+        try(Connection connection = OracleDatabaseConnection.getConnection()){
+
+            
+            
+            String sql = "SELECT * FROM Product";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                int id = resultSet.getInt("ID"); // Adjust column names accordingly
+                String name = resultSet.getString("NAME");
+                System.out.println("ID: " + id + ", Name: " + name);
+            }
 
 
-        pagesToScrape.add("https://www.scrapingcourse.com/ecommerce/page/1/");
-
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
-
-        scrapProductPage(products, pageDiscovered, pagesToScrape);
-       
-        int i=1;
-        int limit = 12;
-
-        while(!pagesToScrape.isEmpty() && i<limit){
-            //registering the web scraping task
-            executorService.execute(() -> scrapProductPage(products, pageDiscovered, pagesToScrape));
-            //add 200ms delay to avoid overloading the server 
-            TimeUnit.MILLISECONDS.sleep(200);
-            scrapProductPage(products, pageDiscovered, pagesToScrape);
-            i++;
+            // Check if the ResultSet has data
+            
         }
-        executorService.shutdown();
-        executorService.awaitTermination(300, TimeUnit.SECONDS);
+        catch(SQLException e){
+            e.printStackTrace();
+        }
 
-        System.out.println("Products size -> "+ products.size());
+
+        // pagesToScrape.add("https://www.scrapingcourse.com/ecommerce/page/1/");
+
+        // ExecutorService executorService = Executors.newFixedThreadPool(4);
+
+        // scrapProductPage(products, pageDiscovered, pagesToScrape);
+       
+        // int i=1;
+        // int limit = 12;
+
+        // while(!pagesToScrape.isEmpty() && i<limit){
+        //     //registering the web scraping task
+        //     executorService.execute(() -> scrapProductPage(products, pageDiscovered, pagesToScrape));
+        //     //add 200ms delay to avoid overloading the server 
+        //     TimeUnit.MILLISECONDS.sleep(200);
+        //     scrapProductPage(products, pageDiscovered, pagesToScrape);
+        //     i++;
+        // }
+        // executorService.shutdown();
+        // executorService.awaitTermination(300, TimeUnit.SECONDS);
+
+        // System.out.println("Products size -> "+ products.size());
 
 
     }
