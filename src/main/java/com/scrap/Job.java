@@ -9,24 +9,33 @@ public class Job {
   private String contractType;
   private String searchedProfile;
   private String remoteWork;
+  private String city;
 
 
  
 
-  public void setsearchedProfile(String searchedProfile){
+  public void setSearchedProfile(String searchedProfile){
     this.searchedProfile = searchedProfile;
   }
 
-  public String getsearchedProfile(){
+  public String getSearchedProfile(){
     return this.searchedProfile;
   }
 
-  public void setremoteWork(String remoteWork){
+  public void setRemoteWork(String remoteWork){
     this.remoteWork = remoteWork;
   }
 
-  public String getremoteWork(){
+  public String getRemoteWork(){
     return this.remoteWork;
+  }
+
+  public void setCity(String city){
+    this.city = city;
+  }
+
+  public String getCity(){
+    return this.city;
   }
 
  
@@ -82,13 +91,14 @@ public class Job {
   public String toString() {
     return "{" +
       " jobTitle='" + getJobTitle() + "'" +
+      ",\n city='" + getCity() + "'" +
       ",\n activitySector='" + getActivitySector() + "'" +
       ",\n function='" + getFunction() + "'" +
       ",\n requiredExperience='" + getRequiredExperience() + "'" +
       ",\n studyLevel='" + getStudyLevel() + "'" +
       ",\n contractType='" + getContractType() + "'" +
-      ",\n searchedProfile='" + getsearchedProfile() + "'" +
-      ",\n remoteWork='" + getremoteWork() + "'\n" +
+      ",\n searchedProfile='" + getSearchedProfile() + "'" +
+      ",\n remoteWork='" + getRemoteWork() + "'\n" +
       "}";
   }
   
