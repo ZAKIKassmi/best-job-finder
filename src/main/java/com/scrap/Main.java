@@ -112,6 +112,9 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
+        //****** uncomment the next line if you want to create your database schema, for now it only create one table to test *******/
+        //DatabaseServices.createDatabaseSchema();
+
         List<Job> jobs = Collections.synchronizedList(new ArrayList<>());
         Set<String> pagesDiscovered = Collections.synchronizedSet(new HashSet<>());
         Queue<String> pagesToScrape = new ConcurrentLinkedQueue<>();
