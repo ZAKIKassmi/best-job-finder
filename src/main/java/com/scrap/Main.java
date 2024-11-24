@@ -23,7 +23,7 @@ public class Main {
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
     private static final String REKRUTE_DOMAIN_NAME = "https://www.rekrute.com";
     private static final int THREAD_POOL_SIZE = 4;
-    private static int MAX_PAGES = 1;
+    private static final int MAX_PAGES = 5;
 
     
     public static String extractRemoteWork(String fullText){
@@ -79,6 +79,7 @@ public class Main {
     }
 
     public static void scrapJobPage(String url, List<Job> jobs, Set<String> pagesDiscovered, Queue<String> pagesToScrape){
+
         try {
             Document doc = Jsoup
                             .connect(url)
@@ -90,7 +91,7 @@ public class Main {
                 Job job = extractJob(jobElement);
                 if(job != null){
                     fetchJobDetails(job, jobElement.selectFirst(".section h2 a").absUrl("href"));
-                    System.out.println(job);
+                    // System.out.println(job);
                     jobs.add(job);
                 }
             }
@@ -102,6 +103,9 @@ public class Main {
                     pagesToScrape.offer(pageUrl);
                 }
             }
+            // System.err.println(".element inside the function"+pagesToScrape.peek());
+
+            
         } catch (IOException e) {
             System.out.println("Error scraping page: " + url + " - " + e.getMessage());
         }
@@ -119,21 +123,27 @@ public class Main {
         Set<String> pagesDiscovered = Collections.synchronizedSet(new HashSet<>());
         Queue<String> pagesToScrape = new ConcurrentLinkedQueue<>();
 
-        pagesToScrape.add("https://www.rekrute.com/offres-emploi-metiers-de-l-it.html");
+        pagesToScrape.add("https://www.rekrute.com/offres-emploi-maroc.html");
+        scrapJobPage(pagesToScrape.poll(), jobs, pagesDiscovered, pagesToScrape);
+
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        int pageCounter = 0;
+        int pageCounter = 1;
 
 
         while(!pagesToScrape.isEmpty() && pageCounter < MAX_PAGES){
             String url = pagesToScrape.poll();
             if(url == null) continue;
+            System.out.println("Url to be is about to be scraped is: "+ url);
             pageCounter++;
+            System.out.println("Page counter is: "+pageCounter);
             executorService.submit(() -> scrapJobPage(url, jobs, pagesDiscovered, pagesToScrape));
+            // System.out.println(".element outside the function"+ pagesToScrape.peek());
             TimeUnit.MILLISECONDS.sleep(500); // Rate limiting
         }
-
         executorService.shutdown();
         executorService.awaitTermination(500, TimeUnit.SECONDS);
+
+        System.out.println("Total number of jobs scrapped is: "+jobs.size());
 
 
     }
