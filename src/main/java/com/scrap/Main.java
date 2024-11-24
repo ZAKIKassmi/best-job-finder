@@ -23,7 +23,7 @@ public class Main {
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
     private static final String REKRUTE_DOMAIN_NAME = "https://www.rekrute.com";
     private static final int THREAD_POOL_SIZE = 4;
-    private static int MAX_PAGES = 2;
+    private static int MAX_PAGES = 1;
 
     
     public static String extractRemoteWork(String fullText){
@@ -32,9 +32,9 @@ public class Main {
         return index != -1 ? fullText.substring(index + key.length()).trim() : null;
     }
 
-    public static String extractCity(String input){
+    public static String extractJobTitleAndCity (String input, boolean isTitle){
 
-        String regex = "\\|\\s*([^,(]+)";
+        String regex = isTitle ? "^(.*?)\\|" : "\\|\\s*([^,(]+)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
 
@@ -51,8 +51,8 @@ public class Main {
             Element jobDetailsLinkElement = jobElement.selectFirst(".section h2 a");
             if (jobDetailsLinkElement == null) return null;
 
-            job.setJobTitle(jobDetailsLinkElement.text());
-            job.setCity(extractCity(jobDetailsLinkElement.text()));
+            job.setJobTitle(extractJobTitleAndCity(jobDetailsLinkElement.text(), true));
+            job.setCity(extractJobTitleAndCity(jobDetailsLinkElement.text(), false));
             job.setActivitySector(jobElement.select(".holder ul li:first-child a").text());
             job.setFunction(jobElement.select(".holder ul li:nth-child(2) a").text());
             job.setRequiredExperience(jobElement.select(".holder ul li:nth-child(3) a").text());
