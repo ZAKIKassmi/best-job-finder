@@ -1,4 +1,4 @@
-package com.scrap;
+package com.main;
 
 public class Job {
   private String jobTitle;
