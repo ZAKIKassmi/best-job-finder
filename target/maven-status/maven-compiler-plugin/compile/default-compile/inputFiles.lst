@@ -1,4 +1,8 @@
-D:\java\scrap\demo_scrap\src\main\java\com\scrap\Job.java
-D:\java\scrap\demo_scrap\src\main\java\com\scrap\Main.java
-D:\java\scrap\demo_scrap\src\main\java\com\scrap\OracleDatabaseConnection.java
-D:\java\scrap\demo_scrap\src\main\java\com\scrap\Product.java
+D:\java\scrap\demo_scrap\src\main\java\com\main\Main.java
+D:\java\scrap\demo_scrap\src\main\java\com\scrap\Scrapper.java
+D:\java\scrap\demo_scrap\src\main\java\com\db\DatabaseServices.java
+D:\java\scrap\demo_scrap\src\main\java\com\scrap\RekruteScrapper.java
+D:\java\scrap\demo_scrap\src\main\java\com\db\DatabaseConnection.java
+D:\java\scrap\demo_scrap\src\main\java\com\main\Job.java
+D:\java\scrap\demo_scrap\src\main\java\com\scrap\EmploiScrapper.java
+D:\java\scrap\demo_scrap\src\main\java\com\ui\ButtonComponent.java

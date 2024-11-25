@@ -1,4 +1,8 @@
-com\scrap\OracleDatabaseConnection.class
-com\scrap\Main.class
-com\scrap\Product.class
-com\scrap\Job.class
+com\main\Main.class
+com\scrap\RekruteScrapper.class
+com\ui\ButtonComponent.class
+com\db\DatabaseConnection.class
+com\scrap\Scrapper.class
+com\scrap\EmploiScrapper.class
+com\main\Job.class
+com\db\DatabaseServices.class
