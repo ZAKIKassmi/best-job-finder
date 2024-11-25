@@ -15,7 +15,7 @@ public class Scrapper {
   }
 
   public static String extractJobCity(String input, String regex){
-    Pattern pattern = Pattern.compile("\\|\\s*([^,(]+)");
+    Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(input);
 
     if(matcher.find()){
@@ -25,7 +25,7 @@ public class Scrapper {
   }
 
   public static String extractJobTitle(String input, String regex){
-    Pattern pattern = Pattern.compile("^(.*?)\\|");
+    Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(input);
 
     if(matcher.find()){
