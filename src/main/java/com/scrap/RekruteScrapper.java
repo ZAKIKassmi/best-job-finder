@@ -21,7 +21,7 @@ import com.main.Job;
 public class RekruteScrapper extends Scrapper  {
     private static final String REKRUTE_DOMAIN_NAME = "https://www.rekrute.com";
     private static final int THREAD_POOL_SIZE = 4;
-    private static final int MAX_PAGES = 1;
+    private static final int MAX_PAGES = 5;
     private static final Set<String> pagesDiscovered = Collections.synchronizedSet(new HashSet<>());
     private static final Queue<String> pagesToScrape = new ConcurrentLinkedQueue<>();
     private static final List<Job> jobs = Collections.synchronizedList(new ArrayList<>());

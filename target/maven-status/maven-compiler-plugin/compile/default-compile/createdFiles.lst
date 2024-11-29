@@ -1,4 +1,3 @@
-com\main\Main.class
 com\scrap\RekruteScrapper.class
 com\ui\ButtonComponent.class
 com\db\DatabaseConnection.class
