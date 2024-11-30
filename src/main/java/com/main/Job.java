@@ -10,6 +10,10 @@ public class Job {
   private String searchedProfile;
   private String remoteWork;
   private String city;
+  private String jobDescription;
+
+
+
 
 
  
@@ -20,6 +24,14 @@ public class Job {
 
   public String getSearchedProfile(){
     return this.searchedProfile;
+  }
+  
+  public void setJobDescription(String jobDescription){
+    this.jobDescription = jobDescription;
+  }
+
+  public String getJobDescription(){
+    return this.jobDescription;
   }
 
   public void setRemoteWork(String remoteWork){
@@ -98,6 +110,7 @@ public class Job {
       ",\n studyLevel='" + getStudyLevel() + "'" +
       ",\n contractType='" + getContractType() + "'" +
       ",\n searchedProfile='" + getSearchedProfile() + "'" +
+      ",\n jobDescription='" + getJobDescription() + "'" +
       ",\n remoteWork='" + getRemoteWork() + "'\n" +
       "}";
   }

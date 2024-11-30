@@ -6,10 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -34,9 +32,11 @@ public class EmploiScrapper extends Scrapper{
     try {
       Document jobPage = createJsoupConnection(pageUrl);
       job.setActivitySector(jobPage.select(".card-block-company .field-items").text());
-      job.setSearchedProfile(jobPage.select(".job-qualifications").text());
+      //TODO: check the searcher profile if it's woring or not
+      job.setSearchedProfile(jobPage.select("article.page-application-content div.job-qualifications ul").text());
+      job.setJobDescription(jobPage.select("article.page-application-content div.job-description ul").text());
       job.setFunction(jobPage.select(" li.withicon.suitcase span").text());
-      job.setRemoteWork("unknown");
+      job.setRemoteWork(null);
       job.setJobTitle(extractJobTitle(jobElement.select("h3 a").text(), "^(.*?)\\-"));
       job.setStudyLevel(jobElement.select("ul li:first-child").text());
       job.setRequiredExperience(jobElement.select("ul li:nth-child(2)").text());
@@ -54,14 +54,22 @@ public class EmploiScrapper extends Scrapper{
   }
 
   public static void scrapJobPage(String url){
-
+    System.out.println("currently scrapping -> "+url);
     try{
       Document doc = createJsoupConnection(url);
-      Elements jobElements = doc.select("div.card.card-job.featured");
 
-      for(Element jobElement : jobElements){
-        Job job = extractJob(jobElement);
-        jobs.add(job);
+      if(doc != null){
+        System.out.println("doc is != null");
+        Elements jobElements = doc.select("div.card.card-job");
+
+        for(Element jobElement : jobElements){
+          Job job = extractJob(jobElement);
+          System.out.println(job);
+          jobs.add(job);
+        }
+      }
+      else{
+        System.out.println("Jsoup connection returned null for: "+url);
       }
 
     }
@@ -73,32 +81,55 @@ public class EmploiScrapper extends Scrapper{
 
   }
 
+ 
+  public static Document createJsoupConnection(String url) throws IOException {
+    int retries = 3; 
+    while (retries > 0) {
+        try {
+            return Jsoup.connect(url)
+                    .userAgent(Scrapper.getUserAgent())
+                    .header("Accept-Language", "*")
+                    .referrer("https://google.com")
+                    .timeout(60000) // 60 seconds timeout
+                    .get();
+        } catch (IOException e) {
+            retries--;
+            if (retries == 0) {
+                throw e;
+            }
+            System.out.println("Retrying connection... Attempts left: " + retries);
+        }
+    }
+    return null; // Unreachable, but required for compilation
+}
 
 
-  public static void startScrapping() throws InterruptedException {
-    pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc");
+
+  public static List<Job> startScrapping() throws InterruptedException {
+    pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc?page=31");
     scrapJobPage(pagesToScrape.poll());
 
-    for(int i=2; i<=32;i++){
-      pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc?page="+i);
-    }
+    // for(int i=1; i<32;i++){
+    //   pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc?page="+i);
+    // }
 
-    ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-    int pageCounter = 1;
-
-
-    while(!pagesToScrape.isEmpty() && pageCounter < 32){
-        String url = pagesToScrape.poll();
-        if(url == null) continue;
-        pageCounter++;
-        System.out.println("Page counter is: "+pageCounter);
-        executorService.submit(() -> scrapJobPage(url));
-        TimeUnit.MILLISECONDS.sleep(1000); // Rate limiting
-    }
-    executorService.shutdown();
-    executorService.awaitTermination(1000, TimeUnit.SECONDS);
+    // ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+    // int pageCounter = 1;
 
 
+    // while(!pagesToScrape.isEmpty()){
+    //     String url = pagesToScrape.poll();
+    //     if(url == null) continue;
+    //     System.out.println("Current page -> ");
+    //     pageCounter++;
+    //     executorService.submit(() -> scrapJobPage(url));
+    //     TimeUnit.MILLISECONDS.sleep(2000); // Rate limiting
+    // }
+    // executorService.shutdown();
+    // executorService.awaitTermination(1000, TimeUnit.SECONDS);
+    // System.out.println("Total jobs -> "+jobs.size()+"\n Page counter: "+pageCounter);
+
+    return jobs;
 
 
   }

@@ -1,8 +1,9 @@
-package com.data_processing;
+package com.parser;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.main.Job;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class JobCleaner {
 

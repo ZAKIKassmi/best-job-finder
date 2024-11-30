@@ -21,7 +21,7 @@ import com.main.Job;
 public class RekruteScrapper extends Scrapper  {
     private static final String REKRUTE_DOMAIN_NAME = "https://www.rekrute.com";
     private static final int THREAD_POOL_SIZE = 4;
-    private static final int MAX_PAGES = 5;
+    private static final int MAX_PAGES = 27;
     private static final Set<String> pagesDiscovered = Collections.synchronizedSet(new HashSet<>());
     private static final Queue<String> pagesToScrape = new ConcurrentLinkedQueue<>();
     private static final List<Job> jobs = Collections.synchronizedList(new ArrayList<>());
@@ -57,7 +57,8 @@ public class RekruteScrapper extends Scrapper  {
             job.setContractType(jobElement.select(".holder ul li:last-child a").text());
             job.setRemoteWork(extractRemoteWork(jobElement.select(".holder ul li:last-child").text()));
             Document jobPage = createJsoupConnection(jobElement.selectFirst(".section h2 a").absUrl("href"));
-                job.setSearchedProfile(jobPage.select(".contentbloc .col-md-12.blc:nth-child(5)").text());
+            job.setSearchedProfile(jobPage.select(".contentbloc .col-md-12.blc:nth-child(5)").text());
+            job.setJobDescription(jobPage.select(".contentbloc .col-md-12.blc:nth-child(4)").text());
             return job;
         } catch (IOException e) {
             System.err.println("Error extracting job: " + e.getMessage());
@@ -81,7 +82,7 @@ public class RekruteScrapper extends Scrapper  {
     }
 
     public static List<Job> startScrapping() throws InterruptedException {
-        pagesToScrape.add("https://www.rekrute.com/offres-emploi-maroc.html");
+        pagesToScrape.add("https://www.rekrute.com/offres-emploi-maroc.html?s=3");
         scrapJobPage(pagesToScrape.poll());
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         int pageCounter = 1;
@@ -91,12 +92,13 @@ public class RekruteScrapper extends Scrapper  {
             if (url == null)
                 continue;
             pageCounter++;
-            System.out.println("Page counter is: " + pageCounter);
+            System.out.println("currently scrapping " + url);
             executorService.submit(() -> scrapJobPage(url));
-            TimeUnit.MILLISECONDS.sleep(500); // Rate limiting
+            TimeUnit.MILLISECONDS.sleep(800); // Rate limiting
         }
         executorService.shutdown();
-        executorService.awaitTermination(500, TimeUnit.SECONDS);
+        executorService.awaitTermination(800, TimeUnit.SECONDS);
+        System.out.println("Total scrapped jobs -> "+ jobs.size());
         return jobs;
     }
 

@@ -59,6 +59,12 @@
             <version>21</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -95,6 +101,16 @@
                 <configuration>
                     <source>21</source> <!-- JDK version -->
                     <target>21</target>
+                    
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <mainClass>com.main.Main</mainClass> <!-- Replace with your actual main class -->
                 </configuration>
             </plugin>
         </plugins>
