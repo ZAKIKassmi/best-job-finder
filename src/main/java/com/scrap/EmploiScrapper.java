@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -106,28 +109,28 @@ public class EmploiScrapper extends Scrapper{
 
 
   public static List<Job> startScrapping() throws InterruptedException {
-    pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc?page=31");
+    pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc");
     scrapJobPage(pagesToScrape.poll());
 
-    // for(int i=1; i<32;i++){
-    //   pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc?page="+i);
-    // }
+    for(int i=1; i<32;i++){
+      pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc?page="+i);
+    }
 
-    // ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-    // int pageCounter = 1;
+    ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+    int pageCounter = 1;
 
 
-    // while(!pagesToScrape.isEmpty()){
-    //     String url = pagesToScrape.poll();
-    //     if(url == null) continue;
-    //     System.out.println("Current page -> ");
-    //     pageCounter++;
-    //     executorService.submit(() -> scrapJobPage(url));
-    //     TimeUnit.MILLISECONDS.sleep(2000); // Rate limiting
-    // }
-    // executorService.shutdown();
-    // executorService.awaitTermination(1000, TimeUnit.SECONDS);
-    // System.out.println("Total jobs -> "+jobs.size()+"\n Page counter: "+pageCounter);
+    while(!pagesToScrape.isEmpty()){
+        String url = pagesToScrape.poll();
+        if(url == null) continue;
+        System.out.println("Current page -> ");
+        pageCounter++;
+        executorService.submit(() -> scrapJobPage(url));
+        TimeUnit.MILLISECONDS.sleep(2000); // Rate limiting
+    }
+    executorService.shutdown();
+    executorService.awaitTermination(1000, TimeUnit.SECONDS);
+    System.out.println("Total jobs -> "+jobs.size()+"\n Page counter: "+pageCounter);
 
     return jobs;
 

@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.scrap.EmploiScrapper;
+import com.scrap.MJob;
 import com.scrap.RekruteScrapper;
 
 public class Main {
@@ -40,16 +41,22 @@ public class Main {
     }
     public static void main(String[] args) {
 
-        String filePath = "./src/main/resources/jobs.json";
+        // String filePath = "./src/main/resources/jobs.json";
         
 
+        // try {
+        //     String jsonArrayString =  new String(Files.readAllBytes(Paths.get(filePath)));
+        //     JSONArray jsonArray = new JSONArray(jsonArrayString);
+        //     System.out.println("Lenght of the array is: "+ jsonArray.length());
+        // } catch (IOException e) {
+        // }
         try {
-            String jsonArrayString =  new String(Files.readAllBytes(Paths.get(filePath)));
-            JSONArray jsonArray = new JSONArray(jsonArrayString);
-            System.out.println("Lenght of the array is: "+ jsonArray.length());
-        } catch (IOException e) {
+            List<Job> jobs = MJob.startScrapping();
+            String filePath = "./src/main/resources/mjobs.json";
+            saveJobsToJson(jobs, filePath);
+        } catch (InterruptedException e) {
+            System.out.println("Oops! something went wrong! Error -> "+e.getMessage());
         }
-        
        
     }
 }

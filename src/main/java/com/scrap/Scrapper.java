@@ -29,7 +29,7 @@ public class Scrapper {
     Matcher matcher = pattern.matcher(input);
 
     if(matcher.find()){
-        return matcher.group(1).trim();
+        return matcher.group().trim();
     }
     return null;
   }
