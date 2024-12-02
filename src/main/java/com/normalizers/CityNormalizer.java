@@ -1,28 +1,14 @@
-package com.parser;
+package com.normalizers;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.main.Job;
 
-public class Parser {
-    private static Set<String> validContractTypes = Set.of(
-        "cdi",
-        "cdd",
-        "intérim",
-        "autre",
-        "stage",
-        "freelance",
-        "lettre d'engagement",
-        "statutaire",
-        "temps partiel"
-    );
-
-    private static Set<String> availableCities = Set.of(
+public class CityNormalizer extends Normalizer{
+  private static final Set<String> availableCities = Set.of(
         "rabat",
         "sale",
         "nador",
@@ -124,50 +110,8 @@ public class Parser {
         Map.entry("calgary", "")
         
     );
-    /*********CONTRACT TYPE PARSERS ***********/
-    public static String extractContractType(String input, String regex){
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        if(matcher.find()){
-        return matcher.group().trim();
-        }
-        return null;
-    }
-    public static void parseContractType(List<Job> jobs){
-        // String extractedValue = extractContractType(input, "^\\w+");
-        for(Job job: jobs){
-        String contractType = job.getContractType().toLowerCase();
-        if(!validContractTypes.contains(contractType)){
-            if("free lance".equals(contractType)){
-                job.setContractType(contractType.replace("free lance", "freelance"));
-                contractType = contractType.replace("free lance", "freelance");
-            }
-            else{
-                job.setContractType(extractContractType(contractType, "^\\w+"));
-            }
-            System.out.println(contractType);
-        }
-        else{
-            job.setContractType(contractType.toLowerCase());
-        }
-        }
 
-    }
-
-    /********CITIES PARSERS ***********/
-
-    public static String extractCity(String input, String regex) {
-        if (input == null || input.isEmpty()) {
-            return null; // Avoid processing null or empty input
-        }
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            return matcher.group().trim();
-        }
-        return null;
-    }
-    public static void parseCity(List<Job> jobs){
+     public static void parseCity(List<Job> jobs){
         Iterator<Job> iterator = jobs.iterator();
         while (iterator.hasNext()) {
             Job job = iterator.next();
@@ -191,7 +135,7 @@ public class Parser {
                             continue;
                         }
 
-                    String extractedCity = extractCity(normalizedCity, "^\\w+");
+                    String extractedCity = extractUsingRegex(normalizedCity, "^\\w+");
                     if (extractedCity != null && availableCities.contains(extractedCity)) {
                         job.setCity(extractedCity);
                     }
@@ -202,23 +146,4 @@ public class Parser {
             }
         }
     }
-    
-
-
-
-
-    private static String standardizeRemoteWork(String remoteWork) {
-        if (remoteWork == null || remoteWork.equalsIgnoreCase("Non")) return "On-site";
-        if (remoteWork.equalsIgnoreCase("Hybride")) return "Hybrid";
-        if (remoteWork.equalsIgnoreCase("Oui")) return "Remote";
-        return "unknown";
-    }
-
-    private static String limitStringLength(String input, int maxLength) {
-        if (input == null) return "No description available";
-        return input.length() > maxLength ? input.substring(0, maxLength) + "..." : input;
-    }
-
-  
-
 }
