@@ -18,7 +18,7 @@ public class ContractTypeNormalizer extends Normalizer {
         "temps partiel"
     );
 
-    public static void parseContractType(List<Job> jobs){
+    public static void normalizeContractType(List<Job> jobs){
         // String extractedValue = extractContractType(input, "^\\w+");
         for(Job job: jobs){
         String contractType = job.getContractType().toLowerCase();

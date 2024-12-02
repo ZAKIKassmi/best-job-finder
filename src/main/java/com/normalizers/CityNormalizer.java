@@ -111,7 +111,7 @@ public class CityNormalizer extends Normalizer{
         
     );
 
-     public static void parseCity(List<Job> jobs){
+     public static void normalizeCity(List<Job> jobs){
         Iterator<Job> iterator = jobs.iterator();
         while (iterator.hasNext()) {
             Job job = iterator.next();
