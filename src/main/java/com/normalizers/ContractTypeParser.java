@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.main.Job;
 
-public class ContractTypeNormalizer extends Normalizer {
+public class ContractTypeParser extends Parser {
   private static final Set<String> validContractTypes = Set.of(
         "cdi",
         "cdd",
@@ -18,7 +18,7 @@ public class ContractTypeNormalizer extends Normalizer {
         "temps partiel"
     );
 
-    public static void normalizeContractType(List<Job> jobs){
+    public static void parseContractType(List<Job> jobs){
         // String extractedValue = extractContractType(input, "^\\w+");
         for(Job job: jobs){
         String contractType = job.getContractType().toLowerCase();

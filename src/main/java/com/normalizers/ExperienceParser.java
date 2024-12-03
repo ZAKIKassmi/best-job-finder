@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.main.Job;
 
-public class ExperienceNormalizer {
+public class ExperienceParser {
 
   private static final Set<String> REQUIRED_EXPERIENCE_SET= Set.of(
         "débutant",
@@ -101,7 +101,7 @@ public class ExperienceNormalizer {
         );
 
 
-  public static void normalizeExperience(List<Job> jobs){
+  public static void parseExperience(List<Job> jobs){
     Iterator<Job> jobsIterator = jobs.iterator();
         while(jobsIterator.hasNext()){
             Job job = jobsIterator.next();

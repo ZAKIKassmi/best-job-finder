@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.main.Job;
 
-public class RemoteNormalizer {
+public class RemoteParser extends Parser {
   private static final Set<String> REMOTE_VALID_STRING= Set.of(
         "hybride",
         "non",
@@ -17,7 +17,7 @@ public class RemoteNormalizer {
         "oui 100%","oui"
     );
 
-    public static void normalizeRemoteWork(List<Job> jobs){
+    public static void parseRemoteWork(List<Job> jobs){
       for(Job job : jobs){
         if(job.getRemoteWork() != null){
             String remote = job.getRemoteWork().toLowerCase();

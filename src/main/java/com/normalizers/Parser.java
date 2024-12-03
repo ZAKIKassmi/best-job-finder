@@ -3,7 +3,7 @@ package com.normalizers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Normalizer {
+public class Parser {
     
     public static String extractUsingRegex(String input, String regex) {
         if (input == null || input.isEmpty()) {

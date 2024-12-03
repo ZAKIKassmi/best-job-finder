@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.main.Job;
 
-public class CityNormalizer extends Normalizer{
+public class CityParser extends Parser{
   private static final Set<String> availableCities = Set.of(
         "rabat",
         "sale",
@@ -111,7 +111,7 @@ public class CityNormalizer extends Normalizer{
         
     );
 
-     public static void normalizeCity(List<Job> jobs){
+     public static void parseCity(List<Job> jobs){
         Iterator<Job> iterator = jobs.iterator();
         while (iterator.hasNext()) {
             Job job = iterator.next();
