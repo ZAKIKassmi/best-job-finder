@@ -1,4 +1,4 @@
-package com.normalizers;
+package com.parsers;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

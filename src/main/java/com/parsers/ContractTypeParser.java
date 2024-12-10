@@ -1,4 +1,4 @@
-package com.normalizers;
+package com.parsers;
 
 import java.util.List;
 import java.util.Set;
