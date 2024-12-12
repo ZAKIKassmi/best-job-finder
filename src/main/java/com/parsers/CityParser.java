@@ -54,7 +54,8 @@ public class CityParser extends Parser{
         "sidi rahal",
         "dar bouazza",
         "ben guerir",
-        "kalaa des sraghna"
+        "kalaa des sraghna",
+        "all"
     );
 
     private static final Map<String, String> cityNormalizationMap = Map.ofEntries(
@@ -88,12 +89,12 @@ public class CityParser extends Parser{
         Map.entry("mohamedia-chellalate", "mohammedia"),
         Map.entry("nouaceur", "nouacer"),
         Map.entry("province de guelmim", "guelmim"),
-        Map.entry("villes du royaume", ""),
-        Map.entry("toutes les villes", ""),
-        Map.entry("tout le maroc", ""),
-        Map.entry("international", ""),
+        Map.entry("villes du royaume", "all"),
+        Map.entry("toutes les villes", "all"),
+        Map.entry("tout le maroc", "all"),
+        Map.entry("international", "all"),
         Map.entry("dubai", ""),
-        Map.entry("maroc", ""),
+        Map.entry("maroc", "all"),
         Map.entry("tunis", ""),
         Map.entry("abidjan", ""),
         Map.entry("les berges du lac", ""),
@@ -104,7 +105,7 @@ public class CityParser extends Parser{
         Map.entry("riyadh", ""),
         Map.entry("nord", ""),
         Map.entry("sud", ""),
-        Map.entry("plusieurs villes du maroc", ""),
+        Map.entry("plusieurs villes du maroc", "all"),
         Map.entry("lüneburg", ""),
         Map.entry("divers", ""),
         Map.entry("calgary", "")
@@ -139,8 +140,11 @@ public class CityParser extends Parser{
                     if (extractedCity != null && availableCities.contains(extractedCity)) {
                         job.setCity(extractedCity);
                     }
-                } else {
-                    //remove if city does not exist or if the city is outside Morocco
+                    if(extractedCity == null){
+                        job.setCity("all");
+                    }
+                } 
+                else {
                     iterator.remove(); 
                 }
             }

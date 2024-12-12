@@ -1,48 +1,44 @@
 package com.db;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import io.github.cdimascio.dotenv.Dotenv;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public class DatabaseConnection {
-  private static final Dotenv dotenv = Dotenv.load();
-  private static final String URL = "jdbc:postgresql://localhost:5432/java_project";
-  private static final String USER = dotenv.get("DB_USER");
-  private static final String PASSWORD = dotenv.get("DB_PASSWORD");
-  private static Connection connection = null;
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String URL = "jdbc:postgresql://localhost:5432/java_project";
+    private static final String USER = dotenv.get("DB_USER");
+    private static final String PASSWORD = dotenv.get("DB_PASSWORD");
 
-  // loads the PostgreSQL JDBC driver class into the JVM at runtime.
-  static {
-    try {
-        Class.forName("org.postgresql.Driver");
-        //ensure that the driver is loaded into memory
-    } catch (ClassNotFoundException e) {
-      System.out.println("Oops! something went wrong while creating driver class. \nError: "+e.getMessage());
-      
+    private static final HikariDataSource dataSource;
+
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(URL);
+        config.setUsername(USER);
+        config.setPassword(PASSWORD);
+        config.setMaximumPoolSize(10); // Maximum connections in the pool
+        config.setMinimumIdle(2); // Minimum idle connections in the pool
+        config.setIdleTimeout(30000); // 30 seconds idle timeout
+        config.setConnectionTimeout(20000); // 20 seconds max wait for a connection
+        config.setMaxLifetime(1800000); // 30 minutes max connection lifetime
+        config.setDriverClassName("org.postgresql.Driver"); // Ensure the driver is loaded
+
+        dataSource = new HikariDataSource(config);
     }
-  }
 
-
-  public static Connection getConnection() throws SQLException {
-    if(connection == null || connection.isClosed()){
-      connection = DriverManager.getConnection(URL, USER, PASSWORD);
+    // Get a connection from the pool
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
-    return connection;
-  }
 
-  public static void closeConnection(){
-    try{
-      if(connection != null && !connection.isClosed()){
-        connection.close();
-      }
+    // Close the data source when the application is shutting down
+    public static void closeDataSource() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+        }
     }
-    catch (SQLException e){
-      System.out.println("Oops! something went wrong while closing the connection. \nError"+e.getMessage());
-   
-    }
-  }
-
-
 }

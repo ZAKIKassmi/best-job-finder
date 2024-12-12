@@ -25,12 +25,11 @@ public class ContractTypeParser extends Parser {
         if(!validContractTypes.contains(contractType)){
             if("free lance".equals(contractType)){
                 job.setContractType(contractType.replace("free lance", "freelance"));
-                contractType = contractType.replace("free lance", "freelance");
             }
             else{
                 job.setContractType(extractUsingRegex(contractType, "^\\w+"));
             }
-            System.out.println(contractType);
+            
         }
         else{
             job.setContractType(contractType.toLowerCase());

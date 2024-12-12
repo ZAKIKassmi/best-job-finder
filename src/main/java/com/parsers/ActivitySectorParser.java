@@ -119,10 +119,9 @@ public class ActivitySectorParser extends Parser {
       activitySector = mapSector(activitySector);
 
       if (!AVAILABLE_SECTORS.contains(activitySector)) {
-          // System.out.println(activitySector);
+          job.setActivitySector(activitySector);
          
       }
-      job.setActivitySector(activitySector);
   }
   }
 }

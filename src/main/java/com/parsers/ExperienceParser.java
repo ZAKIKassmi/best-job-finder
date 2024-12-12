@@ -110,7 +110,6 @@ public class ExperienceParser {
                 String normalizedExperience = normalizationMap.getOrDefault(experience, experience);
                 if(normalizedExperience.length() > 0 && REQUIRED_EXPERIENCE_SET.contains(normalizedExperience)){
                     job.setRequiredExperience(normalizedExperience);
-                    // distinctsValues.add(normalizedExperience);
                 }
                 else{
                     jobsIterator.remove();
