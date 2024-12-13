@@ -15,27 +15,28 @@ import com.utils.JsonHandler;
 public class Main {
 
     public static void main(String[] args) {
-        // Load all jobs
+        // Load all jobs from json
         List<Job> jobs = JsonHandler.getAllJobs();
 
         // Parse job-related fields
         ActivitySectorParser.parseActivitySector(jobs);
         CityParser.parseCity(jobs);
+        ExperienceParser.parseExperience(jobs);
         ContractTypeParser.parseContractType(jobs);
         StudyLevelParser.parseStudyLevel(jobs);
-        ExperienceParser.parseExperience(jobs);
         System.out.println("All items has been parsed successfully");
-        // Create the database schema
+
+
+        //create table
         DatabaseServices.createDatabaseSchema();
 
-        // Use a thread pool for multi-threaded insertion
-        ExecutorService executorService = Executors.newFixedThreadPool(4); // Adjust the thread pool size as needed
+        //use mutli-threading to insert jobs
+        ExecutorService executorService = Executors.newFixedThreadPool(4); 
 
         for (Job job : jobs) {
             executorService.submit(() -> DatabaseServices.insertJob(job));
         }
-
-        // Shutdown the executor service to release resources
         executorService.shutdown();
+        
     }
 }

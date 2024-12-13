@@ -1,28 +1,28 @@
 package com.parsers;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import com.main.Job;
 
 public class CityParser extends Parser{
   private static final Set<String> availableCities = Set.of(
         "rabat",
-        "sale",
+        "salé",
         "nador",
         "casablanca",
         "tanger",
-        "tetouan",
-        "mohammedia",
+        "tétouan",
+        "mohammédia",
         "agadir",
         "marrakech",
-        "temara",
-        "benguerir",
-        "laayoune",
+        "témara",
+        "benguérir",
+        "laâyoune",
         "oujda",
-        "kenitra",
+        "kénitra",
         "dakhla",
         "settat",
         "guelmim",
@@ -30,15 +30,15 @@ public class CityParser extends Parser{
         "ifrane",
         "berrechid",
         "skhirate",
-        "fes",
-        "meknes",
+        "fès",
+        "meknès",
         "taliouine",
         "mansouria",
         "bouskoura",
-        "beni mellal",
+        "béni mellal",
         "el jadida",
         "guercif",
-        "khemisset",
+        "khémisset",
         "nouacer",
         "taghazout",
         "al hoceima",
@@ -56,98 +56,69 @@ public class CityParser extends Parser{
         "ben guerir",
         "kalaa des sraghna",
         "all"
+    );  
+    private static final Map<Pattern, String> citiesMapper = Map.ofEntries(
+        Map.entry(Pattern.compile("salé|sale|sala|technopolis", Pattern.CASE_INSENSITIVE), "salé"),
+        Map.entry(Pattern.compile("rabat", Pattern.CASE_INSENSITIVE), "rabat"),
+        Map.entry(Pattern.compile("kénitra|kenitra", Pattern.CASE_INSENSITIVE), "kénitra"),
+        Map.entry(Pattern.compile("marrakech", Pattern.CASE_INSENSITIVE), "marrakech"),
+        Map.entry(Pattern.compile("meknès|meknes|meknas", Pattern.CASE_INSENSITIVE), "meknès"),
+        Map.entry(Pattern.compile("tétouan|tetouan", Pattern.CASE_INSENSITIVE), "tétouan"),
+        Map.entry(Pattern.compile("tanger", Pattern.CASE_INSENSITIVE), "tanger"),
+        Map.entry(Pattern.compile("fès|fes", Pattern.CASE_INSENSITIVE), "fès"),
+        Map.entry(Pattern.compile("Laayoune", Pattern.CASE_INSENSITIVE), "laâyoune"),
+        Map.entry(Pattern.compile("benguerir|benguérir", Pattern.CASE_INSENSITIVE), "benguérir"),
+        Map.entry(Pattern.compile("mohammedia|mohammédia|mohamedia", Pattern.CASE_INSENSITIVE), "mohammédia"),
+        Map.entry(Pattern.compile("casablanca|csablanca", Pattern.CASE_INSENSITIVE), "casablanca"),
+        Map.entry(Pattern.compile("temara|témara", Pattern.CASE_INSENSITIVE), "témara"),
+        Map.entry(Pattern.compile("skhirat|skhirate", Pattern.CASE_INSENSITIVE), "skhirate"),
+        Map.entry(Pattern.compile("béni mellal|beni mellal", Pattern.CASE_INSENSITIVE), "béni mellal"),
+        Map.entry(Pattern.compile("khémisset|khemisset", Pattern.CASE_INSENSITIVE), "khémisset"),
+        Map.entry(Pattern.compile("nouaceur|nouacer", Pattern.CASE_INSENSITIVE), "nouacer"),
+        Map.entry(Pattern.compile("guelmim", Pattern.CASE_INSENSITIVE), "guelmim"),
+        Map.entry(Pattern.compile("maroc|international|villes", Pattern.CASE_INSENSITIVE), "all")
     );
+    
 
-    private static final Map<String, String> cityNormalizationMap = Map.ofEntries(
-        Map.entry("salé", "sale"),
-        Map.entry("technopolis salé", "sale"),
-        Map.entry("salé - technopolis", "sale"),
-        Map.entry("technopolis", "sale"),
-        Map.entry("salé technopolis", "sale"),
-        Map.entry("sala al jadida", "sale"),
-        Map.entry("kénitra", "kenitra"),
-        Map.entry("kénitra et régions", "kenitra"),
-        Map.entry("meknès", "meknes"),
-        Map.entry("laâyoune", "laayoune"),
-        Map.entry("laâyoune & tanger-tétouan-al hoceïma", "laayoune"),
-        Map.entry("fès", "fes"),
-        Map.entry("benguérir", "benguerir"),
-        Map.entry("mohammédia", "mohammedia"),
-        Map.entry("tétouan", "tetouan"),
-        Map.entry("témara", "temara"),
-        Map.entry("skhirat", "skhirate"),
-        Map.entry("fès & meknès", "fes"),
-        Map.entry("fès & tanger-tétouan-al hoceïma", "fes"),
-        Map.entry("kénitra / tanger", "kenitra"),
-        Map.entry("béni mellal", "beni mellal"),
-        Map.entry("béni mellal-khénifra", "beni mellal"),
-        Map.entry("béni mellal-khénifra - casablanca-mohammedia - laâyoune - marrakech...", "beni mellal"),
-        Map.entry("béni mellal-khénifra - casablanca-mohammedia - laâyoune &...", "beni mellal"),
-        Map.entry("cdi| f/h | casablanca", "casablanca"),
-        Map.entry("csablanca", "casablanca"),
-        Map.entry("khémisset", "khemisset"),
-        Map.entry("mohamedia-chellalate", "mohammedia"),
-        Map.entry("nouaceur", "nouacer"),
-        Map.entry("province de guelmim", "guelmim"),
-        Map.entry("villes du royaume", "all"),
-        Map.entry("toutes les villes", "all"),
-        Map.entry("tout le maroc", "all"),
-        Map.entry("international", "all"),
-        Map.entry("dubai", ""),
-        Map.entry("maroc", "all"),
-        Map.entry("tunis", ""),
-        Map.entry("abidjan", ""),
-        Map.entry("les berges du lac", ""),
-        Map.entry("la soukra", ""),
-        Map.entry("dakar", ""),
-        Map.entry("douala", ""),
-        Map.entry("centre urbain nord", ""),
-        Map.entry("riyadh", ""),
-        Map.entry("nord", ""),
-        Map.entry("sud", ""),
-        Map.entry("plusieurs villes du maroc", "all"),
-        Map.entry("lüneburg", ""),
-        Map.entry("divers", ""),
-        Map.entry("calgary", "")
-        
-    );
+    public static void parseCity(List<Job> jobs) {
+        for (Job job : jobs) {
+            String city = job.getCity();
+            if (city == null) {
+                job.setCity(null);
+                continue;
+            }
 
-     public static void parseCity(List<Job> jobs){
-        Iterator<Job> iterator = jobs.iterator();
-        while (iterator.hasNext()) {
-            Job job = iterator.next();
-            if (job.getCity() != null) {
-                String normalizedCity = cityNormalizationMap.getOrDefault(job.getCity().toLowerCase(), job.getCity().toLowerCase());
-                if (normalizedCity.length() > 0) {
-                    if (normalizedCity.equals("beni mellal") 
-                        || normalizedCity.equals("el jadida") 
-                        || normalizedCity.equals("al hoceima")
-                        || normalizedCity.equals("jorf lasfar")
-                        || normalizedCity.equals("had soualem")
-                        || normalizedCity.equals("tit mellil")
-                        || normalizedCity.equals("ain harrouda")
-                        || normalizedCity.equals("cabo negro")
-                        || normalizedCity.equals("sidi rahal")
-                        || normalizedCity.equals("dar bouazza")
-                        || normalizedCity.equals("ben guerir")
-                        || normalizedCity.equals("kalaa des sraghna")
-                        ){
-                            job.setCity(normalizedCity);
-                            continue;
-                        }
+            city = city.toLowerCase().trim();
 
-                    String extractedCity = extractUsingRegex(normalizedCity, "^\\w+");
-                    if (extractedCity != null && availableCities.contains(extractedCity)) {
-                        job.setCity(extractedCity);
+            if (availableCities.contains(city)) {
+                job.setCity(city);
+            } else {
+                String mappedCity = null;
+
+                for (Map.Entry<Pattern, String> entry : citiesMapper.entrySet()) {
+                    if (entry.getKey().matcher(city).find()) {
+                        mappedCity = entry.getValue();
+                        break;
                     }
-                    if(extractedCity == null){
-                        job.setCity("all");
-                    }
-                } 
-                else {
-                    iterator.remove(); 
+                }
+
+                if (mappedCity != null && availableCities.contains(mappedCity)) {
+                    job.setCity(mappedCity);
+                } else {
+                    // System.out.println("Job: " + job.getCity() + " normalized: " +
+                    // mappedCity);
+                    job.setCity(null);
                 }
             }
         }
+
+        // HashSet<String> values = new HashSet<>();
+        // for(Job job: jobs){
+        //     values.add(job.getCity());
+        // }
+        // for(String value: values){
+        //     System.out.println(value);
+        // }
+
     }
 }

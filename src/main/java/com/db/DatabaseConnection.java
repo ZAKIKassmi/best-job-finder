@@ -1,11 +1,12 @@
 package com.db;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class DatabaseConnection {
     private static final Dotenv dotenv = Dotenv.load();
@@ -25,7 +26,7 @@ public class DatabaseConnection {
         config.setIdleTimeout(30000); // 30 seconds idle timeout
         config.setConnectionTimeout(20000); // 20 seconds max wait for a connection
         config.setMaxLifetime(1800000); // 30 minutes max connection lifetime
-        config.setDriverClassName("org.postgresql.Driver"); // Ensure the driver is loaded
+        config.setDriverClassName("org.postgresql.Driver"); // load driver
 
         dataSource = new HikariDataSource(config);
     }
