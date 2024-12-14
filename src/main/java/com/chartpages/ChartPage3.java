@@ -1,9 +1,11 @@
 package com.chartpages;
 
 import com.db.DatabaseServices;
+
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -13,7 +15,9 @@ import java.util.Map;
 public class ChartPage3 implements ChartPage {
 
     @Override
+
     public VBox getChartPage(Stage primaryStage, StackPane mainMenu) {  // Utilisation de StackPane ici
+
         // Récupérer les données pour le graphique (nombre d'offres par expérience requise)
         Map<String, Integer> data = DatabaseServices.getJobsByExperience();
 
@@ -43,8 +47,10 @@ public class ChartPage3 implements ChartPage {
         // Créer un layout avec le graphique
         StackPane chartLayout = new StackPane(barChart);
 
+
         // Créer un VBox pour contenir uniquement le graphique (sans le bouton)
         VBox vbox = new VBox(10, chartLayout);
+
         return vbox;
     }
 }

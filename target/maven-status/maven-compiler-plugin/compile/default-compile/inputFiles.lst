@@ -1,9 +1,17 @@
-D:\java\scrap\demo_scrap\src\main\java\com\main\Main.java
-D:\java\scrap\demo_scrap\src\main\java\com\scrap\Scrapper.java
-D:\java\scrap\demo_scrap\src\main\java\com\db\DatabaseServices.java
-D:\java\scrap\demo_scrap\src\main\java\com\scrap\RekruteScrapper.java
-D:\java\scrap\demo_scrap\src\main\java\com\db\DatabaseConnection.java
-D:\java\scrap\demo_scrap\src\main\java\com\main\Job.java
-D:\java\scrap\demo_scrap\src\main\java\com\parser\JobCleaner.java
-D:\java\scrap\demo_scrap\src\main\java\com\scrap\EmploiScrapper.java
-D:\java\scrap\demo_scrap\src\main\java\com\ui\ButtonComponent.java
+E:\Desktop\projet de java\src\main\java\com\utils\JsonHandler.java
+E:\Desktop\projet de java\src\main\java\com\parsers\ActivitySectorParser.java
+E:\Desktop\projet de java\src\main\java\com\parsers\ExperienceParser.java
+E:\Desktop\projet de java\src\main\java\com\scrap\MJob.java
+E:\Desktop\projet de java\src\main\java\com\scrap\Scrapper.java
+E:\Desktop\projet de java\src\main\java\com\scrap\EmploiScrapper.java
+E:\Desktop\projet de java\src\main\java\com\db\DatabaseConnection.java
+E:\Desktop\projet de java\src\main\java\com\main\Main.java
+E:\Desktop\projet de java\src\main\java\com\ui\ButtonComponent.java
+E:\Desktop\projet de java\src\main\java\com\db\DatabaseServices.java
+E:\Desktop\projet de java\src\main\java\com\parsers\StudyLevelParser.java
+E:\Desktop\projet de java\src\main\java\com\parsers\ContractTypeParser.java
+E:\Desktop\projet de java\src\main\java\com\main\Job.java
+E:\Desktop\projet de java\src\main\java\com\parsers\RemoteParser.java
+E:\Desktop\projet de java\src\main\java\com\scrap\RekruteScrapper.java
+E:\Desktop\projet de java\src\main\java\com\parsers\Parser.java
+E:\Desktop\projet de java\src\main\java\com\parsers\CityParser.java

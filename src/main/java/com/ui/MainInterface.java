@@ -1,12 +1,15 @@
 package com.ui;
 
+
 import javafx.animation.ScaleTransition;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -17,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import com.chartpages.ChartPage;
+
 import com.chartpages.ChartPage1;
 import com.chartpages.ChartPage2;
 import com.chartpages.ChartPage3;
@@ -24,10 +28,12 @@ import com.chartpages.ChartPage4;
 import com.chartpages.ChartPage5;
 import com.chartpages.ChartPage6;
 
+
 public class MainInterface extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
         // Fixer les dimensions de la fenêtre principale
         primaryStage.setWidth(600);
         primaryStage.setHeight(500);
@@ -51,19 +57,23 @@ public class MainInterface extends Application {
         root.setCenter(createMainMenu(primaryStage, root, title));
 
         // Configurer et afficher la fenêtre
+
         primaryStage.setTitle("Interface de Visualisation");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
 
     // Crée le menu principal
     private StackPane createMainMenu(Stage primaryStage, BorderPane root, Text title) {
         Button cityGraphButton = createButton("Graphique par Ville");
         Button activityGraphButton = createButton("Graphique par Secteur d'Activité");
         Button experienceGraphButton = createButton("Graphique d'Expérience");
+
         Button studyGraphButton = createButton("Graphique par Niveau d'Études");
         Button contractGraphButton = createButton("Graphique par Type de Contrat");
         Button remoteGraphButton = createButton("Graphique par Télétravail");
+
 
         // Définir les actions des boutons
         cityGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique par Ville", root, title));
@@ -73,9 +83,11 @@ public class MainInterface extends Application {
         contractGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique par Type de Contrat", root, title));
         remoteGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique par Télétravail", root, title));
 
+
         VBox menuLayout = new VBox(15, cityGraphButton, activityGraphButton, experienceGraphButton, studyGraphButton, contractGraphButton, remoteGraphButton);
         menuLayout.setAlignment(Pos.CENTER);
         menuLayout.setPadding(new Insets(20));
+
 
         // Centrer le menu avec un conteneur StackPane
         StackPane centeredPane = new StackPane(menuLayout);
@@ -166,6 +178,7 @@ public class MainInterface extends Application {
         });
 
         return button;
+
     }
 
     public static void main(String[] args) {

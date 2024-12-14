@@ -2,17 +2,21 @@ package com.chartpages;
 
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import com.db.DatabaseServices;
 import javafx.scene.layout.VBox;
+
 
 import java.util.Map;
 
 public class ChartPage2 implements ChartPage {
 
     @Override
+
     public VBox getChartPage(Stage primaryStage, StackPane mainMenu) {  // Utilisation de StackPane
+
         // Récupérer les données pour le graphique (nombre d'offres par secteur d'activité)
         Map<String, Integer> data = DatabaseServices.getJobsByActivitySector();
 
@@ -30,8 +34,9 @@ public class ChartPage2 implements ChartPage {
         // Créer un layout avec le graphique
         StackPane chartLayout = new StackPane(pieChart);
 
-        // Créer un VBox pour contenir uniquement le graphique (sans le bouton)
-        VBox vbox = new VBox(10, chartLayout);
+
+        // Créer un VBox pour contenir uniquement le graphique (sans le bouton)        VBox vbox = new VBox(10, chartLayout);
+
         return vbox;
     }
 }
