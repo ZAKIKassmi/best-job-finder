@@ -1,0 +1,47 @@
+package com.chartpages;
+
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import com.db.DatabaseServices;
+
+import java.util.Map;
+
+public class ChartPage2 implements ChartPage {
+
+    @Override
+    public VBox getChartPage(Stage primaryStage, VBox mainMenu) {
+        // Récupérer les données pour le graphique (nombre d'offres par secteur d'activité)
+        Map<String, Integer> data = DatabaseServices.getJobsByActivitySector();
+
+        // Créer un graphique circulaire (PieChart)
+        PieChart pieChart = new PieChart();
+
+        if (data != null && !data.isEmpty()) {
+            for (Map.Entry<String, Integer> entry : data.entrySet()) {
+                pieChart.getData().add(new PieChart.Data(entry.getKey(), entry.getValue()));
+            }
+        } else {
+            System.out.println("Aucune donnée trouvée pour le graphique par secteur d'activité.");
+        }
+
+        // Créer un layout avec le graphique
+        StackPane chartLayout = new StackPane(pieChart);
+
+        // Créer un bouton "Retour" pour revenir au menu principal
+        Button backButton = new Button("Retour");
+        backButton.setOnAction(e -> {
+            // Revenir à la scène du menu principal
+            Scene menuScene = new Scene(mainMenu, 300, 250);
+            primaryStage.setScene(menuScene);
+            primaryStage.show();
+        });
+
+        // Créer un VBox pour contenir le graphique et le bouton retour
+        VBox vbox = new VBox(10, chartLayout, backButton);
+        return vbox;
+    }
+}

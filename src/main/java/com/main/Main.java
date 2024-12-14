@@ -10,11 +10,15 @@ import com.parsers.CityParser;
 import com.parsers.ContractTypeParser;
 import com.parsers.ExperienceParser;
 import com.parsers.StudyLevelParser;
+import com.ui.MainInterface;
 import com.utils.JsonHandler;
+import com.ui.MainInterface;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        /* 
         // Load all jobs from json
         List<Job> jobs = JsonHandler.getAllJobs();
 
@@ -38,5 +42,7 @@ public class Main {
         }
         executorService.shutdown();
         
+        */
+        MainInterface.main(args);
     }
 }
