@@ -4,40 +4,47 @@ import com.db.DatabaseServices;
 
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.util.Map;
 
 public class ChartPage1 implements ChartPage {
 
     @Override
-    public VBox getChartPage(Stage primaryStage, VBox mainMenu) {
+
+    public VBox getChartPage(Stage primaryStage, StackPane mainMenu) {  // Utilisation de StackPane
+
         // Récupérer les données pour le graphique (nombre d'offres par ville)
         Map<String, Integer> data = DatabaseServices.getJobsByCity();
 
         // Créer un graphique circulaire (PieChart)
         PieChart pieChart = new PieChart();
+
+        
+        // Calculer la somme totale pour les pourcentages
+        int total = data.values().stream().mapToInt(Integer::intValue).sum();
+
         for (Map.Entry<String, Integer> entry : data.entrySet()) {
-            pieChart.getData().add(new PieChart.Data(entry.getKey(), entry.getValue()));
+            double percentage = (entry.getValue() / (double) total) * 100;
+            PieChart.Data slice = new PieChart.Data(entry.getKey(), entry.getValue());
+            
+            // Ajouter un label personnalisé avec le pourcentage
+            slice.setName(String.format("%s %.1f%%", entry.getKey(), percentage));
+            
+            pieChart.getData().add(slice);
+
         }
 
         // Créer un layout avec le graphique
         StackPane chartLayout = new StackPane(pieChart);
 
-        // Créer un bouton "Retour" pour revenir au menu principal
-        Button backButton = new Button("Retour");
-        backButton.setOnAction(e -> {
-            // Revenir à la scène du menu principal
-            Scene menuScene = new Scene(mainMenu, 300, 250);
-            primaryStage.setScene(menuScene);
-            primaryStage.show();
-        });
 
-        // Créer un VBox pour contenir le graphique et le bouton retour
-        VBox vbox = new VBox(10, chartLayout, backButton);
+        // Créer un VBox pour contenir uniquement le graphique (sans le bouton)
+        VBox vbox = new VBox(10, chartLayout);  // Utilisation de VBox ici
+
         return vbox;
     }
 }
