@@ -109,6 +109,57 @@ public class DatabaseServices {
         return executeQuery(query);
     }
 
+    // Récupérer les offres par expérience et type de contrat
+    public static Map<String, Map<String, Integer>> getJobsByExperienceAndContractType() {
+        String query = """
+            SELECT required_experience, contract_type, COUNT(*) AS total_jobs
+            FROM jobs
+            WHERE required_experience IS NOT NULL AND contract_type IS NOT NULL
+            GROUP BY required_experience, contract_type
+            HAVING COUNT(*) > 100
+            ORDER BY required_experience, total_jobs DESC;
+        """;
+        return executeComplexQuery(query);
+    }
+
+    // Récupérer les offres par ville et expérience requise
+    public static Map<String, Map<String, Integer>> getJobsByCityAndExperience() {
+        String query = """
+            SELECT city, required_experience, COUNT(*) AS total_jobs
+            FROM jobs
+            WHERE city IS NOT NULL AND required_experience IS NOT NULL
+            GROUP BY city, required_experience
+            HAVING COUNT(*) >= 60
+            ORDER BY city, total_jobs DESC;
+        """;
+        return executeComplexQuery(query);
+    }
+
+    // Récupérer les offres par niveau d'études et télétravail
+    public static Map<String, Map<String, Integer>> getJobsByStudyLevelAndRemoteWork() {
+        String query = """
+            SELECT study_level, remote_work, COUNT(*) AS total_jobs
+            FROM jobs
+            WHERE study_level IS NOT NULL AND remote_work IS NOT NULL
+            GROUP BY study_level, remote_work
+            ORDER BY study_level, total_jobs DESC;
+        """;
+        return executeComplexQuery(query);
+    }
+
+    // Récupérer les offres par type de contrat et télétravail
+    public static Map<String, Map<String, Integer>> getJobsByContractTypeAndRemoteWork() {
+        String query = """
+            SELECT contract_type, remote_work, COUNT(*) AS total_jobs
+            FROM jobs
+            WHERE contract_type IS NOT NULL AND remote_work IS NOT NULL
+            GROUP BY contract_type, remote_work
+            HAVING COUNT(*) > 20
+            ORDER BY contract_type, total_jobs DESC;
+        """;
+        return executeComplexQuery(query);
+    }
+
     // Méthode générique pour exécuter une requête SQL et retourner les résultats sous forme de Map
     private static Map<String, Integer> executeQuery(String query) {
         Map<String, Integer> result = new HashMap<>();
@@ -121,6 +172,27 @@ public class DatabaseServices {
                 String key = rs.getString(1);  // Première colonne (ex : city, activity_sector, etc.)
                 int value = rs.getInt(2);      // Deuxième colonne (total_jobs)
                 result.put(key, value);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    // Méthode générique pour exécuter une requête complexe et retourner les résultats sous forme de Map imbriquée
+    private static Map<String, Map<String, Integer>> executeComplexQuery(String query) {
+        Map<String, Map<String, Integer>> result = new HashMap<>();
+        try (Connection connection = DatabaseConnection.getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                String key1 = rs.getString(1); // Première colonne (ex : required_experience, city, etc.)
+                String key2 = rs.getString(2); // Deuxième colonne (ex : contract_type, remote_work, etc.)
+                int value = rs.getInt(3);      // Troisième colonne (total_jobs)
+
+                result.putIfAbsent(key1, new HashMap<>());
+                result.get(key1).put(key2, value);
             }
         } catch (SQLException e) {
             e.printStackTrace();
