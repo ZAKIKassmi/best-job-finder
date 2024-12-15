@@ -13,7 +13,9 @@ import java.util.Map;
 public class ChartPage6 implements ChartPage {
 
     @Override
+
     public VBox getChartPage(Stage primaryStage, StackPane mainMenu) {
+
         // Récupérer les données pour le graphique (nombre d'offres par télétravail)
         Map<String, Integer> data = DatabaseServices.getJobsByRemoteWork();
 
@@ -49,6 +51,7 @@ public class ChartPage6 implements ChartPage {
 
         // Créer un VBox pour contenir seulement le graphique
         VBox vbox = new VBox(10, chartLayout);
+
         return vbox;
     }
 }

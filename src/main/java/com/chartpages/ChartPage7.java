@@ -30,6 +30,12 @@ public class ChartPage7 implements ChartPage {
         BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
         barChart.setTitle("Offres d'emploi par expérience requise et type de contrat");
 
+        // Réduire l'espacement entre les barres dans un groupe (les barres doivent être collées)
+        barChart.setBarGap(0);  // Pas d'espace entre les barres du même groupe
+
+        // Ajouter un peu d'espace entre les groupes de barres
+        barChart.setCategoryGap(10);  // Ajouter un espace entre les groupes (par exemple entre l'expérience CDI et intérim)
+
         // Parcourir les données pour créer les séries
         for (Map.Entry<String, Map<String, Integer>> entry : data.entrySet()) {
             String experience = entry.getKey();

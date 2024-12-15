@@ -13,6 +13,7 @@ public class ChartPage2 implements ChartPage {
 
     @Override
     public VBox getChartPage(Stage primaryStage, StackPane mainMenu) {  // Utilisation de StackPane
+
         // Récupérer les données pour le graphique (nombre d'offres par secteur d'activité)
         Map<String, Integer> data = DatabaseServices.getJobsByActivitySector();
 
@@ -32,6 +33,8 @@ public class ChartPage2 implements ChartPage {
 
         // Créer un VBox pour contenir uniquement le graphique (sans le bouton)
         VBox vbox = new VBox(10, chartLayout);
+
+        // Retourner le VBox contenant le graphique
         return vbox;
     }
 }

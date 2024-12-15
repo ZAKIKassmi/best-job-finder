@@ -13,7 +13,9 @@ import java.util.Map;
 public class ChartPage4 implements ChartPage {
 
     @Override
+
     public VBox getChartPage(Stage primaryStage, StackPane mainMenu) {  // Utilisation de StackPane ici
+
         // Récupérer les données pour le graphique (nombre d'offres par niveau d'études)
         Map<String, Integer> data = DatabaseServices.getJobsByStudyLevel();
 
@@ -46,8 +48,10 @@ public class ChartPage4 implements ChartPage {
         // Créer un layout avec le graphique
         StackPane chartLayout = new StackPane(barChart);
 
+
         // Créer un VBox pour contenir seulement le graphique (sans le bouton)
         VBox vbox = new VBox(10, chartLayout);
+
         return vbox;
     }
 }
