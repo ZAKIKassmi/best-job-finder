@@ -23,6 +23,10 @@ import com.chartpages.ChartPage3;
 import com.chartpages.ChartPage4;
 import com.chartpages.ChartPage5;
 import com.chartpages.ChartPage6;
+import com.chartpages.ChartPage7;
+import com.chartpages.ChartPage8;
+import com.chartpages.ChartPage9;
+import com.chartpages.ChartPage10;
 
 public class MainInterface extends Application {
 
@@ -31,7 +35,7 @@ public class MainInterface extends Application {
         // Fixer les dimensions de la fenêtre principale
         primaryStage.setWidth(600);
         primaryStage.setHeight(500);
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
 
         // Créer le conteneur racine initial
         BorderPane root = new BorderPane();
@@ -64,20 +68,27 @@ public class MainInterface extends Application {
         Button studyGraphButton = createButton("Graphique par Niveau d'Études");
         Button contractGraphButton = createButton("Graphique par Type de Contrat");
         Button remoteGraphButton = createButton("Graphique par Télétravail");
+        Button chartPage7Button = createButton("Expérience et Contrat");
+        Button chartPage8Button = createButton("Ville et Expérience");
+        Button chartPage9Button = createButton("Niveau d'Études et Télétravail");
+        Button chartPage10Button = createButton("Contrat et Télétravail");
 
-        // Définir les actions des boutons
+        // Définir les actions des nouveaux boutons
         cityGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique par Ville", root, title));
         activityGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique par Secteur d'Activité", root, title));
-        experienceGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique par Expérience Requise", root, title));
+        experienceGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique d'Expérience Requise", root, title));
         studyGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique par Niveau d'Études", root, title));
         contractGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique par Type de Contrat", root, title));
         remoteGraphButton.setOnAction(e -> showChartPage(primaryStage, "Graphique par Télétravail", root, title));
+        chartPage7Button.setOnAction(e -> showChartPage(primaryStage, "Graphique 7", root, title));
+        chartPage8Button.setOnAction(e -> showChartPage(primaryStage, "Graphique 8", root, title));
+        chartPage9Button.setOnAction(e -> showChartPage(primaryStage, "Graphique 9", root, title));
+        chartPage10Button.setOnAction(e -> showChartPage(primaryStage, "Graphique 10", root, title));
 
-        VBox menuLayout = new VBox(15, cityGraphButton, activityGraphButton, experienceGraphButton, studyGraphButton, contractGraphButton, remoteGraphButton);
+        VBox menuLayout = new VBox(15, cityGraphButton, activityGraphButton, experienceGraphButton, studyGraphButton, contractGraphButton, remoteGraphButton, chartPage7Button, chartPage8Button, chartPage9Button, chartPage10Button);
         menuLayout.setAlignment(Pos.CENTER);
         menuLayout.setPadding(new Insets(20));
 
-        // Centrer le menu avec un conteneur StackPane
         StackPane centeredPane = new StackPane(menuLayout);
         StackPane.setAlignment(menuLayout, Pos.CENTER);
 
@@ -98,12 +109,12 @@ public class MainInterface extends Application {
         
         switch (chartTitle) {
             case "Graphique par Ville":
-                chartPageInstance = new ChartPage1();  // Utiliser ChartPage1 ici
+                chartPageInstance = new ChartPage1();
                 break;
             case "Graphique par Secteur d'Activité":
                 chartPageInstance = new ChartPage2();
                 break;
-            case "Graphique par Expérience Requise":
+            case "Graphique d'Expérience Requise":
                 chartPageInstance = new ChartPage3();
                 break;
             case "Graphique par Niveau d'Études":
@@ -115,14 +126,24 @@ public class MainInterface extends Application {
             case "Graphique par Télétravail":
                 chartPageInstance = new ChartPage6();
                 break;
+            case "Graphique 7":
+                chartPageInstance = new ChartPage7();
+                break;
+            case "Graphique 8":
+                chartPageInstance = new ChartPage8();
+                break;
+            case "Graphique 9":
+                chartPageInstance = new ChartPage9();
+                break;
+            case "Graphique 10":
+                chartPageInstance = new ChartPage10();
+                break;
             default:
                 chartPageInstance = null;
                 break;
         }
 
-        // Assurez-vous que chartPageInstance n'est pas null avant d'appeler getChartPage
         if (chartPageInstance != null) {
-            // Passer StackPane au lieu de VBox
             VBox chartLayout = chartPageInstance.getChartPage(primaryStage, createMainMenu(primaryStage, root, title));
             chartPage.getChildren().add(chartLayout); // Ajouter le VBox au StackPane
         } else {
