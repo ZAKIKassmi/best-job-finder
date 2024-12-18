@@ -1,15 +1,13 @@
 package com.chartpages;
 
-import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
-
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import com.db.DatabaseServices;
-import javafx.scene.layout.VBox;
-
-
 import java.util.Map;
+
+import com.db.DatabaseServices;
+
+import javafx.scene.chart.PieChart;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class ChartPage2 implements ChartPage {
 
@@ -36,7 +34,7 @@ public class ChartPage2 implements ChartPage {
 
 
         // Créer un VBox pour contenir uniquement le graphique (sans le bouton)        VBox vbox = new VBox(10, chartLayout);
-
+        VBox vbox = new VBox(10, chartLayout);
         return vbox;
     }
 }

@@ -9,16 +9,15 @@ import com.parsers.ActivitySectorParser;
 import com.parsers.CityParser;
 import com.parsers.ContractTypeParser;
 import com.parsers.ExperienceParser;
+import com.parsers.RemoteParser;
 import com.parsers.StudyLevelParser;
-import com.ui.MainInterface;
 import com.utils.JsonHandler;
-import com.ui.MainInterface;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        /* 
+    
         // Load all jobs from json
         List<Job> jobs = JsonHandler.getAllJobs();
 
@@ -28,6 +27,7 @@ public class Main {
         ExperienceParser.parseExperience(jobs);
         ContractTypeParser.parseContractType(jobs);
         StudyLevelParser.parseStudyLevel(jobs);
+        RemoteParser.parseRemoteWork(jobs);
         System.out.println("All items has been parsed successfully");
 
 
@@ -42,7 +42,18 @@ public class Main {
         }
         executorService.shutdown();
         
-        */
-        MainInterface.main(args);
+
+        // MainInterface.main(args);
+      
+        // ArrayList<TestJob> jobs = DatabaseServices.getAllJobs();
+        // if(jobs == null){
+        //     System.out.println("No jobs found");
+        //     return;
+        // }
+        // Classifier.TrainModel(jobs);
+        
+        
+
+        
     }
 }
