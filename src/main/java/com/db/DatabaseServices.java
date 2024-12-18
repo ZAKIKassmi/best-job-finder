@@ -176,7 +176,7 @@ public class DatabaseServices {
                 result.put(key, value);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return result;
     }
@@ -197,8 +197,37 @@ public class DatabaseServices {
                 result.get(key1).put(key2, value);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return result;
     }
+
+
+    public static ArrayList<TestJob> getAllJobs(){
+        ArrayList<TestJob> jobs = new ArrayList<>();
+        String query = """
+                SELECT city, activity_sector, required_experience, study_level, contract_type, remote_work, searched_profile, job_description
+                FROM jobs
+                """;
+        try(Connection connection = DatabaseConnection.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet response = statement.executeQuery(query);
+            while(response.next()){
+                TestJob job = new TestJob();
+                job.setCity(response.getString("city"));
+                job.setActivitySector(response.getString("activity_sector"));
+                job.setRequiredExperience(response.getString("required_experience"));
+                job.setStudyLevel(response.getString("study_level"));
+                job.setContractType(response.getString("contract_type"));
+                job.setRemoteWork(response.getString("remote_work"));
+                jobs.add(job);
+            }
+            return jobs;
+        }
+        catch(SQLException e){
+            System.out.println("Oops! something went wrong while fetching all jobs. Error: "+e.getMessage());
+        }
+        return null;
+    }
 }
+
