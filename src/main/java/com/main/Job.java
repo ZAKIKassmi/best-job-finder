@@ -11,46 +11,59 @@ public class Job {
   private String remoteWork;
   private String city;
   private String jobDescription;
+  private String publicationDate;
+  private String entreprise;
+  private String entrepriseAddress;
+  private String entrepriseDescription;
+  private String softSkills;
+  private String jobPageUrl;
+  private String siteWeb;
+  private Double salary;
+  private String region;
+  private String imageUrl;
+  private String hardSkills;
+  private String language;
 
+  public void setPublicationDate(String publicationDate) {
+    this.publicationDate = publicationDate;
+  }
 
+  public String getPublicationDate() {
+    return this.publicationDate;
+  }
 
-
-
- 
-
-  public void setSearchedProfile(String searchedProfile){
+  public void setSearchedProfile(String searchedProfile) {
     this.searchedProfile = searchedProfile;
   }
 
-  public String getSearchedProfile(){
+  public String getSearchedProfile() {
     return this.searchedProfile;
   }
-  
-  public void setJobDescription(String jobDescription){
+
+  public void setJobDescription(String jobDescription) {
     this.jobDescription = jobDescription;
   }
 
-  public String getJobDescription(){
+  public String getJobDescription() {
     return this.jobDescription;
   }
 
-  public void setRemoteWork(String remoteWork){
+  public void setRemoteWork(String remoteWork) {
     this.remoteWork = remoteWork;
   }
 
-  public String getRemoteWork(){
+  public String getRemoteWork() {
     return this.remoteWork;
   }
 
-  public void setCity(String city){
+  public void setCity(String city) {
     this.city = city;
   }
 
-  public String getCity(){
+  public String getCity() {
     return this.city;
   }
 
- 
   public String getJobTitle() {
     return this.jobTitle;
   }
@@ -102,18 +115,116 @@ public class Job {
   @Override
   public String toString() {
     return "{" +
-      " jobTitle='" + getJobTitle() + "'" +
-      ",\n city='" + getCity() + "'" +
-      ",\n activitySector='" + getActivitySector() + "'" +
-      ",\n function='" + getFunction() + "'" +
-      ",\n requiredExperience='" + getRequiredExperience() + "'" +
-      ",\n studyLevel='" + getStudyLevel() + "'" +
-      ",\n contractType='" + getContractType() + "'" +
-      ",\n searchedProfile='" + getSearchedProfile() + "'" +
-      ",\n jobDescription='" + getJobDescription() + "'" +
-      ",\n remoteWork='" + getRemoteWork() + "'\n" +
-      "}";
+        " jobTitle='" + getJobTitle() + "'" +
+        ",\n city='" + getCity() + "'" +
+        ",\n activitySector='" + getActivitySector() + "'" +
+        ",\n function='" + getFunction() + "'" +
+        ",\n requiredExperience='" + getRequiredExperience() + "'" +
+        ",\n studyLevel='" + getStudyLevel() + "'" +
+        ",\n contractType='" + getContractType() + "'" +
+        ",\n searchedProfile='" + getSearchedProfile() + "'" +
+        ",\n jobDescription='" + getJobDescription() + "'" +
+        ",\n remoteWork='" + getRemoteWork() + "'\n" +
+        "}";
   }
-  
-  
+
+  public String newToString() {
+    return "{" +
+        " entreprise: '" + getEntreprise() + "'" +
+        ",\n address: '" + getEntrepriseAddress() + "'" +
+        ",\n soft skills: '" + getSoftSkills() + "'" +
+        ",\n image: '" + getImageUrl() + "'" +
+        ",\n description de l'entreprise: '" + getEntrepriseDescription() + "'" +
+        ",\n date: '" + getPublicationDate() + "'" +
+        "}";
+  }
+
+  public String getEntreprise() {
+    return entreprise;
+  }
+
+  public void setEntreprise(String entreprise) {
+    this.entreprise = entreprise;
+  }
+
+  public String getEntrepriseAddress() {
+    return entrepriseAddress;
+  }
+
+  public void setEntrepriseAddress(String entrepriseAddress) {
+    this.entrepriseAddress = entrepriseAddress;
+  }
+
+  public String getSoftSkills() {
+    return softSkills;
+  }
+
+  public void setSoftSkills(String softSkills) {
+    this.softSkills = softSkills;
+  }
+
+  public String getJobPageUrl() {
+    return jobPageUrl;
+  }
+
+  public void setJobPageUrl(String jobPageUrl) {
+    this.jobPageUrl = jobPageUrl;
+  }
+
+  public String getSiteWeb() {
+    return siteWeb;
+  }
+
+  public void setSiteWeb(String siteWeb) {
+    this.siteWeb = siteWeb;
+  }
+
+  public Double getSalary() {
+    return salary;
+  }
+
+  public void setSalary(Double salary) {
+    this.salary = salary;
+  }
+
+  public String getRegion() {
+    return region;
+  }
+
+  public void setRegion(String region) {
+    this.region = region;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public String getHardSkills() {
+    return hardSkills;
+  }
+
+  public void setHardSkills(String hardSkills) {
+    this.hardSkills = hardSkills;
+  }
+
+  public String getEntrepriseDescription() {
+    return entrepriseDescription;
+  }
+
+  public void setEntrepriseDescription(String entrepriseDescription) {
+    this.entrepriseDescription = entrepriseDescription;
+  }
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
+  }
+
 }
