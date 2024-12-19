@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.scrap.RekruteScrapper;
+import com.scrap.MJob;
 
 public class Main {
     private static final List<Job> jobs = Collections.synchronizedList(new ArrayList<>());
@@ -12,7 +12,8 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            RekruteScrapper.startScrapping(jobs);
+            // RekruteScrapper.startScrapping(jobs);
+            MJob.startScrapping(jobs);
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }

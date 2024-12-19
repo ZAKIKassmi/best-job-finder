@@ -67,7 +67,6 @@ public class RekruteScrapper extends Scrapper {
             job.setEntrepriseDescription(jobPage.select("#recruiterDescription").text());
             job.setImageUrl(jobPage.select("img.photo").attr("src"));
             job.setLanguage(null);
-
             ArrayList<String> skills = new ArrayList<>();
             Elements skillsTags = jobPage.select(".jobdetail span.tagSkills");
             for (Element skill : skillsTags) {

@@ -11,16 +11,17 @@ public class Job {
   private String remoteWork;
   private String city;
   private String jobDescription;
-  private String publicationDate;
+
+  private String siteWeb;
+  private String imageUrl;
+  private String jobPageUrl;
   private String entreprise;
   private String entrepriseAddress;
+  private String publicationDate;
   private String entrepriseDescription;
   private String softSkills;
-  private String jobPageUrl;
-  private String siteWeb;
   private Double salary;
   private String region;
-  private String imageUrl;
   private String hardSkills;
   private String language;
 
@@ -136,6 +137,8 @@ public class Job {
         ",\n image: '" + getImageUrl() + "'" +
         ",\n description de l'entreprise: '" + getEntrepriseDescription() + "'" +
         ",\n date: '" + getPublicationDate() + "'" +
+        ",\n langue: '" + getLanguage() + "'" +
+        ",\n salary: '" + getSalary() + "'" +
         "}";
   }
 
