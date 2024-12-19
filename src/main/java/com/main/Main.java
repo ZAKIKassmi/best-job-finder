@@ -4,23 +4,34 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.scrap.MJob;
+import com.ui.dashboard.DashboardApp;
 
-public class Main {
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class Main extends Application{
     private static final List<Job> jobs = Collections.synchronizedList(new ArrayList<>());
-
+    @Override
+    public void start(Stage primaryStage) {
+        DashboardApp dashboard = new DashboardApp();
+        dashboard.start(primaryStage);
+    }
     public static void main(String[] args) {
 
-        try {
-            // RekruteScrapper.startScrapping(jobs);
-            MJob.startScrapping(jobs);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
+        
 
-        for (Job job : jobs) {
-            System.out.println(job.newToString());
-        }
+        Application.launch(args);
+
+        // try {
+        //     // RekruteScrapper.startScrapping(jobs);
+        //     MJob.startScrapping(jobs);
+        // } catch (InterruptedException e) {
+        //     System.out.println(e.getMessage());
+        // }
+
+        // for (Job job : jobs) {
+        //     System.out.println(job.newToString());
+        // }
         // Load all jobs from json
         // List<Job> jobs = JsonHandler.getAllJobs();
 
