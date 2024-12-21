@@ -125,7 +125,16 @@ public class Job {
         ",\n contractType='" + getContractType() + "'" +
         ",\n searchedProfile='" + getSearchedProfile() + "'" +
         ",\n jobDescription='" + getJobDescription() + "'" +
-        ",\n remoteWork='" + getRemoteWork() + "'\n" +
+        ",\n remoteWork='" + getRemoteWork() + "'" +
+        ",\n entreprise: '" + getEntreprise() + "'" +
+        ",\n address: '" + getEntrepriseAddress() + "'" +
+        ",\n soft skills: '" + getSoftSkills() + "'" +
+        ",\n hard skills: '" + getHardSkills() + "'" +
+        ",\n image: '" + getImageUrl() + "'" +
+        ",\n description de l'entreprise: '" + getEntrepriseDescription() + "'" +
+        ",\n date: '" + getPublicationDate() + "'" +
+        ",\n langue: '" + getLanguage() + "'" +
+        ",\n salary: '" + getSalary() + "'" +
         "}";
   }
 

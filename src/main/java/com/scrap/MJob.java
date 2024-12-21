@@ -115,7 +115,7 @@ public class MJob extends Scrapper {
       job.setStudyLevel(jobPage.select(".the-content > h3:contains(études) + div").text());
       job.setRequiredExperience(jobPage.select(".the-content > h3:contains(expériences) + div").text());
 
-      job.setImageUrl(jobPage.select("div.logo img").attr("src"));
+      job.setImageUrl(jobPage.select(".header-details div.logo img").attr("src"));
       job.setSiteWeb("m-job");
       job.setJobPageUrl(pageUrl);
       job.setEntreprise(jobPage.select(".header-details span:contains(Société) + h3").text());

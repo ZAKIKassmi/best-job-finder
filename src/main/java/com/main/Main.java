@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.scrap.EmploiScrapper;
+import com.scrap.MJob;
 import com.ui.dashboard.DashboardApp;
 
 import javafx.application.Application;
@@ -20,14 +22,15 @@ public class Main extends Application{
 
         
 
-        Application.launch(args);
+        // Application.launch(args);
 
-        // try {
-        //     // RekruteScrapper.startScrapping(jobs);
-        //     MJob.startScrapping(jobs);
-        // } catch (InterruptedException e) {
-        //     System.out.println(e.getMessage());
-        // }
+        try {
+            // RekruteScrapper.startScrapping(jobs);
+            // MJob.startScrapping(jobs);
+            EmploiScrapper.startScrapping(jobs);
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
 
         // for (Job job : jobs) {
         //     System.out.println(job.newToString());
