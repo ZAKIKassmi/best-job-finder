@@ -1,13 +1,12 @@
-package com.parsers.rekrute;
+package com.parsers.mjobs;
 
 import java.util.List;
 
 import com.main.Job;
 import com.parsers.Parser;
 
-public class RekruteContractTypeParser extends Parser {
-    
-    public static void parseContractType(List<Job> jobs) {
+public class MjobContractType extends Parser {
+  public static void parseContractType(List<Job> jobs) {
         for (Job job : jobs) {
             String contractType = job.getContractType();
             if (contractType == null || contractType.isBlank()) {
@@ -27,5 +26,4 @@ public class RekruteContractTypeParser extends Parser {
     
        
     }
-    
 }

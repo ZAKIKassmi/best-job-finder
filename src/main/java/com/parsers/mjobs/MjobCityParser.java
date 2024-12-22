@@ -1,13 +1,11 @@
-package com.parsers.rekrute;
+package com.parsers.mjobs;
 
 import java.util.List;
 
 import com.main.Job;
 import com.parsers.Parser;
 
-public class RekruteCityParser extends Parser {
-  
-
+public class MjobCityParser  extends Parser{
   public static void parseCity(List<Job> jobs) {
     for (Job job : jobs) {
       String city = job.getCity();

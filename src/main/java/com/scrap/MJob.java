@@ -6,6 +6,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -111,7 +114,7 @@ public class MJob extends Scrapper {
       job.setSearchedProfile(jobPage.select(".the-content > h3:contains(Profil) + div").text());
       job.setJobDescription(jobPage.select(".the-content > h3:contains(Poste) + div").text());
       job.setFunction(jobPage.select(".the-content > h3:contains(Métier) + div").text());
-      job.setRemoteWork(null);
+      job.setRemoteWork("non");
       job.setStudyLevel(jobPage.select(".the-content > h3:contains(études) + div").text());
       job.setRequiredExperience(jobPage.select(".the-content > h3:contains(expériences) + div").text());
 
@@ -142,7 +145,7 @@ public class MJob extends Scrapper {
         Elements jobElements = doc.select(".offers-boxes .offer-box");
         for (Element jobElement : jobElements) {
           Job job = extractJob(jobElement);
-          System.out.println(job.newToString());
+          System.out.println(job.toString());
           jobs.add(job);
         }
       } else {
@@ -155,23 +158,22 @@ public class MJob extends Scrapper {
   }
 
   public static void startScrapping(List<Job> jobs) throws InterruptedException {
-    for (int i = 1; i <= 1; i++) {
+    for (int i = 1; i <= 15; i++) {
       pagesToScrape.add("https://www.m-job.ma/recherche?page=" + i);
     }
 
     scrapJobPage(pagesToScrape.poll(), jobs);
-    // ExecutorService executorService =
-    // Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+    ExecutorService executorService =
+    Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
-    // while (!pagesToScrape.isEmpty()) {
-    // String url = pagesToScrape.poll();
-    // if (url == null)
-    // continue;
-    // executorService.submit(() -> scrapJobPage(url, jobs));
-    // TimeUnit.MILLISECONDS.sleep(1000); // Rate limiting
-    // }
-    // executorService.shutdown();
-    // executorService.awaitTermination(1000, TimeUnit.SECONDS);
+    while (!pagesToScrape.isEmpty()) {
+    String url = pagesToScrape.poll();
+    if (url == null) continue;
+    executorService.submit(() -> scrapJobPage(url, jobs));
+    TimeUnit.MILLISECONDS.sleep(1000); // Rate limiting
+    }
+    executorService.shutdown();
+    executorService.awaitTermination(1000, TimeUnit.SECONDS);
 
   }
 }

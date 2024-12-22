@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import com.parsers.rekrute.RekruteFunctionParser;
+import com.parsers.mjobs.MjobStudyLeverParser;
 import com.ui.dashboard.DashboardApp;
 import com.utils.JsonHandler;
 
@@ -20,29 +20,43 @@ public class Main extends Application{
         dashboard.start(primaryStage);
     }
     public static void main(String[] args) {
+        /* 
+        RekruteRemoteParser.parseRemoteWork(jobs);
+        RekruteContractTypeParser.parseContractType(jobs);
+        publication date, salary, applyBefore verified and parsed at scrapping
+        RekruteActivitySectorParser.parseActivitySector(jobs);
+        RekruteCityParser.parseCity(jobs);
+        RekruteExperienceParser.parseExperience(jobs);
+        RekruteStudyLevelParser.parseStudyLevel(jobs);
+        RekruteFunctionParser.parseFunction(jobs);*/
 
+        //to be checked if we have enough time
+        // MjobActivitySectorParser.parseActivitySector(jobs);
+        
         List<Job> jobs = JsonHandler.getAllJobs();
         HashSet<String> values = new HashSet<>();
+
         //working
-        // RekruteRemoteParser.parseRemoteWork(jobs);
-        // RekruteContractTypeParser.parseContractType(jobs);
-        //publication date, salary, applyBefore verified
-        // RekruteActivitySectorParser.parseActivitySector(jobs);
-        // RekruteCityParser.parseCity(jobs);
-        // RekruteExperienceParser.parseExperience(jobs);
-        // RekruteStudyLevelParser.parseStudyLevel(jobs);
-        RekruteFunctionParser.parseFunction(jobs);
+        // MjobFunctionParser.parseFunction(jobs);
+        // MjobCityParser.parseCity(jobs);
+        // MjobContractType.parseContractType(jobs);
+        //Remote work verified
+        // MjobExperienceParser.parseExperience(jobs);
+        MjobStudyLeverParser.parseStudyLevel(jobs);
+
         
         //test
 
 
         //verify
+
         int count= 0;
         for(Job job:jobs){
-            if(job.getFunction() == null){
+            if(job.getStudyLevel() == null || job.getStudyLevel().isEmpty()){
+           
                 count++;
             }
-            values.add(job.getFunction());
+            values.add(job.getStudyLevel());
         }
 
         for(String value: values){
@@ -51,6 +65,9 @@ public class Main extends Application{
             }
         }
         System.out.println("Total null jobs: "+count+"\nSet size: "+ values.size());
+
+
+
         // Application.launch(args);
 
         // try {
