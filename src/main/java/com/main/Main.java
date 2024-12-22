@@ -75,10 +75,10 @@ public class Main extends Application{
 
         int count= 0;
         for(Job job:jobs){
-            if(job.getRemoteWork() == null){
+            if(job.getActivitySector() == null){
                 count++;
             }
-            values.add(job.getRemoteWork());
+            values.add(job.getActivitySector());
         }
 
 
