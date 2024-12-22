@@ -9,7 +9,7 @@ import com.main.Job;
 
 public class ExperienceParser {
 
-    private static final Set<String> REQUIRED_EXPERIENCE_SET = Set.of(
+    private static final Set<String> VALID_EXPERIENCE = Set.of(
             "fraichement diplômé",
             "débutant (de 1 à 3 ans)",
             "junior (de 3 à 5 ans)",
@@ -36,7 +36,7 @@ public class ExperienceParser {
     public static void parseExperience(List<Job> jobs) {
         for (Job job : jobs) {
             String experience = job.getRequiredExperience().trim();
-            if(REQUIRED_EXPERIENCE_SET.contains(experience)){
+            if(VALID_EXPERIENCE.contains(experience)){
                 job.setRequiredExperience(experience.toLowerCase());
             }
             else{
@@ -51,7 +51,7 @@ public class ExperienceParser {
                 }
 
                 
-                if (parsedExperience != null && REQUIRED_EXPERIENCE_SET.contains(parsedExperience)) {
+                if (parsedExperience != null && VALID_EXPERIENCE.contains(parsedExperience)) {
                     job.setRequiredExperience(parsedExperience);
                 } else {
                     // System.out.println("Job: " + job.getRequiredExperience() + " normalized: " +

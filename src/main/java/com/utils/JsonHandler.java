@@ -16,7 +16,7 @@ public class JsonHandler {
 
         try {
             File file = new File(filePath);
-            List<Job> allJobs = new ArrayList<Job>();
+            List<Job> allJobs = new ArrayList<>();
 
             if(file.exists()){
                 try{
@@ -40,7 +40,7 @@ public class JsonHandler {
             List<Job> rekruteJobs = mapper.readValue(new File("./src/main/resources/jobs.json"), mapper.getTypeFactory().constructCollectionType(List.class, Job.class));
             List<Job> emploiJobs = mapper.readValue(new File("./src/main/resources/EmploiJobs.json"), mapper.getTypeFactory().constructCollectionType(List.class, Job.class));
             List<Job> mJobs = mapper.readValue(new File("./src/main/resources/mjobs.json"), mapper.getTypeFactory().constructCollectionType(List.class, Job.class));
-            List<Job> allJobs = new ArrayList<Job>();
+            List<Job> allJobs = new ArrayList<>();
             allJobs.addAll(rekruteJobs);
             allJobs.addAll(emploiJobs);
             allJobs.addAll(mJobs);
@@ -59,7 +59,7 @@ public class JsonHandler {
     public static List<Job> getAllJobs(){
       ObjectMapper mapper = new ObjectMapper();
       try {
-        List<Job> allJobs = mapper.readValue(new File("./src/main/resources/allJobs.json"), mapper.getTypeFactory().constructCollectionType(List.class, Job.class));
+        List<Job> allJobs = mapper.readValue(new File("./src/main/resources/rekrute.json"), mapper.getTypeFactory().constructCollectionType(List.class, Job.class));
         return allJobs;
           
       } catch (IOException e) {

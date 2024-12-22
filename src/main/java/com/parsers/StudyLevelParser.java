@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import com.main.Job;
 
 public class StudyLevelParser extends Parser {
-    private static final Set<String> AVAILABLE_STUDY_LEVELS = Set.of(
+    private static final Set<String> VALID_STUDY_LEVELS = Set.of(
         "bac",
         "bac +1 et plus",
         "bac +2 et plus",
@@ -36,10 +36,11 @@ public class StudyLevelParser extends Parser {
         for (Job job : jobs) {
             String studyLevel = job.getStudyLevel().toLowerCase();
 
-            if(AVAILABLE_STUDY_LEVELS.contains(studyLevel)){
+            if(VALID_STUDY_LEVELS.contains(studyLevel)){
                 job.setStudyLevel(studyLevel);
             }
             else{
+                
                 String parsedStudyLevel = null;  
                 for (Map.Entry<Pattern, String> entry : studyLevelMapper.entrySet()) {
                     if (entry.getKey().matcher(studyLevel).find()) {
@@ -48,10 +49,9 @@ public class StudyLevelParser extends Parser {
                     }
                 }
     
-                if (parsedStudyLevel != null && AVAILABLE_STUDY_LEVELS.contains(parsedStudyLevel)) {
+                if (parsedStudyLevel != null && VALID_STUDY_LEVELS.contains(parsedStudyLevel)) {
                     job.setStudyLevel(parsedStudyLevel);
                 } else {
-                    System.out.println(job.getStudyLevel());
                     job.setStudyLevel(null);
                 }
             }

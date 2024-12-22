@@ -24,6 +24,7 @@ public class Job {
   private String region;
   private String hardSkills;
   private String language;
+  private String applyBefore;
 
   public void setPublicationDate(String publicationDate) {
     this.publicationDate = publicationDate;
@@ -135,6 +136,7 @@ public class Job {
         ",\n date: '" + getPublicationDate() + "'" +
         ",\n langue: '" + getLanguage() + "'" +
         ",\n salary: '" + getSalary() + "'" +
+        ",\n apply before: '" + getApplyBefore() + "'" +
         "}";
   }
 
@@ -238,5 +240,13 @@ public class Job {
   public void setLanguage(String language) {
     this.language = language;
   }
+
+    public String getApplyBefore() {
+        return applyBefore;
+    }
+
+    public void setApplyBefore(String applyBefore) {
+        this.applyBefore = applyBefore;
+    }
 
 }

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,7 +21,6 @@ import com.main.Job;
 public class RekruteScrapper extends Scrapper {
     private static final String REKRUTE_DOMAIN_NAME = "https://www.rekrute.com";
     private static final int THREAD_POOL_SIZE = 4;
-    private static final int MAX_PAGES = 27;
     private static final Set<String> pagesDiscovered = Collections.synchronizedSet(new HashSet<>());
     private static final Queue<String> pagesToScrape = new ConcurrentLinkedQueue<>();
     // private static final List<Job> jobs = Collections.synchronizedList(new
@@ -35,7 +37,6 @@ public class RekruteScrapper extends Scrapper {
         for (Element page : paginationElements) {
             String pageUrl = REKRUTE_DOMAIN_NAME + page.val();
             if (pagesDiscovered.add(pageUrl)) {
-                System.out.println("Page discovered: " + pageUrl);
                 pagesToScrape.offer(pageUrl);
             }
         }
@@ -63,7 +64,8 @@ public class RekruteScrapper extends Scrapper {
             job.setEntrepriseAddress(jobPage.select("#address").text());
             Element entreprise = jobPage.selectFirst("#recruiterDescription strong:first-child");
             job.setEntreprise(entreprise == null ? "" : entreprise.text());
-            job.setPublicationDate(jobPage.selectFirst(".newjob b").text());
+            job.setPublicationDate(jobElement.select("em.date span:nth-child(2)").text());
+            job.setApplyBefore(jobElement.select("em.date span:nth-child(3)").text());
             job.setEntrepriseDescription(jobPage.select("#recruiterDescription").text());
             job.setImageUrl(jobPage.select("img.photo").attr("src"));
             job.setLanguage(null);
@@ -98,25 +100,18 @@ public class RekruteScrapper extends Scrapper {
     }
 
     public static void startScrapping(List<Job> jobs) throws InterruptedException {
-        pagesToScrape.add("https://www.rekrute.com/offres-emploi-maroc.html?s=1");
+        pagesToScrape.add("https://www.rekrute.com/offres-emploi-maroc.html?s=3");
         scrapJobPage(pagesToScrape.poll(), jobs);
-        // ExecutorService executorService =
-        // Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        // int pageCounter = 1;
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
-        // while (!pagesToScrape.isEmpty() && pageCounter < MAX_PAGES) {
-        // String url = pagesToScrape.poll();
-        // if (url == null)
-        // continue;
-        // pageCounter++;
-        // System.out.println("currently scrapping " + url);
-        // executorService.submit(() -> scrapJobPage(url, jobs));
-        // TimeUnit.MILLISECONDS.sleep(800); // Rate limiting
-        // }
-        // executorService.shutdown();
-        // executorService.awaitTermination(800, TimeUnit.SECONDS);
-        System.out.println("Total scrapped jobs -> " + jobs.size());
-        // return jobs;
+        while (!pagesToScrape.isEmpty()) {
+        String url = pagesToScrape.poll();
+        if (url == null) continue;
+        executorService.submit(() -> scrapJobPage(url, jobs));
+        TimeUnit.MILLISECONDS.sleep(800); // Rate limiting
+        }
+        executorService.shutdown();
+        executorService.awaitTermination(800, TimeUnit.SECONDS);
     }
 
 }

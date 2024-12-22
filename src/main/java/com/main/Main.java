@@ -2,11 +2,12 @@ package com.main;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
-import com.scrap.EmploiScrapper;
-import com.scrap.MJob;
+import com.parsers.rekrute.RekruteFunctionParser;
 import com.ui.dashboard.DashboardApp;
+import com.utils.JsonHandler;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -20,17 +21,49 @@ public class Main extends Application{
     }
     public static void main(String[] args) {
 
+        List<Job> jobs = JsonHandler.getAllJobs();
+        HashSet<String> values = new HashSet<>();
+        //working
+        // RekruteRemoteParser.parseRemoteWork(jobs);
+        // RekruteContractTypeParser.parseContractType(jobs);
+        //publication date, salary, applyBefore verified
+        // RekruteActivitySectorParser.parseActivitySector(jobs);
+        // RekruteCityParser.parseCity(jobs);
+        // RekruteExperienceParser.parseExperience(jobs);
+        // RekruteStudyLevelParser.parseStudyLevel(jobs);
+        RekruteFunctionParser.parseFunction(jobs);
         
+        //test
 
+
+        //verify
+        int count= 0;
+        for(Job job:jobs){
+            if(job.getFunction() == null){
+                count++;
+            }
+            values.add(job.getFunction());
+        }
+
+        for(String value: values){
+            if(value != null){
+                System.out.println(value.toLowerCase());
+            }
+        }
+        System.out.println("Total null jobs: "+count+"\nSet size: "+ values.size());
         // Application.launch(args);
 
-        try {
-            // RekruteScrapper.startScrapping(jobs);
-            // MJob.startScrapping(jobs);
-            EmploiScrapper.startScrapping(jobs);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
+        // try {
+        //     // System.out.println("Currently scrapping rekrute");
+        //     // RekruteScrapper.startScrapping(jobs);
+        //     // System.out.println("scrapping completed. Total jobs: "+jobs.size());
+        //     // MJob.startScrapping(jobs);
+        //     // EmploiScrapper.startScrapping(jobs);
+        //     // JsonHandler.saveJobsToJson(jobs, "./src/main/resources/rekrute.json");
+
+        // } catch (InterruptedException e) {
+        //     System.out.println(e.getMessage());
+        // }
 
         // for (Job job : jobs) {
         //     System.out.println(job.newToString());
