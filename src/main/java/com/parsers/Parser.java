@@ -187,14 +187,21 @@ public class Parser {
 			"safi",
 			"zenata",
 			"larache",
-			"had soualem",
 			"tit mellil",
 			"ben guerir",
 			"kalaa des sraghna",
+			"taroudant",
+			"ouarzazate",
+			"berkane",
+			"tamesna",
+			"khouribga",
+			"oued zem",
 			"all");
 	protected static final Map<Pattern, String> CITY_MAPPER = Map.ofEntries(
 			Map.entry(Pattern.compile("salé|sale|sala|technopolis", Pattern.CASE_INSENSITIVE), "salé"),
+			Map.entry(Pattern.compile("khouribga", Pattern.CASE_INSENSITIVE), "khouribga"),
 			Map.entry(Pattern.compile("rabat", Pattern.CASE_INSENSITIVE), "rabat"),
+			Map.entry(Pattern.compile("agadir", Pattern.CASE_INSENSITIVE), "agadir"),
 			Map.entry(Pattern.compile("kénitra|kenitra", Pattern.CASE_INSENSITIVE), "kénitra"),
 			Map.entry(Pattern.compile("marrakech", Pattern.CASE_INSENSITIVE), "marrakech"),
 			Map.entry(Pattern.compile("meknès|meknes|meknas", Pattern.CASE_INSENSITIVE), "meknès"),
@@ -206,7 +213,7 @@ public class Parser {
 			Map.entry(Pattern.compile("mohammedia|mohammédia|mohamedia|mansouria",
 					Pattern.CASE_INSENSITIVE), "mohammédia"),
 			Map.entry(Pattern.compile(
-					"casablanca|csablanca|ain sebaa|sebaa|bouskoura|bouznika|nouacer|nouaceur|rahal|sebaâ|dar bouazza|jorf lasfar|ain harrouda",
+					"casablanca|csablanca|jorf|ain sebaa|sebaa|bouskoura|bouznika|nouacer|had soualem|nouaceur|rahal|sebaâ|dar bouazza|jorf lasfar|ain harrouda|maarouf",
 					Pattern.CASE_INSENSITIVE), "casablanca"),
 			Map.entry(Pattern.compile("temara|témara", Pattern.CASE_INSENSITIVE), "témara"),
 			Map.entry(Pattern.compile("skhirat|skhirate|sekhirat", Pattern.CASE_INSENSITIVE), "skhirate"),
@@ -218,7 +225,8 @@ public class Parser {
 			Map.entry(Pattern.compile("oujda", Pattern.CASE_INSENSITIVE), "oujda"),
 			Map.entry(Pattern.compile("mellil", Pattern.CASE_INSENSITIVE), "tit mellil"),
 			Map.entry(Pattern.compile("dakhla", Pattern.CASE_INSENSITIVE), "dakhla"),
-			Map.entry(Pattern.compile("maroc|international|villes", Pattern.CASE_INSENSITIVE), "all"));
+			Map.entry(Pattern.compile("ben ahmad", Pattern.CASE_INSENSITIVE), "settat"),
+			Map.entry(Pattern.compile("maroc|international|villes|distance|remote", Pattern.CASE_INSENSITIVE), "all"));
 
 	protected static final Set<String> VALID_EXPERIENCE = Set.of(
 			"fraichement diplômé",

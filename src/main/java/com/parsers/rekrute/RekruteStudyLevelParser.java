@@ -34,8 +34,15 @@ public class RekruteStudyLevelParser extends Parser {
 
   public static void parseStudyLevel(List<Job> jobs) {
     for (Job job : jobs) {
-      String studyLevel = job.getStudyLevel().toLowerCase();
+      
+      String studyLevel = job.getStudyLevel();
 
+      if(studyLevel == null || studyLevel.isEmpty()){
+        job.setStudyLevel(null);
+        continue;
+      }
+       
+      studyLevel = studyLevel.toLowerCase().trim();
       if (VALID_STUDY_LEVELS.contains(studyLevel)) {
         job.setStudyLevel(studyLevel);
       } else {

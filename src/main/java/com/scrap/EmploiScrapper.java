@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -126,30 +129,26 @@ public class EmploiScrapper extends Scrapper {
     return null; // Unreachable, but required for compilation
   }
 
-  public static List<Job> startScrapping(List<Job> jobs) throws InterruptedException {
-    pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc");
-    scrapJobPage(pagesToScrape.poll(), jobs);
+  public static void startScrapping(List<Job> jobs) throws InterruptedException {
+    // pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc");
+    // scrapJobPage(pagesToScrape.poll(), jobs);
 
-    // for (int i = 1; i < 32; i++) {
-    //   pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc?page=" + i);
-    // }
+    for (int i = 1; i < 32; i++) {
+      pagesToScrape.add("https://www.emploi.ma/recherche-jobs-maroc?page=" + i);
+    }
 
-    // ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-    // int pageCounter = 1;
+    ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
-    // while (!pagesToScrape.isEmpty()) {
-    //   String url = pagesToScrape.poll();
-    //   if (url == null)
-    //     continue;
-    //   System.out.println("Current page -> ");
-    //   pageCounter++;
-    //   executorService.submit(() -> scrapJobPage(url, jobs));
-    //   TimeUnit.MILLISECONDS.sleep(2000); // Rate limiting
-    // }
-    // executorService.shutdown();
-    // executorService.awaitTermination(1000, TimeUnit.SECONDS);
+    while (!pagesToScrape.isEmpty()) {
+      String url = pagesToScrape.poll();
+      if (url == null) continue;
+      System.out.println("Current page -> "+url);
+      executorService.submit(() -> scrapJobPage(url, jobs));
+      TimeUnit.MILLISECONDS.sleep(2000); // Rate limiting
+    }
+    executorService.shutdown();
+    executorService.awaitTermination(1000, TimeUnit.SECONDS);
 
-    return jobs;
 
   }
 }

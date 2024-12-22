@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import com.parsers.mjobs.MjobStudyLeverParser;
 import com.ui.dashboard.DashboardApp;
 import com.utils.JsonHandler;
 
@@ -20,6 +19,8 @@ public class Main extends Application{
         dashboard.start(primaryStage);
     }
     public static void main(String[] args) {
+
+        /*****Rekrute******/
         /* 
         RekruteRemoteParser.parseRemoteWork(jobs);
         RekruteContractTypeParser.parseContractType(jobs);
@@ -29,21 +30,43 @@ public class Main extends Application{
         RekruteExperienceParser.parseExperience(jobs);
         RekruteStudyLevelParser.parseStudyLevel(jobs);
         RekruteFunctionParser.parseFunction(jobs);*/
+        
+        
+        /*****MJOB******/
+        /*
+        MjobFunctionParser.parseFunction(jobs);
+        MjobCityParser.parseCity(jobs);
+        MjobContractType.parseContractType(jobs);
+        // Remote work verified
+        MjobExperienceParser.parseExperience(jobs);
+        MjobStudyLeverParser.parseStudyLevel(jobs);
+        */
+
 
         //to be checked if we have enough time
         // MjobActivitySectorParser.parseActivitySector(jobs);
         
+
+        // try{
+        //     EmploiScrapper.startScrapping(jobs);
+        //     System.out.println("total jobs: "+ jobs.size());
+        //     JsonHandler.saveJobsToJson(jobs, "./src/main/resources/emploi.json");
+        // }   
+        // catch(InterruptedException e){
+        //     System.out.println(e);
+        // }
+
         List<Job> jobs = JsonHandler.getAllJobs();
         HashSet<String> values = new HashSet<>();
 
         //working
-        // MjobFunctionParser.parseFunction(jobs);
-        // MjobCityParser.parseCity(jobs);
-        // MjobContractType.parseContractType(jobs);
-        //Remote work verified
-        // MjobExperienceParser.parseExperience(jobs);
-        MjobStudyLeverParser.parseStudyLevel(jobs);
+        // EmploiStudyLevelParser.parseStudyLevel(jobs);
+        // EmploiRequiredExperience.parseRequiredExperience(jobs);
+        // EmploitCityParser.parseCity(jobs);
+        //function is already done
+        // EmploiContractTypeParser.parseContractType(jobs);
 
+        
         
         //test
 
@@ -52,12 +75,12 @@ public class Main extends Application{
 
         int count= 0;
         for(Job job:jobs){
-            if(job.getStudyLevel() == null || job.getStudyLevel().isEmpty()){
-           
+            if(job.getRemoteWork() == null){
                 count++;
             }
-            values.add(job.getStudyLevel());
+            values.add(job.getRemoteWork());
         }
+
 
         for(String value: values){
             if(value != null){
@@ -66,7 +89,7 @@ public class Main extends Application{
         }
         System.out.println("Total null jobs: "+count+"\nSet size: "+ values.size());
 
-
+        
 
         // Application.launch(args);
 
