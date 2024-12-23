@@ -136,7 +136,6 @@ public class EmploiParsers extends Parser {
         if (mappedCity != null && VALID_CITIES.contains(mappedCity)) {
           job.setCity(mappedCity);
         } else {
-          System.out.println("null: " + job.getCity());
           job.setCity(null);
         }
       }

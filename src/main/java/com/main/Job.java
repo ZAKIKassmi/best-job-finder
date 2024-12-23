@@ -1,5 +1,5 @@
 package com.main;
-
+import java.lang.reflect.Field;
 public class Job {
   private String jobTitle;
   private String activitySector;
@@ -27,6 +27,31 @@ public class Job {
   private String applyBefore;
   private String languageLevel;
 
+
+  public void transformFieldsToLowerCase() {
+    try {
+        // Get all fields declared in the class
+        Field[] fields = this.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            // Ensure private fields can be accessed
+            field.setAccessible(true);
+
+            // Process only String fields
+            if (field.getType() == String.class) {
+                String value = (String) field.get(this);
+
+                // If the value is not null, transform it to lowercase
+                if (value != null) {
+                    field.set(this, value.toLowerCase());
+                }
+            }
+        }
+    } catch (IllegalAccessException e) {
+        e.printStackTrace();
+        throw new RuntimeException("Error transforming fields to lowercase", e);
+    }
+}
   public void setPublicationDate(String publicationDate) {
     this.publicationDate = publicationDate;
   }

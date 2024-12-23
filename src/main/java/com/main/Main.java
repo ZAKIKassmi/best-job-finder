@@ -2,9 +2,14 @@ package com.main;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
+import com.db.DatabaseConnection;
+import com.db.DatabaseServices;
+import com.parsers.emploi.EmploiParsers;
+import com.parsers.mjobs.MjobParsers;
+import com.parsers.rekrute.RekruteParsers;
+import com.ui.MainInterface;
 import com.ui.dashboard.DashboardApp;
 import com.utils.JsonHandler;
 
@@ -18,87 +23,45 @@ public class Main extends Application{
         DashboardApp dashboard = new DashboardApp();
         dashboard.start(primaryStage);
     }
+    
     public static void main(String[] args) {
 
         
 
-        //to be checked if we have enough time
-        // MjobActivitySectorParser.parseActivitySector(jobs);
         
 
-        // try{
-        //     EmploiScrapper.startScrapping(jobs);
-        //     System.out.println("total jobs: "+ jobs.size());
-        //     JsonHandler.saveJobsToJson(jobs, "./src/main/resources/emploi.json");
-        // }   
-        // catch(InterruptedException e){
-        //     System.out.println(e);
-        // }
+        List<Job> rekrute = JsonHandler.getAllJobs("rekrute.json");
+        List<Job> emploi = JsonHandler.getAllJobs("emploi.json");
+        List<Job> mjobs = JsonHandler.getAllJobs("mjobs.json");
+        System.out.println("Parsing rekrute...");
+        RekruteParsers.parseAll(rekrute);
+        System.out.println("Parsing emploi...");
+        EmploiParsers.parseAll(emploi);
+        System.out.println("Parsing mjobs...");
+        MjobParsers.parseAll(mjobs);
+        System.out.println("Parsing completed");
 
-        List<Job> jobs = JsonHandler.getAllJobs("rekrute.json");
-        HashSet<String> values = new HashSet<>();
- 
-
-        // int count= 0;
-        // for(Job job:jobs){
-        //     if(job.getRequiredExperience() == null){
-        //         count++;
-        //     }
-        //     values.add(job.getRequiredExperience());
-        // }
-
-
-        // for(String value: values){
-        //     if(value != null){
-        //         System.out.println(value);
-        //     }
-        // }
-        // System.out.println("Total null jobs: "+count+"\nSet size: "+ values.size());
+        
 
         
 
         // Application.launch(args);
 
-        // try {
-        //     // System.out.println("Currently scrapping rekrute");
-        //     // RekruteScrapper.startScrapping(jobs);
-        //     // System.out.println("scrapping completed. Total jobs: "+jobs.size());
-        //     // MJob.startScrapping(jobs);
-        //     // EmploiScrapper.startScrapping(jobs);
-        //     // JsonHandler.saveJobsToJson(jobs, "./src/main/resources/rekrute.json");
 
-        // } catch (InterruptedException e) {
-        //     System.out.println(e.getMessage());
-        // }
-
-        // for (Job job : jobs) {
-        //     System.out.println(job.newToString());
-        // }
-        // Load all jobs from json
-        // List<Job> jobs = JsonHandler.getAllJobs();
-
-        // // Parse job-related fields
-        // ActivitySectorParser.parseActivitySector(jobs);
-        // CityParser.parseCity(jobs);
-        // ExperienceParser.parseExperience(jobs);
-        // ContractTypeParser.parseContractType(jobs);
-        // StudyLevelParser.parseStudyLevel(jobs);
-        // RemoteParser.parseRemoteWork(jobs);
-        // System.out.println("All items has been parsed successfully");
         
 
 
         // //create table
-        // DatabaseServices.createDatabaseSchema();
+        DatabaseServices.createDatabaseSchema();
 
-        // //use mutli-threading to insert jobs
-        // ExecutorService executorService = Executors.newFixedThreadPool(4); 
-
-        // for (Job job : jobs) {
-        //     executorService.submit(() -> DatabaseServices.insertJob(job));
-        // }
-        // executorService.shutdown();
         
+        DatabaseServices.insertJobsList(rekrute);
+        DatabaseServices.insertJobsList(emploi);
+        DatabaseServices.insertJobsList(mjobs);
+        MainInterface.main(args);
+         
+        DatabaseConnection.closeDataSource();
+
 
         // MainInterface.main(args);
       

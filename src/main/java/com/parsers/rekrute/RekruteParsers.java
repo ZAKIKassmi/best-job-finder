@@ -18,6 +18,9 @@ public class RekruteParsers extends Parser{
     parseRemoteWork(jobs);
     parseExperience(jobs);
     parseStudyLevel(jobs);
+    parseActivitySector(jobs);
+    parseFunction(jobs);
+    
   }
 
   /**************** acitivity sector ***************/

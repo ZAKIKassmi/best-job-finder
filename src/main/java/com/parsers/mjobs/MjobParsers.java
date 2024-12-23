@@ -15,6 +15,8 @@ public class MjobParsers extends Parser {
     parseExperience(jobs);
     parseStudyLevel(jobs);
     parseLanguage(jobs);
+    parseActivitySector(jobs);
+    parseFunction(jobs);
   }
 
   /************* Contract type ***************/

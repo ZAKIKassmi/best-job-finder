@@ -1,5 +1,17 @@
 package com.ui;
 
+import com.chartpages.ChartPage;
+import com.chartpages.ChartPage1;
+import com.chartpages.ChartPage10;
+import com.chartpages.ChartPage2;
+import com.chartpages.ChartPage3;
+import com.chartpages.ChartPage4;
+import com.chartpages.ChartPage5;
+import com.chartpages.ChartPage6;
+import com.chartpages.ChartPage7;
+import com.chartpages.ChartPage8;
+import com.chartpages.ChartPage9;
+
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -15,18 +27,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import com.chartpages.ChartPage;
-import com.chartpages.ChartPage1;
-import com.chartpages.ChartPage2;
-import com.chartpages.ChartPage3;
-import com.chartpages.ChartPage4;
-import com.chartpages.ChartPage5;
-import com.chartpages.ChartPage6;
-import com.chartpages.ChartPage7;
-import com.chartpages.ChartPage8;
-import com.chartpages.ChartPage9;
-import com.chartpages.ChartPage10;
 
 public class MainInterface extends Application {
 
