@@ -20,28 +20,7 @@ public class Main extends Application{
     }
     public static void main(String[] args) {
 
-        /*****Rekrute******/
-        /* 
-        RekruteRemoteParser.parseRemoteWork(jobs);
-        RekruteContractTypeParser.parseContractType(jobs);
-        publication date, salary, applyBefore verified and parsed at scrapping
-        RekruteActivitySectorParser.parseActivitySector(jobs);
-        RekruteCityParser.parseCity(jobs);
-        RekruteExperienceParser.parseExperience(jobs);
-        RekruteStudyLevelParser.parseStudyLevel(jobs);
-        RekruteFunctionParser.parseFunction(jobs);*/
         
-        
-        /*****MJOB******/
-        /*
-        MjobFunctionParser.parseFunction(jobs);
-        MjobCityParser.parseCity(jobs);
-        MjobContractType.parseContractType(jobs);
-        // Remote work verified
-        MjobExperienceParser.parseExperience(jobs);
-        MjobStudyLeverParser.parseStudyLevel(jobs);
-        */
-
 
         //to be checked if we have enough time
         // MjobActivitySectorParser.parseActivitySector(jobs);
@@ -56,38 +35,25 @@ public class Main extends Application{
         //     System.out.println(e);
         // }
 
-        List<Job> jobs = JsonHandler.getAllJobs();
+        List<Job> jobs = JsonHandler.getAllJobs("rekrute.json");
         HashSet<String> values = new HashSet<>();
+ 
 
-        //working
-        // EmploiStudyLevelParser.parseStudyLevel(jobs);
-        // EmploiRequiredExperience.parseRequiredExperience(jobs);
-        // EmploitCityParser.parseCity(jobs);
-        //function is already done
-        // EmploiContractTypeParser.parseContractType(jobs);
-
-        
-        
-        //test
+        // int count= 0;
+        // for(Job job:jobs){
+        //     if(job.getRequiredExperience() == null){
+        //         count++;
+        //     }
+        //     values.add(job.getRequiredExperience());
+        // }
 
 
-        //verify
-
-        int count= 0;
-        for(Job job:jobs){
-            if(job.getActivitySector() == null){
-                count++;
-            }
-            values.add(job.getActivitySector());
-        }
-
-
-        for(String value: values){
-            if(value != null){
-                System.out.println(value.toLowerCase());
-            }
-        }
-        System.out.println("Total null jobs: "+count+"\nSet size: "+ values.size());
+        // for(String value: values){
+        //     if(value != null){
+        //         System.out.println(value);
+        //     }
+        // }
+        // System.out.println("Total null jobs: "+count+"\nSet size: "+ values.size());
 
         
 

@@ -8,6 +8,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
+
+	protected static final Set<String> VALID_LANGUAGES = Set.of(
+		"espagnol",
+		"anglais",
+		"russe",
+		"allemand",
+		"arabic",
+		"français"
+	);
+
+	protected static final Map<Pattern, String> LANGUAGE_MAPPER = Map.ofEntries(
+		Map.entry(Pattern.compile("çais|fra|fr|français|français", Pattern.CASE_INSENSITIVE), "français"),
+		Map.entry(Pattern.compile("gnol|esp|es|espagnol", Pattern.CASE_INSENSITIVE), "espagnol"),
+		Map.entry(Pattern.compile("lais|ang|an|eng|english|anglais", Pattern.CASE_INSENSITIVE), "anglais"),
+		Map.entry(Pattern.compile("sse|ru|russe", Pattern.CASE_INSENSITIVE), "russe"),
+		Map.entry(Pattern.compile("mand|all|allemand", Pattern.CASE_INSENSITIVE), "allemand"),
+		Map.entry(Pattern.compile("abe|ar|arabe|arabic|berbère", Pattern.CASE_INSENSITIVE), "arabic")
+	);
+
+	protected static String mapLanguage(String language) {
+		for (Map.Entry<Pattern, String> entry : LANGUAGE_MAPPER.entrySet()) {
+			if (entry.getKey().matcher(language).find()) {
+				return entry.getValue();
+
+			}
+		}
+		return null;
+	}
+
+
 	protected static final Set<String> VALID_CONTRACT_TYPES = Set.of(
 			"cdi",
 			"cdd",

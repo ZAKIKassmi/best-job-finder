@@ -10,6 +10,16 @@ import com.main.Job;
 import com.parsers.Parser;
 
 public class RekruteParsers extends Parser{
+
+
+  public static void parseAll(List<Job> jobs) {
+    parseContractType(jobs);
+    parseCity(jobs);
+    parseRemoteWork(jobs);
+    parseExperience(jobs);
+    parseStudyLevel(jobs);
+  }
+
   /**************** acitivity sector ***************/
   public static void parseActivitySector(List<Job> jobs) {
     for (Job job : jobs) {

@@ -9,6 +9,15 @@ import com.parsers.Parser;
 
 public class EmploiParsers extends Parser {
 
+  public static void parseAll(List<Job> jobs) {
+    parseContractType(jobs);
+    parseCity(jobs);
+    parseRemote(jobs);
+    parseRequiredExperience(jobs);
+    parseStudyLevel(jobs);
+    parseLanguage(jobs);
+  }
+
   /******* Contract type *******/
   public static void parseContractType(List<Job> jobs) {
     for (Job job : jobs) {
@@ -131,6 +140,28 @@ public class EmploiParsers extends Parser {
           job.setCity(null);
         }
       }
+    }
+  }
+
+  /******** language parser *********/
+  public static String getLanguage(String language, boolean isLanguage) {
+    if (language == null || language.trim().isEmpty()) {
+      return null;
+    }
+    if (!language.contains(">")) {
+      return mapLanguage(language);
+    }
+
+    // Split the input string by " > "
+    String[] experiences = language.split(" > ");
+
+    return isLanguage == true ? mapLanguage(experiences[0]) : experiences[1];
+  }
+
+  public static void parseLanguage(List<Job> jobs) {
+    for (Job job : jobs) {
+      job.setLanguageLevel(getLanguage(job.getLanguage(), false));
+      job.setLanguage(getLanguage(job.getLanguage().toLowerCase().trim(), true));
     }
   }
 }

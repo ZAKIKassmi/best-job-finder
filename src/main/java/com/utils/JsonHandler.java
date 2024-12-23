@@ -56,10 +56,10 @@ public class JsonHandler {
         return null;
     }
 
-    public static List<Job> getAllJobs(){
+    public static List<Job> getAllJobs(String fileName){
       ObjectMapper mapper = new ObjectMapper();
       try {
-        List<Job> allJobs = mapper.readValue(new File("./src/main/resources/emploi.json"), mapper.getTypeFactory().constructCollectionType(List.class, Job.class));
+        List<Job> allJobs = mapper.readValue(new File("./src/main/resources/"+fileName), mapper.getTypeFactory().constructCollectionType(List.class, Job.class));
         return allJobs;
           
       } catch (IOException e) {

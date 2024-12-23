@@ -25,6 +25,7 @@ public class Job {
   private String hardSkills;
   private String language;
   private String applyBefore;
+  private String languageLevel;
 
   public void setPublicationDate(String publicationDate) {
     this.publicationDate = publicationDate;
@@ -135,6 +136,7 @@ public class Job {
         ",\n description de l'entreprise: '" + getEntrepriseDescription() + "'" +
         ",\n date: '" + getPublicationDate() + "'" +
         ",\n langue: '" + getLanguage() + "'" +
+        ",\n language level: '" + getLanguageLevel() + "'" +
         ",\n salary: '" + getSalary() + "'" +
         ",\n apply before: '" + getApplyBefore() + "'" +
         "}";
@@ -247,6 +249,14 @@ public class Job {
 
     public void setApplyBefore(String applyBefore) {
         this.applyBefore = applyBefore;
+    }
+
+    public String getLanguageLevel() {
+        return languageLevel;
+    }
+
+    public void setLanguageLevel(String languageLevel) {
+        this.languageLevel = languageLevel;
     }
 
 }

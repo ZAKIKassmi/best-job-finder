@@ -1,8 +1,3 @@
-com\main\Main.class
-com\scrap\RekruteScrapper.class
-com\db\DatabaseConnection.class
 com\main\Job.class
-com\ui\ButtonComponent.class
 com\scrap\Scrapper.class
 com\scrap\EmploiScrapper.class
-com\db\DatabaseServices.class
