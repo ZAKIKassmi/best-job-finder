@@ -9,15 +9,20 @@ import com.db.DatabaseServices;
 import com.parsers.emploi.EmploiParsers;
 import com.parsers.mjobs.MjobParsers;
 import com.parsers.rekrute.RekruteParsers;
-import com.ui.MainInterface;
+import com.scrap.EmploiScrapper;
+import com.scrap.MJob;
+import com.scrap.RekruteScrapper;
 import com.ui.dashboard.DashboardApp;
-import com.utils.JsonHandler;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application{
     private static final List<Job> jobs = Collections.synchronizedList(new ArrayList<>());
+    private static  List<Job> rekrute = Collections.synchronizedList(new ArrayList<>());
+    private static  List<Job> emploi = Collections.synchronizedList(new ArrayList<>());
+    private static  List<Job> mjobs = Collections.synchronizedList(new ArrayList<>());
+
     @Override
     public void start(Stage primaryStage) {
         DashboardApp dashboard = new DashboardApp();
@@ -27,19 +32,44 @@ public class Main extends Application{
     public static void main(String[] args) {
 
         
+        try{
+            System.out.println("Scrapping Rekrute...");
+            RekruteScrapper.startScrapping(rekrute);
+            System.out.println("Rekrute scrapping completed");
+
+
+            System.out.println("Scrapping emploit...");
+            EmploiScrapper.startScrapping(emploi);
+            System.out.println("Emploi scrapping completed");
+
+
+            System.out.println("Scrapping mjobs");
+            MJob.startScrapping(mjobs);
+            System.out.println("M-jobs scrapping completed");
+        }
+        catch(InterruptedException e){
+            System.out.println("Oops! something went wrong while scrapping. Error: "+e.getMessage());
+        }
+
 
         
 
-        List<Job> rekrute = JsonHandler.getAllJobs("rekrute.json");
-        List<Job> emploi = JsonHandler.getAllJobs("emploi.json");
-        List<Job> mjobs = JsonHandler.getAllJobs("mjobs.json");
+        // rekrute = JsonHandler.getAllJobs("rekrute.json");
+        // emploi = JsonHandler.getAllJobs("emploi.json");
+        // mjobs = JsonHandler.getAllJobs("mjobs.json");
         System.out.println("Parsing rekrute...");
         RekruteParsers.parseAll(rekrute);
+        System.out.println("Parsing rekrute completed...");
+
+
         System.out.println("Parsing emploi...");
         EmploiParsers.parseAll(emploi);
+        System.out.println("Parsing emploi completed...");
+
+
         System.out.println("Parsing mjobs...");
         MjobParsers.parseAll(mjobs);
-        System.out.println("Parsing completed");
+        System.out.println("Parsing mjobs completed");
 
         
 
@@ -51,14 +81,15 @@ public class Main extends Application{
         
 
 
-        // //create table
+        //create table
         DatabaseServices.createDatabaseSchema();
 
-        
+        System.out.println("Inserting to database...");
         DatabaseServices.insertJobsList(rekrute);
         DatabaseServices.insertJobsList(emploi);
         DatabaseServices.insertJobsList(mjobs);
-        MainInterface.main(args);
+        System.out.println("Inserting to the database is completed");
+        // MainInterface.main(args);
          
         DatabaseConnection.closeDataSource();
 

@@ -7,9 +7,9 @@ public class Job {
   private String requiredExperience;
   private String studyLevel;
   private String contractType;
-  private String searchedProfile;
   private String remoteWork;
   private String city;
+  private String searchedProfile;
   private String jobDescription;
 
   private String siteWeb;
