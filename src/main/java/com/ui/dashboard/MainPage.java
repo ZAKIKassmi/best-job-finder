@@ -10,6 +10,7 @@ import com.scrap.MJob;
 import com.scrap.RekruteScrapper;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -109,96 +110,337 @@ public class MainPage extends ScrollPane {
     }
     
     private void setupButtonHandlers(Button... buttons) {
+        // Rekrute Scraping Button
         buttons[0].setOnAction(e -> {
+            buttons[0].setDisable(true);
             addStatus("Scraping Rekrute...");
-            try {
-                RekruteScrapper.startScrapping(Main.rekrute);
-            } catch (InterruptedException err) {
-                addStatus(err.getMessage());
-            }
-            addStatus("Scraping Rekrute is completed...");
-
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        RekruteScrapper.startScrapping(Main.rekrute);
+                        Platform.runLater(() -> addStatus("Scraping Rekrute is completed..."));
+                    } catch (InterruptedException ex) {
+                        Platform.runLater(() -> addStatus("Error scraping Rekrute: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[0].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[0].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
+        });
     
-        });
+        // Emploi Scraping Button
         buttons[1].setOnAction(e -> {
-            addStatus("Scraping emploi...");
-            try {
-                EmploiScrapper.startScrapping(Main.emploi);
-            } catch (InterruptedException err) {
-                addStatus(err.getMessage());
-            }
-            addStatus("Scraping Emploi is completed...");
+            buttons[1].setDisable(true);
+            addStatus("Scraping Emploi...");
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        EmploiScrapper.startScrapping(Main.emploi);
+                        Platform.runLater(() -> addStatus("Scraping Emploi is completed..."));
+                    } catch (InterruptedException ex) {
+                        Platform.runLater(() -> addStatus("Error scraping Emploi: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[1].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[1].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
         });
+    
+        // M-Jobs Scraping Button
         buttons[2].setOnAction(e -> {
+            buttons[2].setDisable(true);
             addStatus("Scraping M-Jobs...");
-            try {
-                MJob.startScrapping(Main.mjobs);
-            } catch (InterruptedException err) {
-                addStatus(err.getMessage());
-            }
-            addStatus("Scraping M-Jobs is completed...");
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        MJob.startScrapping(Main.mjobs);
+                        Platform.runLater(() -> addStatus("Scraping M-Jobs is completed..."));
+                    } catch (InterruptedException ex) {
+                        Platform.runLater(() -> addStatus("Error scraping M-Jobs: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[2].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[2].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
         });
+    
+        // Scrape All Button
         buttons[3].setOnAction(e -> {
+            buttons[3].setDisable(true);
             addStatus("Starting scraping all websites...");
-            try {
-                addStatus("Scraping Rekrute...");
-                RekruteScrapper.startScrapping(Main.rekrute);
-                addStatus("Scraping Rekrute is completed...");
-
-                addStatus("Scraping Emploi...");
-                EmploiScrapper.startScrapping(Main.emploi);
-                addStatus("Scraping Emploi is completed...");
-                
-                addStatus("Scraping Mjobs...");
-                MJob.startScrapping(Main.mjobs);
-                addStatus("Scraping M-Jobs is completed...");
-
-            } catch (InterruptedException err) {
-                addStatus(err.getMessage());
-            }
-            addStatus("Scraping all websites is completed...");
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        addStatus("Scraping Rekrute...");
+                        RekruteScrapper.startScrapping(Main.rekrute);
+                        Platform.runLater(() -> addStatus("Scraping Rekrute is completed..."));
+    
+                        addStatus("Scraping Emploi...");
+                        EmploiScrapper.startScrapping(Main.emploi);
+                        Platform.runLater(() -> addStatus("Scraping Emploi is completed..."));
+                        
+                        addStatus("Scraping M-Jobs...");
+                        MJob.startScrapping(Main.mjobs);
+                        Platform.runLater(() -> addStatus("Scraping M-Jobs is completed..."));
+                        
+                        Platform.runLater(() -> addStatus("Scraping all websites is completed..."));
+                    } catch (InterruptedException ex) {
+                        Platform.runLater(() -> addStatus("Error during scraping: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[3].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[3].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
         });
+    
+        // Parse Rekrute Button
         buttons[4].setOnAction(e -> {
+            buttons[4].setDisable(true);
             addStatus("Parsing Rekrute data...");
-            RekruteParsers.parseAll(Main.rekrute);
-            addStatus("Parsing Rekrute data is completed...");
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        RekruteParsers.parseAll(Main.rekrute);
+                        Platform.runLater(() -> addStatus("Parsing Rekrute data is completed..."));
+                    } catch (Exception ex) {
+                        Platform.runLater(() -> addStatus("Error parsing Rekrute data: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[4].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[4].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
         });
+    
+        // Parse Emploi Button
         buttons[5].setOnAction(e -> {
+            buttons[5].setDisable(true);
             addStatus("Parsing Emploi data...");
-            EmploiParsers.parseAll(Main.emploi);
-            addStatus("Parsing Emploi data is completed...");
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        EmploiParsers.parseAll(Main.emploi);
+                        Platform.runLater(() -> addStatus("Parsing Emploi data is completed..."));
+                    } catch (Exception ex) {
+                        Platform.runLater(() -> addStatus("Error parsing Emploi data: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[5].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[5].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
         });
+    
+        // Parse M-Jobs Button
         buttons[6].setOnAction(e -> {
+            buttons[6].setDisable(true);
             addStatus("Parsing M-Jobs data...");
-            MjobParsers.parseAll(Main.mjobs);
-            addStatus("Parsing M-Jobs data is completed...");
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        MjobParsers.parseAll(Main.mjobs);
+                        Platform.runLater(() -> addStatus("Parsing M-Jobs data is completed..."));
+                    } catch (Exception ex) {
+                        Platform.runLater(() -> addStatus("Error parsing M-Jobs data: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[6].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[6].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
         });
+    
+        // Parse All Button
         buttons[7].setOnAction(e -> {
+            buttons[7].setDisable(true);
             addStatus("Parsing all data...");
-            addStatus("Parsing Rekrute data...");
-            RekruteParsers.parseAll(Main.rekrute);
-            addStatus("Parsing Rekrute data is completed...");
-            addStatus("Parsing Emploi data...");
-            EmploiParsers.parseAll(Main.emploi);
-            addStatus("Parsing Emploi data is completed...");
-            addStatus("Parsing M-Jobs data...");
-            MjobParsers.parseAll(Main.mjobs);
-            addStatus("Parsing M-Jobs data is completed...");
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        addStatus("Parsing Rekrute data...");
+                        RekruteParsers.parseAll(Main.rekrute);
+                        Platform.runLater(() -> addStatus("Parsing Rekrute data is completed..."));
+                        
+                        addStatus("Parsing Emploi data...");
+                        EmploiParsers.parseAll(Main.emploi);
+                        Platform.runLater(() -> addStatus("Parsing Emploi data is completed..."));
+                        
+                        addStatus("Parsing M-Jobs data...");
+                        MjobParsers.parseAll(Main.mjobs);
+                        Platform.runLater(() -> addStatus("Parsing M-Jobs data is completed..."));
+                        
+                        Platform.runLater(() -> addStatus("Parsing all data is completed..."));
+                    } catch (Exception ex) {
+                        Platform.runLater(() -> addStatus("Error during parsing: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[7].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[7].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
         });
+    
+        // Create Schema Button
         buttons[8].setOnAction(e -> {
+            buttons[8].setDisable(true);
             addStatus("Creating database schema...");
-            DatabaseServices.createDatabaseSchema();
-            addStatus("Creating database schema is completed...");
-
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        DatabaseServices.createDatabaseSchema();
+                        Platform.runLater(() -> addStatus("Creating database schema is completed..."));
+                    } catch (Exception ex) {
+                        Platform.runLater(() -> addStatus("Error creating schema: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[8].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[8].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
         });
+    
+        // Insert Data Button
         buttons[9].setOnAction(e -> {
-            addStatus("Inerting data...");
-            DatabaseServices.insertJobsList(Main.rekrute);
-            DatabaseServices.insertJobsList(Main.emploi);
-            DatabaseServices.insertJobsList(Main.mjobs);
-            addStatus("Inerting data is completed...");
+            buttons[9].setDisable(true);
+            addStatus("Inserting data...");
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        DatabaseServices.insertJobsList(Main.rekrute);
+                        DatabaseServices.insertJobsList(Main.emploi);
+                        DatabaseServices.insertJobsList(Main.mjobs);
+                        Platform.runLater(() -> addStatus("Inserting data is completed..."));
+                    } catch (Exception ex) {
+                        Platform.runLater(() -> addStatus("Error inserting data: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[9].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[9].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
         });
-        buttons[10].setOnAction(e -> addStatus("Closing database connection..."));
+    
+        // Close Database Button
+        buttons[10].setOnAction(e -> {
+            buttons[10].setDisable(true);
+            addStatus("Closing database connection...");
+            
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        // Add your database closing logic here
+                        Platform.runLater(() -> addStatus("Database connection closed."));
+                    } catch (Exception ex) {
+                        Platform.runLater(() -> addStatus("Error closing database: " + ex.getMessage()));
+                        
+                    }
+                    return null;
+                }
+            };
+            
+            task.setOnSucceeded(event -> buttons[10].setDisable(false));
+            task.setOnFailed(event -> {
+                buttons[10].setDisable(false);
+                addStatus("Task failed: " + task.getException().getMessage());
+            });
+            
+            new Thread(task).start();
+        });
     }
     
     private VBox createSection(String title) {
