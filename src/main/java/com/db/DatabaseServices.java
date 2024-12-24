@@ -212,6 +212,12 @@ public class DatabaseServices {
         return executeQuery(query);
     }
 
+    // Récupérer le nombre d'offres par metier
+    public static Map<String, Integer> getFunction() {
+        String query = "SELECT job_function, COUNT(*) AS total_jobs FROM jobs WHERE job_function IS NOT NULL GROUP BY job_function ORDER BY total_jobs DESC";
+        return executeQuery(query);
+    }
+
     // Récupérer les offres par expérience et type de contrat
     public static Map<String, Map<String, Integer>> getJobsByExperienceAndContractType() {
         String query = """
@@ -263,8 +269,6 @@ public class DatabaseServices {
         return executeComplexQuery(query);
     }
 
-    // Méthode générique pour exécuter une requête SQL et retourner les résultats
-    // sous forme de Map
     private static Map<String, Integer> executeQuery(String query) {
         Map<String, Integer> result = new HashMap<>();
         try (Connection connection = DatabaseConnection.getConnection();
@@ -329,5 +333,41 @@ public class DatabaseServices {
             System.out.println("Oops! something went wrong while fetching all jobs. Error: " + e.getMessage());
         }
         return null;
+    }
+
+    public static Map<String, String> getJobCountsBySite() {
+        Map<String, String> jobCounts = new HashMap<>();
+        
+        String queryBySite = "SELECT COUNT(*) as total, site_web FROM jobs GROUP BY site_web";
+        String queryTotal = "SELECT COUNT(*) as total FROM jobs";
+        
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            // Query job counts grouped by site
+            try (PreparedStatement preparedStatement = connection.prepareStatement(queryBySite);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                 
+                while (resultSet.next()) {
+                    String siteWeb = resultSet.getString("site_web");
+                    String total = resultSet.getString("total");
+                    jobCounts.put(siteWeb, total);
+                }
+            }
+    
+            // Query total job count
+            try (PreparedStatement totalStatement = connection.prepareStatement(queryTotal);
+                 ResultSet totalResultSet = totalStatement.executeQuery()) {
+                 
+                if (totalResultSet.next()) {
+                    String totalJobs = totalResultSet.getString("total");
+                    jobCounts.put("all", totalJobs);
+                }
+            }
+    
+        } catch (Exception e) {
+            System.err.println("Error while fetching job counts: " + e.getMessage());
+            
+        }
+        
+        return jobCounts;
     }
 }

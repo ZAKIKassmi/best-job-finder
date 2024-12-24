@@ -165,7 +165,7 @@ public class MainInterface extends Application {
     }
 
     // Crée un bouton stylisé avec animation au survol
-    private Button createButton(String text) {
+    public Button createButton(String text) {
         Button button = new Button(text);
         button.setPrefWidth(250);
         button.setPrefHeight(40);
