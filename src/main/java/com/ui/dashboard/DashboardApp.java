@@ -18,9 +18,11 @@ public class DashboardApp extends Application {
     private MainPage mainPage;
     private OverviewPage overviewPage;
     private SearchPage searchPage;
+    private JobFilterApp jobFilterApp;
     private Button mainButton;
     private Button overviewButton;
     private Button searchButton;
+    private Button AIButton;
     private Text title;
 
     @Override
@@ -34,8 +36,9 @@ public class DashboardApp extends Application {
         
         // Initialize pages
         mainPage = new MainPage();
-        overviewPage = new OverviewPage(primaryStage, root, title);  // Pass required parameters
+        overviewPage = new OverviewPage(primaryStage, root, title); 
         searchPage = new SearchPage();
+        jobFilterApp = new JobFilterApp();
         
         // Create and setup navigation
         VBox navigation = createNavigation();
@@ -72,6 +75,14 @@ public class DashboardApp extends Application {
         overviewButton = createNavButton("Overview", true);
         mainButton = createNavButton("Main Controls", false);
         searchButton = createNavButton("Search", false);
+        AIButton = createNavButton("AI & Predictions", false);
+
+
+        AIButton.setOnAction(e -> {
+            setActiveButton(AIButton);
+            root.setCenter(jobFilterApp);
+            
+        });
         
         // Add button handlers
         overviewButton.setOnAction(e -> {
@@ -99,6 +110,7 @@ public class DashboardApp extends Application {
             dashboardTitle,
             overviewButton,
             mainButton,
+            AIButton,
             searchButton
         );
         
@@ -124,6 +136,7 @@ public class DashboardApp extends Application {
         setInactiveButtonStyle(overviewButton);
         setInactiveButtonStyle(mainButton);
         setInactiveButtonStyle(searchButton);
+        setInactiveButtonStyle(AIButton);
         
         // Set the clicked button to active style
         setActiveButtonStyle(activeButton);
@@ -148,23 +161,6 @@ public class DashboardApp extends Application {
             "-fx-background-radius: 5;" +
             "-fx-cursor: hand;"
         );
-        
-        // Add hover effect
-        button.setOnMouseEntered(e -> button.setStyle(
-            "-fx-background-color: #34495e;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 14px;" +
-            "-fx-background-radius: 5;" +
-            "-fx-cursor: hand;"
-        ));
-        
-        button.setOnMouseExited(e -> button.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-text-fill: #ecf0f1;" +
-            "-fx-font-size: 14px;" +
-            "-fx-background-radius: 5;" +
-            "-fx-cursor: hand;"
-        ));
     }
     
     public static void main(String[] args) {

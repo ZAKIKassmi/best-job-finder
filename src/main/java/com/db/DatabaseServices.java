@@ -370,4 +370,63 @@ public class DatabaseServices {
         
         return jobCounts;
     }
+
+    public static List<Job> selectAll() {
+        List<Job> jobs = new ArrayList<>();
+        String query = """
+                SELECT id, job_title, activity_sector, job_function, required_experience, 
+                       study_level, contract_type, searched_profile, remote_work, city, 
+                       job_description, site_web, image_url, job_page_url, entreprise, 
+                       entreprise_address, publication_date, entreprise_description, 
+                       soft_skills, salary, region, hard_skills, language, 
+                       apply_before, language_level
+                FROM jobs
+                """;
+                
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            
+            while (resultSet.next()) {
+                Job job = new Job();
+                job.setJobTitle(resultSet.getString("job_title"));
+                job.setActivitySector(resultSet.getString("activity_sector"));
+                job.setFunction(resultSet.getString("job_function"));
+                job.setRequiredExperience(resultSet.getString("required_experience"));
+                job.setStudyLevel(resultSet.getString("study_level"));
+                job.setContractType(resultSet.getString("contract_type"));
+                job.setSearchedProfile(resultSet.getString("searched_profile"));
+                job.setRemoteWork(resultSet.getString("remote_work"));
+                job.setCity(resultSet.getString("city"));
+                job.setJobDescription(resultSet.getString("job_description"));
+                job.setSiteWeb(resultSet.getString("site_web"));
+                job.setImageUrl(resultSet.getString("image_url"));
+                job.setJobPageUrl(resultSet.getString("job_page_url"));
+                job.setEntreprise(resultSet.getString("entreprise"));
+                job.setEntrepriseAddress(resultSet.getString("entreprise_address"));
+                job.setPublicationDate(resultSet.getString("publication_date"));
+                job.setEntrepriseDescription(resultSet.getString("entreprise_description"));
+                job.setSoftSkills(resultSet.getString("soft_skills"));
+                
+                // Handle nullable salary field
+                Double salary = resultSet.getDouble("salary");
+                if (!resultSet.wasNull()) {
+                    job.setSalary(salary);
+                }
+                
+                job.setRegion(resultSet.getString("region"));
+                job.setHardSkills(resultSet.getString("hard_skills"));
+                job.setLanguage(resultSet.getString("language"));
+                job.setApplyBefore(resultSet.getString("apply_before"));
+                job.setLanguageLevel(resultSet.getString("language_level"));
+                
+                jobs.add(job);
+            }
+            return jobs;
+            
+        } catch (SQLException e) {
+            System.err.println("Error while fetching all jobs: " + e.getMessage());
+            return new ArrayList<>(); 
+        }
+    }
 }

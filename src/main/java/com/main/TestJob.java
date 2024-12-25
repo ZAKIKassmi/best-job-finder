@@ -7,6 +7,7 @@ public class TestJob {
   private String contractType;
   private String remoteWork;
   private String city;
+  private String function;
 
   
 

@@ -78,7 +78,19 @@ public class MainPage extends ScrollPane {
         dbButtons.add(closeDbBtn, 2, 0);
         
         dbSection.getChildren().add(dbButtons);
-        
+
+        //Pretreamtment
+        VBox preProcessingSection = createSection("Data pre-Processing");
+        GridPane preProcessingGrid = new GridPane();
+        preProcessingGrid.setHgap(10);
+        preProcessingGrid.setVgap(10);
+
+        Button dataPreProcessingBtn = createActionButton("Pre-Processing", "#d35400");
+        preProcessingGrid.add(dataPreProcessingBtn, 0, 0);
+        preProcessingSection.getChildren().add(dataPreProcessingBtn);
+
+
+
         // Status Section
         VBox statusSection = createSection("Status Updates");
         
@@ -94,14 +106,14 @@ public class MainPage extends ScrollPane {
         statusSection.getChildren().add(statusTextArea);
         
         // Add all sections to content
-        content.getChildren().addAll(scrapingSection, parsingSection, dbSection, statusSection);
+        content.getChildren().addAll(scrapingSection, parsingSection, dbSection,preProcessingSection, statusSection);
         
         // Button Event Handlers
         
 
             setupButtonHandlers(rekruteScrapBtn, emploiScrapBtn, mjobsScrapBtn, allScrapBtn,
             rekruteParseBtn, emploiParseBtn, mjobsParseBtn, allParseBtn,
-            createSchemaBtn, insertDataBtn, closeDbBtn);
+            createSchemaBtn, insertDataBtn, closeDbBtn, dataPreProcessingBtn);
         
         
         setContent(content);
@@ -440,6 +452,33 @@ public class MainPage extends ScrollPane {
             });
             
             new Thread(task).start();
+        });
+        buttons[11].setOnAction(e -> {
+            buttons[10].setDisable(true);
+            addStatus("fetching data...");
+            addStatus("Pre processing data");
+            //Fetch and process data
+            // Task<Void> task = new Task<>() {
+            //     @Override
+            //     protected Void call() throws Exception {
+            //         try {
+            //             // Add your database closing logic here
+            //             Platform.runLater(() -> addStatus("Database connection closed."));
+            //         } catch (Exception ex) {
+            //             Platform.runLater(() -> addStatus("Error closing database: " + ex.getMessage()));
+                        
+            //         }
+            //         return null;
+            //     }
+            // };
+            
+            // task.setOnSucceeded(event -> buttons[10].setDisable(false));
+            // task.setOnFailed(event -> {
+            //     buttons[10].setDisable(false);
+            //     addStatus("Task failed: " + task.getException().getMessage());
+            // });
+            
+            // new Thread(task).start();
         });
     }
     
