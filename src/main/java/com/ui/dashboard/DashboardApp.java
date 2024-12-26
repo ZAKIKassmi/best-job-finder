@@ -110,8 +110,8 @@ public class DashboardApp extends Application {
             dashboardTitle,
             overviewButton,
             mainButton,
-            AIButton,
-            searchButton
+            AIButton
+            // searchButton
         );
         
         return navigation;

@@ -58,6 +58,16 @@ public  class HashMapData {
     
     // Predefined Experience Map
     public static HashMap<String, String> experienceMap = new HashMap<>() {{
+        put("0", "fraichement diplômé");
+        put("1", "débutant (de 1 à 3 ans)");
+        put("2", "junior (de 3 à 5 ans)");
+        put("3", "senior (de 5 à 10 ans)");
+        put("4", "expert (10 ou plus)");
+    }};
+    
+    // Predefined Study Map
+    public static HashMap<String, String> studyMap = new HashMap<>() {{
+        
         put("0", "bac");
         put("1", "bac +1");
         put("2", "bac +2");
@@ -67,15 +77,6 @@ public  class HashMapData {
         put("6", "doctorat");
         put("7", "autodidacte");
         put("8", "qualification avant bac");
-    }};
-    
-    // Predefined Study Map
-    public static HashMap<String, String> studyMap = new HashMap<>() {{
-        put("0", "fraichement diplômé");
-        put("1", "débutant (de 1 à 3 ans)");
-        put("2", "junior (de 3 à 5 ans)");
-        put("3", "senior (de 5 à 10 ans)");
-        put("4", "expert (10 ou plus)");
     }};
     
     // Predefined Contract Map
@@ -202,6 +203,14 @@ public  class HashMapData {
     }};
 
     public static HashMap<String, Integer> experienceMapName = new HashMap<>() {{
+        put("fraichement diplômé", 0);
+        put("débutant (de 1 à 3 ans)", 1);
+        put("junior (de 3 à 5 ans)", 2);
+        put("senior (de 5 à 10 ans)", 3);
+        put("expert (10 ou plus)", 4);
+    }};
+
+    public static HashMap<String, Integer> studyMapName = new HashMap<>() {{
         put("bac", 0);
         put("bac +1", 1);
         put("bac +2", 2);
@@ -211,14 +220,6 @@ public  class HashMapData {
         put("doctorat", 6);
         put("autodidacte", 7);
         put("qualification avant bac", 8);
-    }};
-
-    public static HashMap<String, Integer> studyMapName = new HashMap<>() {{
-        put("fraichement diplômé", 0);
-        put("débutant (de 1 à 3 ans)", 1);
-        put("junior (de 3 à 5 ans)", 2);
-        put("senior (de 5 à 10 ans)", 3);
-        put("expert (10 ou plus)", 4);
     }};
 
     public static HashMap<String, Integer> contractMapName = new HashMap<>() {{

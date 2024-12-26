@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.ai.HashMapData;
 import com.ai.Prediction;
 import com.db.DatabaseServices;
 import com.ui.dashboard.DashboardApp;
@@ -65,6 +64,12 @@ public class Main extends Application{
         // MjobParsers.parseAll(mjobs);
         // System.out.println("Parsing mjobs completed");
 
+
+
+
+
+
+
         
 
         
@@ -74,6 +79,13 @@ public class Main extends Application{
 
 
         
+
+
+
+
+
+
+
 
 
         //create table
@@ -98,7 +110,7 @@ public class Main extends Application{
         }
 
         // Classifier.TrainModel(jobs);
-        Prediction predictor = new Prediction();
+        Prediction predictor = new Prediction(2);
         for (TestJob job : jobs) {
             if (job.getCity() == null || job.getCity().isEmpty() ||
                 job.getActivitySector() == null || job.getActivitySector().isEmpty() || 
@@ -113,14 +125,30 @@ public class Main extends Application{
 
         try {
             predictor.trainModel();
-            String predictedContract = predictor.predictContractType(
-            "9",           
-            "5",    
-            "1",     
-            "0",       
-            "3"         
-            );
-            System.out.println("predicted: "+HashMapData.contractMap.get(predictedContract));
+            // String predictedContract = predictor.predictContractType(
+            // "9",           
+            // "4",    
+            // "1",     
+            // "0",       
+            // "3"         
+            // );
+            // System.out.println("predicted: "+HashMapData.contractMap.get(predictedContract));
+            
+            // String predictedRemote = predictor.predictRemoteWork("10", "4", "1", "1", "3");
+            // System.out.println("predicted: "+HashMapData.remoteMap.get(predictedRemote));
+            // String predictCity = predictor.predictCity("3", "4", "4", "2", "1");
+            // System.out.println("predicted: "+HashMapData.cityMap.get(predictCity));
+            // String predictSector = predictor.predictActivitySector("2", "0", "2", "5", "3");
+            // System.out.println("predicted: "+HashMapData.sectorMap.get(predictSector));
+            // String predictExperience = predictor.predictExperience("26", "4", "2", "0", "3");
+            // System.out.println("predicted: "+HashMapData.experienceMap.get(predictExperience));
+            // String predictStudyLevel = predictor.predictStudyLevel("26", "4", "2", "0", "3");
+            // System.out.println("predicted: "+HashMapData.studyMap.get(predictStudyLevel));
+
+
+
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
