@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.ai.Prediction;
+import com.ai.HashMapData;
+import com.ai.RandomForestPrediction;
 import com.db.DatabaseServices;
 import com.ui.dashboard.DashboardApp;
 
@@ -25,44 +26,7 @@ public class Main extends Application{
     
     public static void main(String[] args) {
 
-        
-        // try{
-        //     System.out.println("Scrapping Rekrute...");
-        //     RekruteScrapper.startScrapping(rekrute);
-        //     System.out.println("Rekrute scrapping completed");
-
-
-        //     System.out.println("Scrapping emploit...");
-        //     EmploiScrapper.startScrapping(emploi);
-        //     System.out.println("Emploi scrapping completed");
-
-
-        //     System.out.println("Scrapping mjobs");
-        //     MJob.startScrapping(mjobs);
-        //     System.out.println("M-jobs scrapping completed");
-        // }
-        // catch(InterruptedException e){
-        //     System.out.println("Oops! something went wrong while scrapping. Error: "+e.getMessage());
-        // }
-
-        // List<Job> rekrute = JsonHandler.getAllJobs("rekrute.json");
-        // List<Job> emploi = JsonHandler.getAllJobs("emploi.json");
-        // List<Job> mjobs = JsonHandler.getAllJobs("mjobs.json");
-        
-
-        // System.out.println("Parsing rekrute...");
-        // RekruteParsers.parseAll(rekrute);
-        // System.out.println("Parsing rekrute completed...");
-
-
-        // System.out.println("Parsing emploi...");
-        // EmploiParsers.parseAll(emploi);
-        // System.out.println("Parsing emploi completed...");
-
-
-        // System.out.println("Parsing mjobs...");
-        // MjobParsers.parseAll(mjobs);
-        // System.out.println("Parsing mjobs completed");
+       
 
 
 
@@ -74,7 +38,7 @@ public class Main extends Application{
 
         
 
-        Application.launch(args);
+        // Application.launch(args);
 
 
 
@@ -88,20 +52,7 @@ public class Main extends Application{
 
 
 
-        //create table
-        // DatabaseServices.createDatabaseSchema();
-
-        // System.out.println("Inserting to database...");
-        // DatabaseServices.insertJobsList(rekrute);
-        // DatabaseServices.insertJobsList(emploi);
-        // DatabaseServices.insertJobsList(mjobs);
-        // System.out.println("Inserting to the database is completed");
-        // MainInterface.main(args);
-         
-        // DatabaseConnection.closeDataSource();
-
-
-        //Train the model using Classifier class that contains models
+        
       
         ArrayList<TestJob> jobs = DatabaseServices.getAllJobs();
         if(jobs == null){
@@ -109,11 +60,8 @@ public class Main extends Application{
             return;
         }
 
-        // Classifier.TrainModel(jobs);
-        //Prediction has a class index and it depends it's the target value
-        //
-
-        Prediction predictor = new Prediction(2);
+       
+        RandomForestPrediction predictor = new RandomForestPrediction(1);
         for (TestJob job : jobs) {
             if (job.getCity() == null || job.getCity().isEmpty() ||
                 job.getActivitySector() == null || job.getActivitySector().isEmpty() || 
@@ -140,11 +88,11 @@ public class Main extends Application{
             // String predictCity = predictor.predictCity("3", "4", "4", "2", "1");
             // System.out.println("predicted: "+HashMapData.cityMap.get(predictCity));
             //if traget === 0
-            String predictSector = predictor.predictActivitySector("2", "0", "2", "5", "3");
+            // String predictSector = predictor.predictActivitySector("2", "0", "2", "5", "3");
             // System.out.println("predicted: "+HashMapData.sectorMap.get(predictSector));
             //if target === 1
-            // String predictExperience = predictor.predictExperience("26", "4", "2", "0", "3");
-            // System.out.println("predicted: "+HashMapData.experienceMap.get(predictExperience));
+            String predictExperience = predictor.predictExperience("26", "4", "2", "0", "3");
+            System.out.println("predicted: "+HashMapData.experienceMap.get(predictExperience));
             //if target === 2
             // String predictStudyLevel = predictor.predictStudyLevel("26", "4", "2", "0", "3");
             // System.out.println("predicted: "+HashMapData.studyMap.get(predictStudyLevel));

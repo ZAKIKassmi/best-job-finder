@@ -17,6 +17,8 @@ import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.StringToNominal;
 
 public class Classifier {
+
+  
   
   public static void TrainModel(ArrayList<TestJob> jobs) {
     ArrayList<Attribute> attributes = new ArrayList<>();

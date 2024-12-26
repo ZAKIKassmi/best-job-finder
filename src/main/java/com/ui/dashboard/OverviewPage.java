@@ -74,6 +74,9 @@ import javafx.scene.control.Separator;
             setStyle("-fx-background-color: #f8f9fa;");
         }
 
+
+        
+
         private VBox createChartNavigation() {
             VBox chartMenu = new VBox(20);
             chartMenu.setAlignment(Pos.CENTER);
