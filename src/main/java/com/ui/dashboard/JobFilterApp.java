@@ -5,11 +5,14 @@ import java.util.HashMap;
 
 import com.ai.DecisionTreePrediction;
 import com.ai.HashMapData;
+import com.ai.NaiveBayesPrediction;
 import com.ai.Prediction;
 import com.ai.RandomForestPrediction;
+import com.ai.SVMPrediction;
 import com.db.DatabaseServices;
 import com.main.TestJob;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,6 +29,7 @@ import javafx.util.StringConverter;
 
 public class JobFilterApp extends VBox {
 
+    private TextArea statusTextArea;
     private static final HashMap<String, Integer> targetIndices = new HashMap<>() {{
         put("Activity Sector", 0);
         put("Required Experience", 1);
@@ -165,10 +169,13 @@ public class JobFilterApp extends VBox {
     private String getPrediction(int targetIndex, String type) {
         ArrayList<TestJob> jobs = DatabaseServices.getAllJobs();
         if(jobs == null){
-            resultArea.setText("No job opportunities were found at this time. Please double check the database");
+            statusTextArea.setText("No job opportunities were found at this time. Please double check the database");  // Changed from resultArea
             return null;
         }
-        Prediction predictor = type.equals("tree") ? new DecisionTreePrediction(targetIndex) : new RandomForestPrediction(targetIndex);
+        Prediction predictor = type.equals("tree") ? new DecisionTreePrediction(targetIndex) 
+                            :  type.equals("forest") ? new RandomForestPrediction(targetIndex)
+                            :  type.equals("bayes") ? new NaiveBayesPrediction(targetIndex)
+                            :   new SVMPrediction(targetIndex);
         
         for (TestJob job : jobs) {
             if (job.getCity() == null || job.getCity().isEmpty() ||
@@ -256,23 +263,25 @@ public class JobFilterApp extends VBox {
     private void updateDisplay() {
         String targetField = targetFieldCombo.getValue();
         if (targetField == null) {
-            resultArea.setText("Please select a target field");
+            statusTextArea.setText("Please select a target field");  // Changed from resultArea
             return;
         }
 
         Integer targetIndex = targetIndices.get(targetField);
         if (targetIndex == null) {
-            resultArea.setText("Invalid target field");
+            statusTextArea.setText("Invalid target field");  // Changed from resultArea
             return;
         }
-
-        String fristPrediction = getPrediction(targetIndex, "tree");
-        String secondPrediction = getPrediction(targetIndex, "forest");
-
-
+        String treePrediction = getPrediction(targetIndex, "tree");
+        String forestPrediction = getPrediction(targetIndex, "forest");
+        String bayesPredicion = getPrediction(targetIndex, "bayes");
+        String SVMPrediction = getPrediction(targetIndex, "SVM");
+        System.out.println(bayesPredicion);
+        String treeValue = getValueForPrediction(targetIndex, treePrediction);
+        String forestValue = getValueForPrediction(targetIndex, forestPrediction);
+        String bayesValue = getValueForPrediction(targetIndex, bayesPredicion);
+        String SVMValue = getValueForPrediction(targetIndex, SVMPrediction);
         
-        String predictionValue = getValueForPrediction(targetIndex, fristPrediction);
-        String predictionValue2 = getValueForPrediction(targetIndex, secondPrediction);
         String displayText = String.format(
             """
             Selected Target Field: %s
@@ -281,16 +290,27 @@ public class JobFilterApp extends VBox {
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             decision tree predicted: %s
             Random Forest predicted: %s
+            Naive Bayes predicted: %s
+            SVM predicted: %s
             """,
             targetField,
-            predictionValue,
-            predictionValue2
+            treeValue,
+            forestValue,
+            bayesValue,
+            SVMValue
         );
         
-        resultArea.setText(displayText);
+        statusTextArea.setText(displayText);  
     }
 
-    
+    public void addStatus(String message) {
+        Platform.runLater(() -> {
+            String timestamp = java.time.LocalTime.now().toString().substring(0, 8);
+            statusTextArea.appendText("[" + timestamp + "] " + message + "\n");
+            statusTextArea.setScrollTop(Double.MAX_VALUE);
+        });
+    }
+
 
     // Helper methods for UI creation remain largely the same
     private GridPane createFilterGrid() {
@@ -328,24 +348,40 @@ public class JobFilterApp extends VBox {
         return actionSection;
     }
 
-    private VBox createResultsSection() {
-        VBox resultsSection = new VBox(10);
-        resultsSection.setStyle("-fx-background-color: #f8f9fa; -fx-background-radius: 5; " +
-                              "-fx-border-color: #e0e0e0; -fx-border-radius: 5;");
-        resultsSection.setPadding(new Insets(20));
-
-        Label resultsLabel = new Label("Filter Results");
-        resultsLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
-        resultsLabel.setStyle("-fx-text-fill: #2c3e50;");
-
-        resultArea = new TextArea();
-        resultArea.setEditable(false);
-        resultArea.setPrefRowCount(8);
-        resultArea.setWrapText(true);
-        resultArea.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; " +
-                          "-fx-font-size: 13px; -fx-padding: 10;");
-
-        resultsSection.getChildren().addAll(resultsLabel, resultArea);
-        return resultsSection;
+    private VBox createSection(String title) {
+        VBox section = new VBox();
+        section.setSpacing(15);
+        section.setPadding(new Insets(15));
+        section.setStyle(
+            "-fx-background-color: white;" +
+            "-fx-border-radius: 5;" +
+            "-fx-background-radius: 5;" +
+            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);"
+        );
+        
+        Label titleLabel = new Label(title);
+        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        
+        section.getChildren().add(titleLabel);
+        return section;
     }
+    private VBox createResultsSection() {
+        VBox statusSection = createSection("Status Updates");
+        
+        statusTextArea = new TextArea();
+        statusTextArea.setEditable(false);
+        statusTextArea.setPrefRowCount(10);
+        statusTextArea.setStyle(
+            "-fx-control-inner-background: #f8f9fa;" +
+            "-fx-font-family: 'Courier New';" +
+            "-fx-font-size: 14px;"
+        );
+        
+        statusSection.getChildren().add(statusTextArea);
+
+      
+        return statusSection;
+    }
+
+    
 }
