@@ -3,7 +3,7 @@ package com.ai;
 import weka.classifiers.Classifier;
 import weka.classifiers.trees.J48;
 
-public class DecisionTreePrediction extends Prediction {
+public class DecisionTreePrediction extends Model {
     
     public DecisionTreePrediction(int classIndex) {
         super(classIndex);

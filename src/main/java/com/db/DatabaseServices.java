@@ -17,6 +17,29 @@ import com.main.TestJob;
 public class DatabaseServices {
 
     // Create the schema (jobs table)
+
+    public static void createUserTable(){
+        try (Connection connection = DatabaseConnection.getConnection()) {
+
+            String createUsersTable = """
+                CREATE TABLE IF NOT EXISTS users (
+                    id SERIAL PRIMARY KEY,
+                    username VARCHAR(50) UNIQUE NOT NULL,
+                    password VARCHAR(255) NOT NULL,
+                    email VARCHAR(100) UNIQUE NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    );
+                    """;
+                        
+                    Statement statement = connection.createStatement();
+                    statement.execute(createUsersTable);
+                    System.out.println("User table has been created successfully");
+            } catch (SQLException e) {
+                System.err.println("Oops! something went wrong while creating table. Error: " + e.getMessage());
+            }
+        
+    }
+
     public static void createDatabaseSchema() {
         try (Connection connection = DatabaseConnection.getConnection()) {
 
@@ -428,5 +451,13 @@ public class DatabaseServices {
             System.err.println("Error while fetching all jobs: " + e.getMessage());
             return new ArrayList<>(); 
         }
+
+
+
+       
+    }
+    
+    public static void selectJobsWithSalary(){
+            
     }
 }

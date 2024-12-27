@@ -3,7 +3,7 @@ package com.ai;
 import weka.classifiers.Classifier;
 import weka.classifiers.trees.RandomForest;
 
-public class RandomForestPrediction extends Prediction {
+public class RandomForestPrediction extends Model {
     
     public RandomForestPrediction(int classIndex) {
         super(classIndex);

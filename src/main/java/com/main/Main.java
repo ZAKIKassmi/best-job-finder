@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.ui.dashboard.DashboardApp;
+import com.auth.LoginPage;
+import com.db.DatabaseServices;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -16,15 +17,15 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) {
-        DashboardApp dashboard = new DashboardApp();
-        dashboard.start(primaryStage);
+        LoginPage loginPage = new LoginPage(primaryStage);
+        loginPage.show();
+
     }
     
     public static void main(String[] args) {
 
-
         
-
+        DatabaseServices.createUserTable();
         Application.launch(args);
 
 

@@ -3,7 +3,7 @@ package com.ai;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
 
-public class NaiveBayesPrediction extends Prediction {
+public class NaiveBayesPrediction extends Model {
     
     public NaiveBayesPrediction(int classIndex) {
         super(classIndex);

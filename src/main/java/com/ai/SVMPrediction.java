@@ -4,7 +4,7 @@ import weka.classifiers.Classifier;
 import weka.classifiers.functions.SMO;
 import weka.core.SelectedTag;
 
-public class SVMPrediction extends Prediction {
+public class SVMPrediction extends Model {
     
     public SVMPrediction(int classIndex) {
         super(classIndex);

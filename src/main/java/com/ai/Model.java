@@ -11,12 +11,12 @@ import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
 
-public abstract class Prediction {
+public abstract class Model {
     protected Classifier classifier;
     protected Instances trainingDataset;
     protected ArrayList<Attribute> attributes;
 
-    public Prediction(int classIndex) {
+    public Model(int classIndex) {
         // Initialize fields using private final methods
         this.attributes = initializeAttributes();
         this.trainingDataset = initializeDataset(classIndex);

@@ -1,17 +1,36 @@
-E:\Desktop\projet de java\src\main\java\com\utils\JsonHandler.java
-E:\Desktop\projet de java\src\main\java\com\parsers\ActivitySectorParser.java
-E:\Desktop\projet de java\src\main\java\com\parsers\ExperienceParser.java
-E:\Desktop\projet de java\src\main\java\com\scrap\MJob.java
-E:\Desktop\projet de java\src\main\java\com\scrap\Scrapper.java
-E:\Desktop\projet de java\src\main\java\com\scrap\EmploiScrapper.java
-E:\Desktop\projet de java\src\main\java\com\db\DatabaseConnection.java
-E:\Desktop\projet de java\src\main\java\com\main\Main.java
-E:\Desktop\projet de java\src\main\java\com\ui\ButtonComponent.java
-E:\Desktop\projet de java\src\main\java\com\db\DatabaseServices.java
-E:\Desktop\projet de java\src\main\java\com\parsers\StudyLevelParser.java
-E:\Desktop\projet de java\src\main\java\com\parsers\ContractTypeParser.java
-E:\Desktop\projet de java\src\main\java\com\main\Job.java
-E:\Desktop\projet de java\src\main\java\com\parsers\RemoteParser.java
-E:\Desktop\projet de java\src\main\java\com\scrap\RekruteScrapper.java
-E:\Desktop\projet de java\src\main\java\com\parsers\Parser.java
-E:\Desktop\projet de java\src\main\java\com\parsers\CityParser.java
+D:\java\scrap\demo_scrap\src\main\java\com\ai\DecisionTreePrediction.java
+D:\java\scrap\demo_scrap\src\main\java\com\parsers\emploi\EmploiParsers.java
+D:\java\scrap\demo_scrap\src\main\java\com\utils\JsonHandler.java
+D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\JobFilterApp.java
+D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\SearchPage.java
+D:\java\scrap\demo_scrap\src\main\java\com\db\DatabaseConnection.java
+D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\DashboardApp.java
+D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\OverviewPage.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage7.java
+D:\java\scrap\demo_scrap\src\main\java\com\main\Job.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage4.java
+D:\java\scrap\demo_scrap\src\main\java\com\main\Main.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage1.java
+D:\java\scrap\demo_scrap\src\main\java\com\ai\RandomForestPrediction.java
+D:\java\scrap\demo_scrap\src\main\java\com\scrap\EmploiScrapper.java
+D:\java\scrap\demo_scrap\src\main\java\com\ai\Model.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage5.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage2.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage8.java
+D:\java\scrap\demo_scrap\src\main\java\com\parsers\mjobs\MjobParsers.java
+D:\java\scrap\demo_scrap\src\main\java\com\scrap\MJob.java
+D:\java\scrap\demo_scrap\src\main\java\com\parsers\Parser.java
+D:\java\scrap\demo_scrap\src\main\java\com\scrap\Scrapper.java
+D:\java\scrap\demo_scrap\src\main\java\com\ai\HashMapData.java
+D:\java\scrap\demo_scrap\src\main\java\com\ai\NaiveBayesPrediction.java
+D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\MainPage.java
+D:\java\scrap\demo_scrap\src\main\java\com\main\TestJob.java
+D:\java\scrap\demo_scrap\src\main\java\com\db\DatabaseServices.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage6.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage9.java
+D:\java\scrap\demo_scrap\src\main\java\com\scrap\RekruteScrapper.java
+D:\java\scrap\demo_scrap\src\main\java\com\parsers\rekrute\RekruteParsers.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage10.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage3.java
+D:\java\scrap\demo_scrap\src\main\java\com\ai\SVMPrediction.java

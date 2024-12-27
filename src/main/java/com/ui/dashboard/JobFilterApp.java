@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 import com.ai.DecisionTreePrediction;
 import com.ai.HashMapData;
+import com.ai.Model;
 import com.ai.NaiveBayesPrediction;
-import com.ai.Prediction;
 import com.ai.RandomForestPrediction;
 import com.ai.SVMPrediction;
 import com.db.DatabaseServices;
@@ -172,7 +172,7 @@ public class JobFilterApp extends VBox {
             statusTextArea.setText("No job opportunities were found at this time. Please double check the database");  // Changed from resultArea
             return null;
         }
-        Prediction predictor = type.equals("tree") ? new DecisionTreePrediction(targetIndex) 
+        Model predictor = type.equals("tree") ? new DecisionTreePrediction(targetIndex) 
                             :  type.equals("forest") ? new RandomForestPrediction(targetIndex)
                             :  type.equals("bayes") ? new NaiveBayesPrediction(targetIndex)
                             :   new SVMPrediction(targetIndex);

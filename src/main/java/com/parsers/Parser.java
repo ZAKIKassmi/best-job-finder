@@ -115,7 +115,7 @@ public class Parser {
 			"Transports, logistique, services postaux");
 
 	protected static final Map<Pattern, String> ACTIVITY_SECTOR_MAPPER = Map.ofEntries(
-			Map.entry(Pattern.compile("centre", Pattern.CASE_INSENSITIVE),
+			Map.entry(Pattern.compile("centre|hotline|centres|center", Pattern.CASE_INSENSITIVE),
 					"Centres d´appel, hotline, call center"),
 			Map.entry(Pattern.compile("btp", Pattern.CASE_INSENSITIVE), "BTP, construction"),
 			Map.entry(Pattern.compile("comptabilité|conseil|consulting", Pattern.CASE_INSENSITIVE),
