@@ -3,8 +3,10 @@ package com.ui.dashboard;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.ai.DecisionTreePrediction;
 import com.ai.HashMapData;
 import com.ai.Prediction;
+import com.ai.RandomForestPrediction;
 import com.db.DatabaseServices;
 import com.main.TestJob;
 
@@ -160,14 +162,14 @@ public class JobFilterApp extends VBox {
         return selected != null ? selected.getValue() : null;
     }
 
-    private String getPrediction(int targetIndex) {
+    private String getPrediction(int targetIndex, String type) {
         ArrayList<TestJob> jobs = DatabaseServices.getAllJobs();
         if(jobs == null){
             resultArea.setText("No job opportunities were found at this time. Please double check the database");
             return null;
         }
-
-        Prediction predictor = new Prediction(targetIndex);
+        Prediction predictor = type.equals("tree") ? new DecisionTreePrediction(targetIndex) : new RandomForestPrediction(targetIndex);
+        
         for (TestJob job : jobs) {
             if (job.getCity() == null || job.getCity().isEmpty() ||
                 job.getActivitySector() == null || job.getActivitySector().isEmpty() || 
@@ -264,54 +266,31 @@ public class JobFilterApp extends VBox {
             return;
         }
 
-        String prediction = getPrediction(targetIndex);
+        String fristPrediction = getPrediction(targetIndex, "tree");
+        String secondPrediction = getPrediction(targetIndex, "forest");
 
 
         
-        String predictionValue = getValueForPrediction(targetIndex, prediction);
+        String predictionValue = getValueForPrediction(targetIndex, fristPrediction);
+        String predictionValue2 = getValueForPrediction(targetIndex, secondPrediction);
         String displayText = String.format(
             """
             Selected Target Field: %s
-            
-            Current Inputs:
-            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            Activity Sector: %s (%s)
-            Required Experience: %s (%s)
-            Study Level: %s (%s)
-            Contract Type: %s (%s)
-            Remote Work: %s (%s)
-            City: %s (%s)
-            
+
             Prediction Result:
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            Predicted %s: %s
-            (Key: %s)
+            decision tree predicted: %s
+            Random Forest predicted: %s
             """,
             targetField,
-            getSelectedValue(sectorCombo), activitySectorKey,
-            getSelectedValue(experienceCombo), requiredExperienceKey,
-            getSelectedValue(studyCombo), studyLevelKey,
-            getSelectedValue(contractCombo), contractTypeKey,
-            getSelectedValue(remoteCombo), remoteWorkKey,
-            getSelectedValue(cityCombo), cityKey,
-            targetField, predictionValue, prediction
+            predictionValue,
+            predictionValue2
         );
         
         resultArea.setText(displayText);
     }
 
-    private String getValueForKey(String field, String key) {
-        if (key == null) return null;
-        return switch (field) {
-            case "Activity Sector" -> sectorMap.get(key);
-            case "Required Experience" -> experienceMap.get(key);
-            case "Study Level" -> studyMap.get(key);
-            case "Contract Type" -> contractMap.get(key);
-            case "Remote Work" -> remoteMap.get(key);
-            case "City" -> cityMap.get(key);
-            default -> null;
-        };
-    }
+    
 
     // Helper methods for UI creation remain largely the same
     private GridPane createFilterGrid() {

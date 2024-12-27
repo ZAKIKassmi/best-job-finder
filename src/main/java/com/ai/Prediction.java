@@ -1,28 +1,32 @@
+// Prediction.java
 package com.ai;
 
 import java.util.ArrayList;
 
 import com.main.TestJob;
 
-import weka.classifiers.trees.J48;
+import weka.classifiers.Classifier;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
 
-public class Prediction {
-    private J48 tree;
-    private Instances trainingDataset;
-    private ArrayList<Attribute> attributes;
+public abstract class Prediction {
+    protected Classifier classifier;
+    protected Instances trainingDataset;
+    protected ArrayList<Attribute> attributes;
 
     public Prediction(int classIndex) {
-        // Initialize the model
-        tree = new J48();
-        setupAttributes(classIndex);
+        // Initialize fields using private final methods
+        this.attributes = initializeAttributes();
+        this.trainingDataset = initializeDataset(classIndex);
+        this.classifier = initializeClassifier();
     }
 
-    private void setupAttributes(int classIndex) {
-        attributes = new ArrayList<>();
+    protected abstract Classifier createClassifier();
+
+    private  ArrayList<Attribute> initializeAttributes() {
+        ArrayList<Attribute> attrs = new ArrayList<>();
 
         ArrayList<String> sectorValues = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
@@ -54,20 +58,35 @@ public class Prediction {
             cityValues.add(String.valueOf(i));
         }
 
-        // Define possible values for each nominal attribute
-
         // Add all attributes
-        attributes.add(new Attribute("activitySector", sectorValues));
-        attributes.add(new Attribute("requiredExperience", experienceValues));
-        attributes.add(new Attribute("studyLevel", studyValues));
-        attributes.add(new Attribute("contractType", contractValues)); // class attribute
-        attributes.add(new Attribute("remoteWork", remoteValues));
-        attributes.add(new Attribute("city", cityValues));
+        attrs.add(new Attribute("activitySector", sectorValues));
+        attrs.add(new Attribute("requiredExperience", experienceValues));
+        attrs.add(new Attribute("studyLevel", studyValues));
+        attrs.add(new Attribute("contractType", contractValues));
+        attrs.add(new Attribute("remoteWork", remoteValues));
+        attrs.add(new Attribute("city", cityValues));
 
-        // Create empty training dataset
-        trainingDataset = new Instances("JobData", attributes, 0);
-        trainingDataset.setClassIndex(classIndex); // contractType is the class
+        return attrs;
     }
+
+    private  Instances initializeDataset(int classIndex) {
+        // Create empty training dataset
+        Instances dataset = new Instances("JobData", attributes, 0);
+        dataset.setClassIndex(classIndex);
+        return dataset;
+    }
+
+    private  Classifier initializeClassifier() {
+        Classifier clf = createClassifier();
+        configureClassifier(clf);
+        return clf;
+    }
+
+    protected void configureClassifier(Classifier classifier) {
+        // Default implementation does nothing
+        // Subclasses can override this to add their specific configuration
+    }
+
 
     public void addTrainingData(TestJob job) {
         // Check if any value in the required fields is null
@@ -95,11 +114,9 @@ public class Prediction {
         if (cityValue == null)
             return;
 
-        // If all values are non-null, proceed with creating and adding the instance
         Instance instance = new DenseInstance(6);
         instance.setDataset(trainingDataset);
 
-        // Set values for all attributes
         instance.setValue(attributes.get(0), sectorValue);
         instance.setValue(attributes.get(1), experienceValue);
         instance.setValue(attributes.get(2), studyValue);
@@ -111,68 +128,64 @@ public class Prediction {
     }
 
     public void trainModel() throws Exception {
-        tree.buildClassifier(trainingDataset);
+        classifier.buildClassifier(trainingDataset);
     }
 
-    public String predictActivitySector(String experience,
-            String study, String remote, String contractType, String city) throws Exception {
-        // Create test instance
+    protected String predict(Instance testInstance) throws Exception {
+        double prediction = classifier.classifyInstance(testInstance);
+        return trainingDataset.classAttribute().value((int) prediction);
+    }
+
+    protected Instance createTestInstance() {
         Instance testInstance = new DenseInstance(6);
         testInstance.setDataset(trainingDataset);
+        return testInstance;
+    }
 
-        // Set known values
+    public String predictActivitySector(String experience, String study, String remote, String contractType,
+            String city) throws Exception {
+        Instance testInstance = createTestInstance();
         testInstance.setValue(attributes.get(1), experience);
         testInstance.setValue(attributes.get(2), study);
         testInstance.setValue(attributes.get(3), contractType);
-        // Contract type is what we're predicting (index 3)
         testInstance.setValue(attributes.get(4), remote);
         testInstance.setValue(attributes.get(5), city);
-
-        // Make prediction
-        double prediction = tree.classifyInstance(testInstance);
-        return trainingDataset.classAttribute().value((int) prediction);
+        return predict(testInstance);
     }
-    public String predictExperience(String sector,
-            String study, String remote, String contractType, String city) throws Exception {
-        // Create test instance
-        Instance testInstance = new DenseInstance(6);
-        testInstance.setDataset(trainingDataset);
 
-        // Set known values
+    // Similar implementation for other predict methods
+    public String predictExperience(String sector, String study, String remote, String contractType, String city)
+            throws Exception {
+        Instance testInstance = createTestInstance();
         testInstance.setValue(attributes.get(0), sector);
         testInstance.setValue(attributes.get(2), study);
         testInstance.setValue(attributes.get(3), contractType);
-        // Contract type is what we're predicting (index 3)
         testInstance.setValue(attributes.get(4), remote);
         testInstance.setValue(attributes.get(5), city);
-
-        // Make prediction
-        double prediction = tree.classifyInstance(testInstance);
-        return trainingDataset.classAttribute().value((int) prediction);
+        return predict(testInstance);
     }
+
     public String predictStudyLevel(String sector,
             String experience, String remote, String contractType, String city) throws Exception {
         // Create test instance
-        Instance testInstance = new DenseInstance(6);
-        testInstance.setDataset(trainingDataset);
+        Instance testInstance = createTestInstance();
 
         // Set known values
         testInstance.setValue(attributes.get(0), sector);
         testInstance.setValue(attributes.get(1), experience);
         testInstance.setValue(attributes.get(3), contractType);
-        // Contract type is what we're predicting (index 3)
+
         testInstance.setValue(attributes.get(4), remote);
         testInstance.setValue(attributes.get(5), city);
 
         // Make prediction
-        double prediction = tree.classifyInstance(testInstance);
-        return trainingDataset.classAttribute().value((int) prediction);
+        return predict(testInstance);
     }
+
     public String predictContractType(String sector, String experience,
             String study, String remote, String city) throws Exception {
         // Create test instance
-        Instance testInstance = new DenseInstance(6);
-        testInstance.setDataset(trainingDataset);
+        Instance testInstance = createTestInstance();
 
         // Set known values
         testInstance.setValue(attributes.get(0), sector);
@@ -183,14 +196,12 @@ public class Prediction {
         testInstance.setValue(attributes.get(5), city);
 
         // Make prediction
-        double prediction = tree.classifyInstance(testInstance);
-        return trainingDataset.classAttribute().value((int) prediction);
+        return predict(testInstance);
     }
 
-
-    public String predictRemoteWork(String sector, String experience, String study, String contractType, String city) throws Exception{
-        Instance testInstance = new DenseInstance(6);
-        testInstance.setDataset(trainingDataset);
+    public String predictRemoteWork(String sector, String experience, String study, String contractType, String city)
+            throws Exception {
+                Instance testInstance = createTestInstance();
 
         testInstance.setValue(attributes.get(0), sector);
         testInstance.setValue(attributes.get(1), experience);
@@ -198,13 +209,13 @@ public class Prediction {
         // Contract type is what we're predicting (index 4)
         testInstance.setValue(attributes.get(3), contractType);
         testInstance.setValue(attributes.get(5), city);
-        double prediction = tree.classifyInstance(testInstance);
-        return trainingDataset.classAttribute().value((int) prediction);
+        return predict(testInstance);
 
     }
-    public String predictCity(String sector, String experience, String study, String contractType, String remoteWork) throws Exception{
-        Instance testInstance = new DenseInstance(6);
-        testInstance.setDataset(trainingDataset);
+
+    public String predictCity(String sector, String experience, String study, String contractType, String remoteWork)
+            throws Exception {
+                Instance testInstance = createTestInstance();
 
         testInstance.setValue(attributes.get(0), sector);
         testInstance.setValue(attributes.get(1), experience);
@@ -212,13 +223,13 @@ public class Prediction {
         // Contract type is what we're predicting (index 4)
         testInstance.setValue(attributes.get(3), contractType);
         testInstance.setValue(attributes.get(4), remoteWork);
-        double prediction = tree.classifyInstance(testInstance);
-        return trainingDataset.classAttribute().value((int) prediction);
+        return predict(testInstance);
 
     }
 
-    // Optional: Get the decision tree rules
-    public String getModelRules() {
-        return tree.toString();
-    }
+    public abstract String getModelInfo();
 }
+
+
+
+

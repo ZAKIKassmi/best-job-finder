@@ -38,7 +38,7 @@ public class Main extends Application{
 
         
 
-        // Application.launch(args);
+        Application.launch(args);
 
 
 
@@ -75,7 +75,7 @@ public class Main extends Application{
         }
 
         try {
-            predictor.trainModel();
+            // predictor.trainModel();
             //if target === 3
             // String predictedContract = predictor.predictContractType("9", "4", "1", "0", "3");
             // System.out.println("predicted: "+HashMapData.contractMap.get(predictedContract));
