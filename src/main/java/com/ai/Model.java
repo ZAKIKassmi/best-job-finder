@@ -227,6 +227,11 @@ public abstract class Model {
 
     }
 
+    public Double predictSalary(String sector, String experience, String study, 
+                              String contractType, String remote, String city) throws Exception {
+                                return null;
+                              }
+
     public abstract String getModelInfo();
 }
 

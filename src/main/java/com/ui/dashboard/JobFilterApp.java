@@ -9,6 +9,7 @@ import com.ai.Model;
 import com.ai.NaiveBayesPrediction;
 import com.ai.RandomForestPrediction;
 import com.ai.SVMPrediction;
+import com.ai.SalaryRegression;
 import com.db.DatabaseServices;
 import com.main.TestJob;
 
@@ -37,6 +38,7 @@ public class JobFilterApp extends VBox {
         put("Contract Type", 3);
         put("Remote Work", 4);
         put("City", 5);
+        put("Salary", 6);
     }};
 
     // Fields for storing the selected keys
@@ -65,6 +67,29 @@ public class JobFilterApp extends VBox {
     private ComboBox<String> targetFieldCombo;
     private TextArea resultArea;
     private Button submitButton;
+
+    private void disableCorrespondingComboBox(String targetField) {
+        // First enable all combo boxes
+        sectorCombo.setDisable(false);
+        experienceCombo.setDisable(false);
+        studyCombo.setDisable(false);
+        contractCombo.setDisable(false);
+        remoteCombo.setDisable(false);
+        cityCombo.setDisable(false);
+
+        // Disable the combo box corresponding to the selected target field
+        switch (targetField) {
+            case "Activity Sector" -> sectorCombo.setDisable(true);
+            case "Required Experience" -> experienceCombo.setDisable(true);
+            case "Study Level" -> studyCombo.setDisable(true);
+            case "Contract Type" -> contractCombo.setDisable(true);
+            case "Remote Work" -> remoteCombo.setDisable(true);
+            case "City" -> cityCombo.setDisable(true);
+            case "Salary" -> {
+                // For salary prediction, keep all combo boxes enabled
+            }
+        }
+    }
 
     public JobFilterApp() {
         // Basic setup remains the same
@@ -106,12 +131,19 @@ public class JobFilterApp extends VBox {
         // Create target field selector
         targetFieldCombo = new ComboBox<>(FXCollections.observableArrayList(
             "Activity Sector", "Required Experience", "Study Level",
-            "Contract Type", "Remote Work", "City"
+            "Contract Type", "Remote Work", "City", "Salary"
         ));
         targetFieldCombo.setStyle("-fx-background-color: white; -fx-border-color: #3498db; " +
                                 "-fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 5; " +
                                 "-fx-pref-height: 35; -fx-border-width: 2;");
         targetFieldCombo.setPromptText("Select Target Field");
+
+        targetFieldCombo.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                disableCorrespondingComboBox(newValue);
+            }
+        });
+        
 
         // Add components to grid
         addToGrid(filterGrid, "Activity Sector", sectorCombo, 0, 0);
@@ -168,14 +200,17 @@ public class JobFilterApp extends VBox {
 
     private String getPrediction(int targetIndex, String type) {
         ArrayList<TestJob> jobs = DatabaseServices.getAllJobs();
+        
+       
         if(jobs == null){
-            statusTextArea.setText("No job opportunities were found at this time. Please double check the database");  // Changed from resultArea
+            addStatus("No job opportunities were found at this time. Please double check the database");  // Changed from resultArea
             return null;
         }
         Model predictor = type.equals("tree") ? new DecisionTreePrediction(targetIndex) 
                             :  type.equals("forest") ? new RandomForestPrediction(targetIndex)
                             :  type.equals("bayes") ? new NaiveBayesPrediction(targetIndex)
-                            :   new SVMPrediction(targetIndex);
+                            :  new SVMPrediction(targetIndex);
+                            
         
         for (TestJob job : jobs) {
             if (job.getCity() == null || job.getCity().isEmpty() ||
@@ -186,6 +221,7 @@ public class JobFilterApp extends VBox {
                 job.getRemoteWork() == null || job.getRemoteWork().isEmpty()) {
                 continue;
             }
+            
             predictor.addTrainingData(job);
         }
 
@@ -221,6 +257,43 @@ public class JobFilterApp extends VBox {
             }; 
         } catch (Exception e) {
             return "Prediction error: " + e.getMessage();
+        }
+    }
+
+    private Double getSalaryPrediction() {
+        ArrayList<TestJob> jobs = new ArrayList<>();
+        jobs = DatabaseServices.getJobsWithSalary();
+     
+        if(jobs == null){
+            addStatus("No job opportunities were found at this time. Please double check the database");  // Changed from resultArea
+            return null;
+        }
+        Model predictor =  new SalaryRegression();
+        
+        for (TestJob job : jobs) {
+            if (job.getCity() == null || job.getCity().isEmpty() ||
+                job.getActivitySector() == null || job.getActivitySector().isEmpty() || 
+                job.getRequiredExperience() == null || job.getRequiredExperience().isEmpty() || 
+                job.getStudyLevel() == null || job.getStudyLevel().isEmpty() || 
+                job.getContractType() == null || job.getContractType().isEmpty() || 
+                job.getRemoteWork() == null || job.getRemoteWork().isEmpty()) {
+                continue;
+            }
+            
+            predictor.addTrainingData(job);
+        }
+
+        try {
+            predictor.trainModel();
+            // We need to exclude the target field from the inputs
+            System.out.println(predictor.getModelInfo());
+            return predictor.predictSalary(activitySectorKey(), experienceKey(),
+                studyLevelKey(), contractTypeKey(), remoteWorkKey(), cityKey()
+                );
+      
+        } catch (Exception e) {
+            
+            return null;
         }
     }
     private String activitySectorKey() {
@@ -263,20 +336,31 @@ public class JobFilterApp extends VBox {
     private void updateDisplay() {
         String targetField = targetFieldCombo.getValue();
         if (targetField == null) {
-            statusTextArea.setText("Please select a target field");  // Changed from resultArea
+            addStatus("Please select a target field");  // Changed from resultArea
             return;
         }
 
         Integer targetIndex = targetIndices.get(targetField);
         if (targetIndex == null) {
-            statusTextArea.setText("Invalid target field");  // Changed from resultArea
+            addStatus("Invalid target field");  // Changed from resultArea
+            return;
+        }
+
+        if(targetIndex == 6){
+            Double predictedSalary = getSalaryPrediction();
+            if(predictedSalary == null){
+                addStatus("Oops! something went wrong");
+                return;
+            }
+            
+            addStatus("Predicted Salary is: "+String.format("%.2f", predictedSalary)+"DH");
             return;
         }
         String treePrediction = getPrediction(targetIndex, "tree");
         String forestPrediction = getPrediction(targetIndex, "forest");
         String bayesPredicion = getPrediction(targetIndex, "bayes");
-        String SVMPrediction = getPrediction(targetIndex, "SVM");
-        System.out.println(bayesPredicion);
+        String SVMPrediction = getPrediction(targetIndex, "svm");
+
         String treeValue = getValueForPrediction(targetIndex, treePrediction);
         String forestValue = getValueForPrediction(targetIndex, forestPrediction);
         String bayesValue = getValueForPrediction(targetIndex, bayesPredicion);
@@ -300,7 +384,7 @@ public class JobFilterApp extends VBox {
             SVMValue
         );
         
-        statusTextArea.setText(displayText);  
+        addStatus(displayText);  
     }
 
     public void addStatus(String message) {

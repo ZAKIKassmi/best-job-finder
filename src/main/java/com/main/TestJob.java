@@ -8,7 +8,8 @@ public class TestJob {
   private String remoteWork;
   private String city;
   private String function;
-
+  private Double Salary;
+  
   
 
   public String getActivitySector() {
@@ -71,4 +72,20 @@ public class TestJob {
       ",\n remoteWork='" + getRemoteWork() + "'\n" +
       "}";
   }
+
+    public Double getSalary() {
+        return Salary;
+    }
+
+    public void setSalary(Double Salary) {
+        this.Salary = Salary;
+    }
+
+    public String getFunction() {
+        return function;
+    }
+
+    public void setFunction(String function) {
+        this.function = function;
+    }
 }
