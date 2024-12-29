@@ -1,0 +1,88 @@
+Date : 2024-12-25 17:22:15
+Directory : d:\java\scrap\demo_scrap
+Total : 38 files,  58079 codes, 344 comments, 890 blanks, all 59313 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| JSON     |          3 |     52,419 |          0 |          0 |     52,419 |
+| Java     |         33 |      3,504 |        343 |        865 |      4,712 |
+| CSV      |          1 |      2,043 |          0 |          1 |      2,044 |
+| XML      |          1 |        113 |          1 |         24 |        138 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                           | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                              |         38 |     58,079 |        344 |        890 |     59,313 |
+| . (Files)                                                                      |          1 |        113 |          1 |         24 |        138 |
+| src                                                                            |         37 |     57,966 |        343 |        866 |     59,175 |
+| src\main                                                                       |         37 |     57,966 |        343 |        866 |     59,175 |
+| src\main\java                                                                  |         33 |      3,504 |        343 |        865 |      4,712 |
+| src\main\java\com                                                              |         33 |      3,504 |        343 |        865 |      4,712 |
+| src\main\java\com\ai                                                           |          2 |        125 |         12 |         31 |        168 |
+| src\main\java\com\chartpages                                                   |         11 |        349 |         92 |        159 |        600 |
+| src\main\java\com\dataTreatment                                                |          1 |         60 |          6 |         13 |         79 |
+| src\main\java\com\db                                                           |          2 |        391 |         22 |         66 |        479 |
+| src\main\java\com\main                                                         |          3 |        305 |         51 |        114 |        470 |
+| src\main\java\com\parsers                                                      |          4 |        831 |         63 |        155 |      1,049 |
+| src\main\java\com\parsers (Files)                                              |          1 |        398 |         31 |         51 |        480 |
+| src\main\java\com\parsers\emploi                                               |          1 |        124 |          9 |         34 |        167 |
+| src\main\java\com\parsers\mjobs                                                |          1 |        138 |         11 |         40 |        189 |
+| src\main\java\com\parsers\rekrute                                              |          1 |        171 |         12 |         30 |        213 |
+| src\main\java\com\scrap                                                        |          4 |        396 |         12 |         94 |        502 |
+| src\main\java\com\ui                                                           |          5 |        987 |         85 |        222 |      1,294 |
+| src\main\java\com\ui (Files)                                                   |          1 |        155 |         13 |         28 |        196 |
+| src\main\java\com\ui\dashboard                                                 |          4 |        832 |         72 |        194 |      1,098 |
+| src\main\java\com\utils                                                        |          1 |         60 |          0 |         11 |         71 |
+| src\main\resources                                                             |          4 |     54,462 |          0 |          1 |     54,463 |
+| src\main\resources (Files)                                                     |          3 |     52,419 |          0 |          0 |     52,419 |
+| src\main\resources\csv                                                         |          1 |      2,043 |          0 |          1 |      2,044 |
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                       | language | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\java\scrap\demo_scrap\pom.xml                                               | XML      |        113 |          1 |         24 |        138 |
+| d:\java\scrap\demo_scrap\src\main\java\com\ai\Classifier.java                  | Java     |         72 |          2 |         18 |         92 |
+| d:\java\scrap\demo_scrap\src\main\java\com\ai\Project2.java                    | Java     |         53 |         10 |         13 |         76 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage.java           | Java     |          7 |          0 |          4 |         11 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage1.java          | Java     |         26 |          6 |         19 |         51 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage10.java         | Java     |         40 |         12 |         15 |         67 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage2.java          | Java     |         24 |          5 |         12 |         41 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage3.java          | Java     |         32 |          8 |         17 |         57 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage4.java          | Java     |         34 |          9 |         15 |         58 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage5.java          | Java     |         32 |          6 |         18 |         56 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage6.java          | Java     |         34 |         10 |         14 |         58 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage7.java          | Java     |         40 |         12 |         15 |         67 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage8.java          | Java     |         40 |         12 |         15 |         67 |
+| d:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage9.java          | Java     |         40 |         12 |         15 |         67 |
+| d:\java\scrap\demo_scrap\src\main\java\com\dataTreatment\DataTreatment.java    | Java     |         60 |          6 |         13 |         79 |
+| d:\java\scrap\demo_scrap\src\main\java\com\db\DatabaseConnection.java          | Java     |         34 |          2 |         10 |         46 |
+| d:\java\scrap\demo_scrap\src\main\java\com\db\DatabaseServices.java            | Java     |        357 |         20 |         56 |        433 |
+| d:\java\scrap\demo_scrap\src\main\java\com\main\Job.java                       | Java     |        227 |          4 |         57 |        288 |
+| d:\java\scrap\demo_scrap\src\main\java\com\main\Main.java                      | Java     |         21 |         47 |         40 |        108 |
+| d:\java\scrap\demo_scrap\src\main\java\com\main\TestJob.java                   | Java     |         57 |          0 |         17 |         74 |
+| d:\java\scrap\demo_scrap\src\main\java\com\parsers\Parser.java                 | Java     |        398 |         31 |         51 |        480 |
+| d:\java\scrap\demo_scrap\src\main\java\com\parsers\emploi\EmploiParsers.java   | Java     |        124 |          9 |         34 |        167 |
+| d:\java\scrap\demo_scrap\src\main\java\com\parsers\mjobs\MjobParsers.java      | Java     |        138 |         11 |         40 |        189 |
+| d:\java\scrap\demo_scrap\src\main\java\com\parsers\rekrute\RekruteParsers.java | Java     |        171 |         12 |         30 |        213 |
+| d:\java\scrap\demo_scrap\src\main\java\com\scrap\EmploiScrapper.java           | Java     |        117 |          5 |         33 |        155 |
+| d:\java\scrap\demo_scrap\src\main\java\com\scrap\MJob.java                     | Java     |        143 |          5 |         32 |        180 |
+| d:\java\scrap\demo_scrap\src\main\java\com\scrap\RekruteScrapper.java          | Java     |        102 |          2 |         14 |        118 |
+| d:\java\scrap\demo_scrap\src\main\java\com\scrap\Scrapper.java                 | Java     |         34 |          0 |         15 |         49 |
+| d:\java\scrap\demo_scrap\src\main\java\com\ui\MainInterface.java               | Java     |        155 |         13 |         28 |        196 |
+| d:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\DashboardApp.java      | Java     |        127 |         11 |         30 |        168 |
+| d:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\MainPage.java          | Java     |        387 |         38 |         98 |        523 |
+| d:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\OverviewPage.java      | Java     |        237 |         20 |         44 |        301 |
+| d:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\SearchPage.java        | Java     |         81 |          3 |         22 |        106 |
+| d:\java\scrap\demo_scrap\src\main\java\com\utils\JsonHandler.java              | Java     |         60 |          0 |         11 |         71 |
+| d:\java\scrap\demo_scrap\src\main\resources\csv\data.csv                       | CSV      |      2,043 |          0 |          1 |      2,044 |
+| d:\java\scrap\demo_scrap\src\main\resources\emploi.json                        | JSON     |     13,177 |          0 |          0 |     13,177 |
+| d:\java\scrap\demo_scrap\src\main\resources\mjobs.json                         | JSON     |      7,105 |          0 |          0 |      7,105 |
+| d:\java\scrap\demo_scrap\src\main\resources\rekrute.json                       | JSON     |     32,137 |          0 |          0 |     32,137 |
+| Total                                                                          |          |     58,079 |        344 |        890 |     59,313 |
++--------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
