@@ -1,5 +1,6 @@
 package com.ui.dashboard;
 import com.auth.LoginPage;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -76,7 +77,7 @@ public class DashboardApp extends Application {
         overviewButton = createNavButton("Overview", true);
         mainButton = createNavButton("Main Controls", false);
         searchButton = createNavButton("Search", false);
-        AIButton = createNavButton("AI & Predictions", false);
+        AIButton = createNavButton("Machine Learning", false);
         deconnexionButton = createNavButton("Déconnexion", false); // Create Déconnexion button
 
         AIButton.setOnAction(e -> {

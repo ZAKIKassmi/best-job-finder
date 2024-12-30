@@ -144,7 +144,7 @@ import javafx.scene.control.Separator;
             // Add decorative separator
             Separator separator = new Separator();
             separator.setStyle("-fx-background-color: #3498db;");
-            separator.setPadding(new Insets(2, 0, 10, 0));
+            separator.setPadding(new Insets(1, 0, 1, 0));
         
             // Add all components to the menu
             chartMenu.getChildren().addAll(chartsTitle, separator, buttonGrid);

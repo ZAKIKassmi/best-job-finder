@@ -97,7 +97,7 @@ public class JobFilterApp extends VBox {
         setPadding(new Insets(30));
         setStyle("-fx-background-color: #f8f9fa;");
 
-        Label titleLabel = new Label("Job Search Filters");
+        Label titleLabel = new Label("JMachine learning");
         titleLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
         titleLabel.setStyle("-fx-text-fill: #2c3e50;");
 
