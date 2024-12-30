@@ -1,0 +1,8 @@
+- String activitySector;
+- String requiredExperience;
+- String studyLevel;
+- String contractType;
+- String remoteWork;
+- String city;
+- String function;
+- Double Salary;

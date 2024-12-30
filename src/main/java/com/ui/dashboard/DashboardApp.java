@@ -1,5 +1,5 @@
 package com.ui.dashboard;
-
+import com.auth.LoginPage;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -23,6 +23,7 @@ public class DashboardApp extends Application {
     private Button overviewButton;
     private Button searchButton;
     private Button AIButton;
+    private Button deconnexionButton; // Added button for Déconnexion
     private Text title;
 
     @Override
@@ -36,12 +37,12 @@ public class DashboardApp extends Application {
         
         // Initialize pages
         mainPage = new MainPage();
-        overviewPage = new OverviewPage(primaryStage, root, title); 
+        overviewPage = new OverviewPage(primaryStage, root, title);
         searchPage = new SearchPage();
         jobFilterApp = new JobFilterApp();
         
         // Create and setup navigation
-        VBox navigation = createNavigation();
+        VBox navigation = createNavigation(primaryStage); // Pass primaryStage to navigation creation
         root.setLeft(navigation);
         
         // Set initial content
@@ -56,7 +57,7 @@ public class DashboardApp extends Application {
         primaryStage.show();
     }
     
-    private VBox createNavigation() {
+    private VBox createNavigation(Stage primaryStage) {
         VBox navigation = new VBox();
         navigation.setStyle(
             "-fx-background-color: #2c3e50;" +
@@ -76,23 +77,17 @@ public class DashboardApp extends Application {
         mainButton = createNavButton("Main Controls", false);
         searchButton = createNavButton("Search", false);
         AIButton = createNavButton("AI & Predictions", false);
-
+        deconnexionButton = createNavButton("Déconnexion", false); // Create Déconnexion button
 
         AIButton.setOnAction(e -> {
             setActiveButton(AIButton);
             root.setCenter(jobFilterApp);
-            
         });
         
         // Add button handlers
         overviewButton.setOnAction(e -> {
             setActiveButton(overviewButton);
-            // Recreate OverviewPage with current parameters when navigating
-            overviewPage = new OverviewPage(
-                (Stage) root.getScene().getWindow(),
-                root,
-                title
-            );
+            overviewPage = new OverviewPage((Stage) root.getScene().getWindow(), root, title);
             root.setCenter(overviewPage);
         });
         
@@ -106,12 +101,20 @@ public class DashboardApp extends Application {
             root.setCenter(searchPage);
         });
         
+        deconnexionButton.setOnAction(e -> {
+            // Return to LoginPage
+            LoginPage loginPage = new LoginPage(primaryStage);
+            loginPage.show();
+        });
+        
+        // Add all buttons to navigation
         navigation.getChildren().addAll(
             dashboardTitle,
             overviewButton,
             mainButton,
             AIButton,
-            searchButton
+            searchButton,
+            deconnexionButton
         );
         
         return navigation;
@@ -137,6 +140,7 @@ public class DashboardApp extends Application {
         setInactiveButtonStyle(mainButton);
         setInactiveButtonStyle(searchButton);
         setInactiveButtonStyle(AIButton);
+        setInactiveButtonStyle(deconnexionButton);
         
         // Set the clicked button to active style
         setActiveButtonStyle(activeButton);

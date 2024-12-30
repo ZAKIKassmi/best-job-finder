@@ -5,6 +5,7 @@
     import com.chartpages.ChartPage;
     import com.chartpages.ChartPage1;
     import com.chartpages.ChartPage10;
+    import com.chartpages.ChartPage11;
     import com.chartpages.ChartPage2;
     import com.chartpages.ChartPage3;
     import com.chartpages.ChartPage4;
@@ -102,6 +103,7 @@ import javafx.scene.control.Separator;
                 createButton("Graphique par Niveau d'Études"),
                 createButton("Graphique par Type de Contrat"),
                 createButton("Graphique par Télétravail"),
+                createButton("Graphique par fonction de travail"),
                 createButton("Expérience et Contrat"),
                 createButton("Ville et Expérience"),
                 createButton("Niveau d'Études et Télétravail"),
@@ -116,6 +118,7 @@ import javafx.scene.control.Separator;
                 "Graphique par Niveau d'Études",
                 "Graphique par Type de Contrat",
                 "Graphique par Télétravail",
+                "Graphique par fonction de travail",
                 "Graphique 7",
                 "Graphique 8",
                 "Graphique 9",
@@ -141,7 +144,7 @@ import javafx.scene.control.Separator;
             // Add decorative separator
             Separator separator = new Separator();
             separator.setStyle("-fx-background-color: #3498db;");
-            separator.setPadding(new Insets(10, 0, 10, 0));
+            separator.setPadding(new Insets(2, 0, 10, 0));
         
             // Add all components to the menu
             chartMenu.getChildren().addAll(chartsTitle, separator, buttonGrid);
@@ -180,6 +183,9 @@ import javafx.scene.control.Separator;
                     break;
                 case "Graphique par Télétravail":
                     chartPageInstance = new ChartPage6();
+                    break;
+                case "Graphique par fonction de travail":  
+                    chartPageInstance = new ChartPage11();
                     break;
                 case "Graphique 7":
                     chartPageInstance = new ChartPage7();

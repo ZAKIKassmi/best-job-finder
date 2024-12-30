@@ -106,14 +106,14 @@ public class MainPage extends ScrollPane {
         statusSection.getChildren().add(statusTextArea);
         
         // Add all sections to content
-        content.getChildren().addAll(scrapingSection, parsingSection, dbSection,preProcessingSection, statusSection);
+        content.getChildren().addAll(scrapingSection, parsingSection, dbSection, statusSection);
         
         // Button Event Handlers
         
 
             setupButtonHandlers(rekruteScrapBtn, emploiScrapBtn, mjobsScrapBtn, allScrapBtn,
             rekruteParseBtn, emploiParseBtn, mjobsParseBtn, allParseBtn,
-            createSchemaBtn, insertDataBtn, closeDbBtn, dataPreProcessingBtn);
+            createSchemaBtn, insertDataBtn, closeDbBtn);
         
         
         setContent(content);
@@ -453,10 +453,10 @@ public class MainPage extends ScrollPane {
             
             new Thread(task).start();
         });
-        buttons[11].setOnAction(e -> {
-            buttons[10].setDisable(true);
-            addStatus("fetching data...");
-            addStatus("Pre processing data");
+        // buttons[11].setOnAction(e -> {
+        //     buttons[10].setDisable(true);
+        //     addStatus("fetching data...");
+        //     addStatus("Pre processing data");
             //Fetch and process data
             // Task<Void> task = new Task<>() {
             //     @Override
@@ -479,7 +479,7 @@ public class MainPage extends ScrollPane {
             // });
             
             // new Thread(task).start();
-        });
+        // });
     }
     
     private VBox createSection(String title) {

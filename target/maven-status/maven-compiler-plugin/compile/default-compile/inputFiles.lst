@@ -1,11 +1,13 @@
 D:\java\scrap\demo_scrap\src\main\java\com\ai\DecisionTreePrediction.java
 D:\java\scrap\demo_scrap\src\main\java\com\parsers\emploi\EmploiParsers.java
 D:\java\scrap\demo_scrap\src\main\java\com\utils\JsonHandler.java
+D:\java\scrap\demo_scrap\src\main\java\com\auth\User.java
 D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\JobFilterApp.java
 D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\SearchPage.java
 D:\java\scrap\demo_scrap\src\main\java\com\db\DatabaseConnection.java
 D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\DashboardApp.java
 D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\OverviewPage.java
+D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage11.java
 D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage7.java
 D:\java\scrap\demo_scrap\src\main\java\com\main\Job.java
 D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage.java
@@ -13,6 +15,7 @@ D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage4.java
 D:\java\scrap\demo_scrap\src\main\java\com\main\Main.java
 D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage1.java
 D:\java\scrap\demo_scrap\src\main\java\com\ai\RandomForestPrediction.java
+D:\java\scrap\demo_scrap\src\main\java\com\auth\RegisterPage.java
 D:\java\scrap\demo_scrap\src\main\java\com\scrap\EmploiScrapper.java
 D:\java\scrap\demo_scrap\src\main\java\com\ai\Model.java
 D:\java\scrap\demo_scrap\src\main\java\com\chartpages\ChartPage5.java
@@ -22,7 +25,10 @@ D:\java\scrap\demo_scrap\src\main\java\com\parsers\mjobs\MjobParsers.java
 D:\java\scrap\demo_scrap\src\main\java\com\scrap\MJob.java
 D:\java\scrap\demo_scrap\src\main\java\com\parsers\Parser.java
 D:\java\scrap\demo_scrap\src\main\java\com\scrap\Scrapper.java
+D:\java\scrap\demo_scrap\src\main\java\com\auth\AuthenticationService.java
 D:\java\scrap\demo_scrap\src\main\java\com\ai\HashMapData.java
+D:\java\scrap\demo_scrap\src\main\java\com\ai\SalaryRegression.java
+D:\java\scrap\demo_scrap\src\main\java\com\auth\LoginPage.java
 D:\java\scrap\demo_scrap\src\main\java\com\ai\NaiveBayesPrediction.java
 D:\java\scrap\demo_scrap\src\main\java\com\ui\dashboard\MainPage.java
 D:\java\scrap\demo_scrap\src\main\java\com\main\TestJob.java

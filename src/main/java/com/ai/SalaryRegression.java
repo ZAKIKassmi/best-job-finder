@@ -47,6 +47,7 @@ public class SalaryRegression extends Model {
         }
     }
 
+    @Override
     public void addTrainingData(TestJob job) {
         // Update minimum salary seen in training data
         minSalary = Math.min(minSalary, job.getSalary());
