@@ -2,10 +2,12 @@
 package com.ai;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.main.TestJob;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instance;
@@ -233,6 +235,49 @@ public abstract class Model {
                               }
 
     public abstract String getModelInfo();
+
+    public String evaluateModel(int numFolds, int seed) throws Exception {
+        if (trainingDataset.isEmpty()) {
+            return "No training data available for evaluation";
+        }
+
+        // Create evaluator
+        Evaluation evaluation = new Evaluation(trainingDataset);
+        
+        // Perform cross-validation
+        evaluation.crossValidateModel(classifier, trainingDataset, numFolds, new Random(seed));
+        
+        // Build summary string
+        StringBuilder summary = new StringBuilder();
+        summary.append("=== Model Evaluation Summary ===\n");
+        summary.append("Model type: ").append(classifier.getClass().getSimpleName()).append("\n\n");
+        
+        // Add general statistics
+        summary.append("Correctly Classified Instances: ")
+              .append(String.format("%.2f%%\n", evaluation.pctCorrect()));
+        summary.append("Incorrectly Classified Instances: ")
+              .append(String.format("%.2f%%\n", evaluation.pctIncorrect()));
+        summary.append("Kappa statistic: ")
+              .append(String.format("%.4f\n", evaluation.kappa()));
+        summary.append("Mean absolute error: ")
+              .append(String.format("%.4f\n", evaluation.meanAbsoluteError()));
+        summary.append("Root mean squared error: ")
+              .append(String.format("%.4f\n", evaluation.rootMeanSquaredError()));
+        
+        // Add detailed accuracy by class
+        summary.append("\nDetailed Accuracy By Class:\n");
+        summary.append(evaluation.toClassDetailsString());
+        
+        // Add confusion matrix
+        summary.append("\nConfusion Matrix:\n");
+        summary.append(evaluation.toMatrixString());
+        
+        return summary.toString();
+    }
+
+    public String evaluateModel() throws Exception {
+        return evaluateModel(10, 1);  
+    }
 }
 
 

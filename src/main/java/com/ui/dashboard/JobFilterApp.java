@@ -227,7 +227,7 @@ public class JobFilterApp extends VBox {
 
         try {
             predictor.trainModel();
-            // We need to exclude the target field from the inputs
+            addStatus(predictor.evaluateModel());
             return switch (targetIndex) {
                 case 0 -> predictor.predictActivitySector(
                         experienceKey(), studyLevelKey(), 
@@ -285,8 +285,6 @@ public class JobFilterApp extends VBox {
 
         try {
             predictor.trainModel();
-            // We need to exclude the target field from the inputs
-            System.out.println(predictor.getModelInfo());
             return predictor.predictSalary(activitySectorKey(), experienceKey(),
                 studyLevelKey(), contractTypeKey(), remoteWorkKey(), cityKey()
                 );
